@@ -13,5 +13,7 @@
     <orderEntry type="library" name="three.js" level="application" />
     <orderEntry type="library" name="vanta" level="application" />
     <orderEntry type="library" name="tsparticles" level="application" />
+    <orderEntry type="library" name="lottie-web" level="application" />
+    <orderEntry type="library" name="lordicon" level="application" />
   </component>
 </module>

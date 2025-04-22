@@ -22,6 +22,22 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="TikTokDL" />
 
+    <!-- Favicon cho trình duyệt -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon_io/favicon-16x16.png">
+    <link rel="shortcut icon" href="favicon/favicon_io/favicon.ico">
+
+    <!-- Apple touch icon -->
+    <link rel="apple-touch-icon" href="favicon/favicon_io/apple-touch-icon.png">
+
+    <!-- Android icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/favicon_io/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon/favicon_io/android-chrome-512x512.png">
+
+    <!-- Manifest file (cho Progressive Web App nếu dùng) -->
+    <link rel="manifest" href="favicon/favicon_io/site.webmanifest">
+
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Tải Video TikTok Không Watermark | TikTokDL" />
@@ -106,13 +122,12 @@
 </header>
 
 <main class="container">
-    <section class="hero">
-        <h2 id="hero-title">Tải video TikTok không giới hạn</h2>
-        <p id="hero-desc">Công cụ tải video TikTok miễn phí, nhanh chóng và an toàn. Tải video TikTok không có watermark với chỉ một vài thao tác đơn giản.</p>
-    </section>
-
     <section class="downloader">
-        <div class="animated-background" id="vanta-bg">
+        <div class="animated-background">
+            <div class="hero">
+                <h2 id="hero-title">Tải video TikTok không giới hạn</h2>
+                <p id="hero-desc">Công cụ tải video TikTok miễn phí, nhanh chóng và an toàn. Tải video TikTok không có watermark với chỉ một vài thao tác đơn giản.</p>
+            </div>
             <div class="input-group">
                 <input type="text" id="video-url" placeholder="Dán đường link video TikTok vào đây...">
                 <button id="download-btn">Tải xuống</button>
@@ -143,6 +158,7 @@
                     <a href="#" class="download-btn" id="download-audio">
                         Tải âm thanh MP3
                     </a>
+                    <button id="downloadCover" class="download-btn">Ảnh đại diện</button>
                 </div>
             </div>
         </div>
@@ -150,19 +166,40 @@
 
     <section class="features">
         <div class="feature">
-            <div class="feature-icon">🚀</div>
+            <lord-icon
+                    src="https://cdn.lordicon.com/fttvwdlw.json"
+                    trigger="loop"
+                    stroke="bold"
+                    state="loop-roll"
+                    colors="primary:#242424,secondary:#c71f16"
+                    style="width:110px;height:110px">
+            </lord-icon>
             <h3 id="feature1-title">Tải xuống nhanh chóng</h3>
             <p id="feature1-desc">Tải video TikTok chỉ trong vài giây với tốc độ cao và không có giới hạn.</p>
         </div>
 
         <div class="feature">
-            <div class="feature-icon">💯</div>
+            <lord-icon
+                    src="https://cdn.lordicon.com/lewtedlh.json"
+                    trigger="loop"
+                    stroke="bold"
+                    state="loop-roll"
+                    colors="primary:#242424,secondary:#c71f16"
+                    style="width:110px;height:110px">
+            </lord-icon>
             <h3 id="feature2-title">Chất lượng cao</h3>
             <p id="feature2-desc">Tải video với chất lượng HD, giữ nguyên độ phân giải gốc của video.</p>
         </div>
 
         <div class="feature">
-            <div class="feature-icon">🔒</div>
+            <div class="security-icon">
+                <svg viewBox="0 0 24 24" width="105" height="105">
+                    <path class="shield" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"
+                          fill="none" stroke="#424242" stroke-width="2"/>
+                    <path class="check" d="M9 12l2 2 4-4" stroke="#c71f16" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+            </div>
             <h3 id="feature3-title">An toàn & Bảo mật</h3>
             <p id="feature3-desc">Không cần đăng ký, không lưu trữ video của bạn, bảo mật thông tin người dùng.</p>
         </div>
@@ -193,10 +230,10 @@
     <section class="section">
         <div class="text-content">
             <h2 id="step4-title">Lưu video TikTok trên điện thoại di động</h2>
-            <p id="step4-desc"><b>Bước 1:</b> Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.</p>
-            <p id="step5-desc"><b>Bước 2:</b> Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.</p>
-            <p id="step6-desc"><b>Bước 3:</b> Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (TikTokDL).</p>
-            <p id="step7-desc"><b>Bước 4:</b> Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.</p>
+            <p id="step4-desc"><b>1:</b> Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.</p>
+            <p id="step5-desc"><b>2:</b> Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.</p>
+            <p id="step6-desc"><b>3:</b> Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (TikTokDL).</p>
+            <p id="step7-desc"><b>4:</b> Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.</p>
             <p id="step8-desc">Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.</p>
         </div>
         <div class="image-container">
@@ -207,11 +244,11 @@
     <section id="section-reversed" class="section section-reversed">
         <div class="text-content">
             <h2 id="step5-title">Lưu video TikTok không có logo trên máy tính</h2>
-            <p id="step9-desc"><b>Bước 1:</b> Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >
+            <p id="step9-desc"><b>1:</b> Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >
                 Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.</p>
-            <p id="step10-desc"><b>Bước 2:</b> Chọn đến mục Sao chép liên kết để tiến hành lấy link video.</p>
-            <p id="step11-desc"><b>Bước 3:</b> Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "TikTokDL" để tải video.</p>
-            <p id="step12-desc"><b>Bước 4:</b> Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.</p>
+            <p id="step10-desc"><b>2:</b> Chọn đến mục Sao chép liên kết để tiến hành lấy link video.</p>
+            <p id="step11-desc"><b>3:</b> Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "TikTokDL" để tải video.</p>
+            <p id="step12-desc"><b>4:</b> Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.</p>
             <p id="step13-desc">Chờ một chút Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.</p>
         </div>
         <div class="image-container">
@@ -320,17 +357,6 @@
     </div>
 </footer>
 <script src="script.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
-<script>
-    VANTA.WAVES({
-        el: "#vanta-bg",
-        color: 0x00bcd4,
-        shininess: 50,
-        waveHeight: 12,
-        waveSpeed: 0.5,
-        zoom: 1
-    });
-</script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
 </body>
 </html>

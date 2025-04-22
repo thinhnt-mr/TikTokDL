@@ -91,6 +91,7 @@ header {
 }
 
 .mobile-menu.active {
+    box-shadow: 0 0 2px rgba(0,0,0.2,0.8);
     top: 80px; /* Slide down to below the header */
     display: block;
 }
@@ -107,8 +108,13 @@ header {
 
 /* Media query for mobile */
 @media (max-width: 768px) {
+    textarea{
+        height: 150px;
+    }
     #download-btn{
-        padding: 10px 20px;
+        border-radius: 3px;
+        width: 100%;
+        padding: 15px 20px;
     }
     .desktop-menu {
         display: none;
@@ -124,11 +130,11 @@ header {
     .input-group input {
         border-radius: 5px;
         margin-bottom: 10px;
+        height: 50px;
     }
 
     .input-group button {
         border-radius: 5px;
-        padding: 15px;
     }
 
     .steps {
@@ -142,6 +148,15 @@ header {
     }
     .text-content, .image-container {
         width: 100%;
+    }
+    .video-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        padding: 1.5rem;
     }
 }
 
@@ -177,10 +192,11 @@ header {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 18px;
 }
 
 .hero {
+    color: white;
     text-align: center;
     padding-top: 110px;
 }
@@ -192,7 +208,7 @@ header {
 
 .hero p {
     font-size: 1.2rem;
-    color: #666;
+    color: white;
     max-width: 800px;
     margin: 0 auto 2rem;
 }
@@ -209,14 +225,13 @@ header {
     overflow: hidden;
     border-radius: 12px;
     padding: 50px 20px 50px 20px;
-    background: #222;
+    background: linear-gradient(145deg, #ed2283, coral);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 }
 
 .input-group {
     position: relative;
     z-index: 2;
-    background: white;
     border-radius: 10px;
     display: flex;
     padding: 5px;
@@ -225,28 +240,11 @@ header {
     gap: 10px;
 }
 
-.animated-background::after {
-    background: linear-gradient(45deg, #1e90ff, #00bfff);
-    width: 150px;
-    height: 150px;
-    top: 20%;
-    animation-delay: 5s;
-}
-
-@keyframes moveLeft {
-    0% {
-        left: 100%;
-    }
-    100% {
-        left: -200px;
-    }
-}
-
 .input-group input {
     flex: 1;
-    padding: 15px;
+    height: 55px;
     border: 2px solid #ddd;
-    border-radius: 5px 0 0 5px;
+    border-radius: 3px;
     font-size: 1rem;
     outline: none;
     transition: border-color 0.3s;
@@ -257,7 +255,7 @@ header {
 }
 
 .input-group button {
-    background-color: var(--primary);
+    background-color: black;
     color: var(--light);
     border: none;
     padding: 20px 30px;
@@ -269,7 +267,7 @@ header {
 }
 
 .input-group button:hover {
-    background-color: #e6254d;
+    background-color: #333333;
 }
 
 .result {
@@ -279,7 +277,7 @@ header {
 
 .video-container {
     display: flex;
-    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
     gap: 1.5rem;
     background-color: #f9f9f9;
@@ -289,7 +287,7 @@ header {
 
 .video-preview {
     width: 100%;
-    max-width: 350px;
+    max-width: 180px;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
@@ -308,24 +306,73 @@ header {
     justify-content: center;
 }
 
-.download-btn {
-    background-color: var(--secondary);
-    color: var(--dark);
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: transform 0.3s, box-shadow 0.3s;
+#video-url{
+    padding: 18px;
 }
-
+.download-btn{
+    background-color: gold;
+    text-decoration: none;
+    color: black;
+    padding: 8px;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 18px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
+#download-btn{
+    padding: 20px 30px;
+    border-radius: 3px;
+}
 .download-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
+#user-profile {
+    margin-bottom: 20px;
+    display: none;
+}
 
+.profile-container {
+    background-color: #f8f8f8;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.profile-name {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.profile-description {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -341,7 +388,33 @@ header {
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     transition: transform 0.3s;
 }
+.security-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.security-icon .shield {
+    animation: pulse 2s infinite;
+}
+
+.security-icon .check {
+    stroke-dasharray: 10;
+    stroke-dashoffset: 10;
+    animation: draw 1.5s forwards infinite alternate;
+    animation-delay: 0.5s;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.8; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 0.8; transform: scale(0.98); }
+}
+
+@keyframes draw {
+    from { stroke-dashoffset: 10; }
+    to { stroke-dashoffset: 0; }
+}
 .feature:hover {
     transform: translateY(-5px);
 }
@@ -497,66 +570,88 @@ header {
     max-width: 100%;
     height: auto;
 }
+/* Phần khung FAQ */
 .faq {
-    background-color: var(--light);
-    border-radius: 10px;
-    padding: 2rem;
-    margin-bottom: 3rem;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 10vh;
+    font-family: Arial, sans-serif;
 }
 
-.faq h2 {
+#faq-title {
     text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
 }
 
+/* Phần item FAQ */
 .faq-item {
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.faq-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
+/* Phần câu hỏi */
 .faq-question {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: black;
+    padding: 15px 20px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    font-weight: 550;
+    font-size: 19px;
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.3s ease;
 }
 
-.faq-question .arrow {
-    font-size: 1rem;
-    transition: transform 0.3s ease;
+.faq-question:hover {
+    background-color: #f0f0f0;
+}
+
+.faq-question.active {
+    background-color: #eef7ff;
+    color: #0066cc;
+}
+
+/* Phần mũi tên */
+.arrow {
+    display: inline-block;
     margin-left: 10px;
 }
 
-.faq-item.open .arrow {
+.arrow i {
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    color: #666;
+}
+
+.faq-question.active .arrow i {
     transform: rotate(180deg);
+    color: #0066cc;
 }
 
+/* Phần câu trả lời */
 .faq-answer {
+    padding: 0;
+    background-color: #fff;
+    line-height: 1.6;
+    color: black;
+    font-size: 17px;
     max-height: 0;
-    padding: 0.1rem;
     overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
     opacity: 0;
-    transition: max-height 0.4s ease, opacity 0.4s ease;
 }
 
-.faq-item.open .faq-answer {
-    max-height: 300px;
+.faq-answer.active {
+    padding: 15px 20px;
+    max-height: 1000px; /* Giá trị đủ lớn để chứa nội dung */
     opacity: 1;
-    margin-top: 0.5rem;
+    border-top: 1px solid #e0e0e0;
 }
 
 footer {
@@ -671,7 +766,7 @@ form {
     position: relative;
     min-height: auto;
 }
-input, textarea {
+input {
     width: 100%;
     height: 45px;
     margin: 8px 0;

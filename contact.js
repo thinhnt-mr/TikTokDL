@@ -66,3 +66,57 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle mobile menu when clicking on the menu icon
+    const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    if (mobileMenuIcon && mobileMenu) {
+        mobileMenuIcon.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent the click from being detected on document
+            mobileMenu.classList.toggle('active');
+        });
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (mobileMenu && mobileMenu.classList.contains('active')) {
+            // Check if the click was outside the mobile menu
+            if (!mobileMenu.contains(e.target) && e.target !== mobileMenuIcon) {
+                mobileMenu.classList.remove('active');
+            }
+        }
+    });
+
+    // Prevent clicks inside mobile menu from closing it
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+
+    // Handle submenu toggling
+    const menuItemsWithSubmenu = document.querySelectorAll('.has-submenu');
+
+    menuItemsWithSubmenu.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            // Prevent the link from being followed immediately
+            if (e.target.classList.contains('toggle-submenu') || e.target === this) {
+                e.preventDefault();
+
+                // Toggle the submenu
+                const submenu = this.querySelector('.submenu');
+                if (submenu) {
+                    submenu.classList.toggle('active');
+
+                    // Toggle any indicator arrow if you have one
+                    const arrow = this.querySelector('.submenu-arrow');
+                    if (arrow) {
+                        arrow.classList.toggle('open');
+                    }
+                }
+            }
+        });
+    });
+});

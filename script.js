@@ -9,51 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const downloadWithWatermark = document.getElementById('download-with-watermark');
     const downloadAudio = document.getElementById('download-audio');
 
-    let userIP = '';
-
-    // Lấy địa chỉ IP
-    async function getUserIP() {
-        try {
-            const res = await fetch('https://ipinfo.io/json?token=8a9df5f0d0cdba'); // dùng token free nếu bị rate limit
-            const data = await res.json();
-            return data.ip || '';
-        } catch (err) {
-            console.error('Không lấy được IP:', err);
-            return '';
-        }
-    }
-
-    // Giới hạn lượt tải theo IP
-    function canDownload(ip) {
-        if (!ip) return true;
-
-        const today = new Date().toISOString().split('T')[0];
-        const data = JSON.parse(localStorage.getItem('downloadByIP')) || {};
-
-        if (!data[ip] || data[ip].date !== today) {
-            data[ip] = { date: today, count: 0 };
-        }
-
-        if (data[ip].count >= 5) {
-            return false;
-        }
-
-        data[ip].count += 1;
-        localStorage.setItem('downloadByIP', JSON.stringify(data));
-        return true;
-    }
-
     // Xử lý tải video
     downloadBtn.addEventListener('click', async function () {
-        if (!userIP) {
-            userIP = await getUserIP();
-        }
-
-        if (!canDownload(userIP)) {
-            alert('Thiết bị của bạn đã vượt quá 5 lượt tải miễn phí hôm nay. Vui lòng quay lại vào ngày mai.');
-            return;
-        }
-
         const url = videoUrlInput.value.trim();
         if (!url) {
             alert('Vui lòng nhập đường link video TikTok');
@@ -69,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
             loading.style.display = 'none';
 
             if (videoData && videoData.data) {
+                // Hiển thị thông tin profile người dùng
+                displayUserProfile(videoData.data);
+
                 videoThumbnail.src = videoData.data.cover || '/api/placeholder/350/500';
                 const noWatermarkUrl = videoData.data.play || '';
                 const withWatermarkUrl = videoData.data.wmplay || '';
@@ -110,6 +70,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     downloadAudio.style.pointerEvents = 'none';
                 }
 
+                // Thêm lựa chọn tải ảnh đại diện
+                const coverUrl = videoData.data.cover;
+                if (coverUrl) {
+                    downloadCover.onclick = e => {
+                        e.preventDefault();
+                        downloadVideo(coverUrl, 'tiktok-cover.jpg');
+                    };
+                    downloadCover.style.opacity = '1';
+                    downloadCover.style.pointerEvents = 'auto';
+                } else {
+                    downloadCover.style.opacity = '0.5';
+                    downloadCover.style.pointerEvents = 'none';
+                }
+
                 result.style.display = 'block';
             } else {
                 errorMessage.textContent = videoData.message || 'Không thể tải video. Vui lòng kiểm tra URL và thử lại.';
@@ -122,6 +96,39 @@ document.addEventListener('DOMContentLoaded', function () {
             errorMessage.style.display = 'block';
         }
     });
+
+// Hàm hiển thị thông tin profile người dùng
+    function displayUserProfile(data) {
+        // Tạo hoặc tìm container chứa thông tin người dùng
+        let profileContainer = document.getElementById('user-profile');
+        if (!profileContainer) {
+            profileContainer = document.createElement('div');
+            profileContainer.id = 'user-profile';
+            // Chèn vào trước kết quả tải xuống
+            result.parentNode.insertBefore(profileContainer, result);
+        }
+
+        // Lấy thông tin người dùng từ response API
+        const authorName = data.author && data.author.nickname ? data.author.nickname : 'Unknown';
+        const authorAvatar = data.author && data.author.avatar ? data.author.avatar : '/api/placeholder/80/80';
+        const videoTitle = data.title || '';
+
+        // Tạo HTML cho profile
+        profileContainer.innerHTML = `
+    <div class="profile-container">
+        <div class="profile-info">
+            <img src="${authorAvatar}" alt="${authorName}" class="profile-avatar">
+            <div>
+                <h3 class="profile-name">${authorName}</h3>
+                <p class="profile-description">${videoTitle}</p>
+            </div>
+        </div>
+    </div>
+    `;
+
+        // Hiển thị container
+        profileContainer.style.display = 'block';
+    }
 
     async function downloadTikTokVideo(url) {
         const response = await fetch(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`);
@@ -138,41 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
         a.click();
         setTimeout(() => document.body.removeChild(a), 100);
     }
-
-    videoUrlInput.addEventListener('focus', function () {
-        if (navigator.clipboard && navigator.clipboard.readText) {
-            navigator.clipboard.readText()
-                .then(text => {
-                    if (text.includes('tiktok.com') && !videoUrlInput.value) {
-                        videoUrlInput.value = text;
-                    }
-                })
-                .catch(err => {
-                    console.log('Không thể truy cập clipboard:', err);
-                });
-        }
-    });
-
-    videoUrlInput.addEventListener('paste', function () {
-        setTimeout(() => {
-            if (videoUrlInput.value.includes('tiktok.com')) {
-                downloadBtn.click();
-            }
-        }, 100);
-    });
-
-    document.querySelectorAll('.faq-item').forEach(item => {
-        item.addEventListener('click', () => {
-            item.classList.toggle('open');
-        });
-    });
-
-    // Lấy IP ngay khi load lần đầu
-    getUserIP().then(ip => {
-        userIP = ip;
-    });
 });
-
 // Define translations for all text elements
 const translations = {
     'vi': {
@@ -202,17 +175,17 @@ const translations = {
         'step3-desc': 'Nhấn nút "Tải xuống" và chọn định dạng bạn muốn tải video.',
 
         'step4-title': 'Lưu video TikTok trên điện thoại di động',
-        'step4-desc': '<b>Bước 1:</b> Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.',
-        'step5-desc': '<b>Bước 2:</b> Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
-        'step6-desc': '<b>Bước 3:</b> Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (TikTokDL).',
-        'step7-desc': '<b>Bước 4:</b> Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.',
+        'step4-desc': '<b>1:</b> Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.',
+        'step5-desc': '<b>2:</b> Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
+        'step6-desc': '<b>3:</b> Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (TikTokDL).',
+        'step7-desc': '<b>4:</b> Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.',
         'step8-desc': 'Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.',
         'step5-title': 'Lưu video TikTok không có logo trên máy tính',
 
-        'step9-desc': '<b>Bước 1:</b> Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >\n' + 'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
-        'step10-desc': '<b>Bước 2:</b> Chọn đến mục Sao chép liên kết để tiến hành lấy link video.',
-        'step11-desc': '<b>Bước 3:</b> Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "TikTokDL" để tải video.',
-        'step12-desc': '<b>Bước 4:</b> Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.',
+        'step9-desc': '<b>1:</b> Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >\n' + 'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
+        'step10-desc': '<b>2:</b> Chọn đến mục Sao chép liên kết để tiến hành lấy link video.',
+        'step11-desc': '<b>3:</b> Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "TikTokDL" để tải video.',
+        'step12-desc': '<b>4:</b> Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.',
         'step13-desc': 'Chờ một chút Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.',
 
         'step6-title': 'Tải Video TikTok không logo trên iPhone',
@@ -274,17 +247,17 @@ const translations = {
         'step3-title': 'Download',
         'step3-desc': 'Click the "Download" button and select the format you want to download the video in.',
         'step4-title': 'Save TikTok Video on Mobile Device',
-        'step4-desc': '<b>Step 1:</b> Open the TikTok app and find the video you want to download.',
-        'step5-desc': '<b>Step 2:</b> While watching the video, tap the “Share” icon (a right-pointing arrow) on the right side of the screen. Then select “Copy Link”.',
-        'step6-desc': '<b>Step 3:</b> Next, go to a TikTok video downloader website (such as TikTokDL).',
-        'step7-desc': '<b>Step 4:</b> Paste the copied link into the input field on the website and tap “Download”.',
+        'step4-desc': '<b>1:</b> Open the TikTok app and find the video you want to download.',
+        'step5-desc': '<b>2:</b> While watching the video, tap the “Share” icon (a right-pointing arrow) on the right side of the screen. Then select “Copy Link”.',
+        'step6-desc': '<b>3:</b> Next, go to a TikTok video downloader website (such as TikTokDL).',
+        'step7-desc': '<b>4:</b> Paste the copied link into the input field on the website and tap “Download”.',
         'step8-desc': 'The video will appear on the screen > Choose a download method, tap the three-dot icon, and save the video.',
 
         'step5-title': 'Download TikTok Video Without Watermark on PC',
-        'step9-desc': '<b>Step 1:</b> Open TikTok on your computer — you can use either the web platform or the TikTok desktop app. While watching the video, click the “Share” icon (a right-pointing arrow) and select “Copy Link”.',
-        'step10-desc': '<b>Step 2:</b> Choose the “Copy Link” option to get the video URL.',
-        'step11-desc': '<b>Step 3:</b> Since TikTok does not support no-watermark downloads natively, open a third-party tool like "TikTokDL" to proceed.',
-        'step12-desc': '<b>Step 4:</b> Paste the copied link into the input field > Click Download.',
+        'step9-desc': '<b>1:</b> Open TikTok on your computer — you can use either the web platform or the TikTok desktop app. While watching the video, click the “Share” icon (a right-pointing arrow) and select “Copy Link”.',
+        'step10-desc': '<b>2:</b> Choose the “Copy Link” option to get the video URL.',
+        'step11-desc': '<b>3:</b> Since TikTok does not support no-watermark downloads natively, open a third-party tool like "TikTokDL" to proceed.',
+        'step12-desc': '<b>4:</b> Paste the copied link into the input field > Click Download.',
         'step13-desc': 'Wait a moment — the video will be displayed on the screen > Choose a download option, click the three-dot icon, and save the file.',
 
         'step6-title': 'Download TikTok Video Without Watermark on iPhone',
@@ -373,26 +346,95 @@ function changeLanguage(lang) {
         }
     }
 }
-// Set up FAQ accordion functionality
-const faqQuestions = document.querySelectorAll('.faq-question');
-faqQuestions.forEach(question => {
-    question.addEventListener('click', function() {
-        // Toggle the active class on the question
-        this.classList.toggle('active');
+document.addEventListener('DOMContentLoaded', function() {
+    // Lấy tất cả các phần tử câu hỏi
+    const faqQuestions = document.querySelectorAll('.faq-question');
 
-        // Toggle the display of the answer
-        const answer = this.nextElementSibling;
-        if (answer.style.display === 'block') {
-            answer.style.display = 'none';
-        } else {
-            answer.style.display = 'block';
+    // Thêm sự kiện click cho mỗi câu hỏi
+    faqQuestions.forEach(question => {
+        // Lấy phần tử câu trả lời tương ứng
+        const answer = question.nextElementSibling;
+
+        // Thêm sự kiện click
+        question.addEventListener('click', function() {
+            // Kiểm tra trạng thái hiện tại
+            const isActive = this.classList.contains('active');
+
+            // Đóng tất cả các câu hỏi và câu trả lời đang mở
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.classList.remove('active');
+            });
+
+            document.querySelectorAll('.faq-answer').forEach(a => {
+                a.classList.remove('active');
+            });
+
+            // Nếu câu hỏi chưa active, mở nó lên
+            if (!isActive) {
+                this.classList.add('active');
+                answer.classList.add('active');
+            }
+        });
+    });
+
+    // Xử lý click trực tiếp vào mũi tên
+    document.querySelectorAll('.arrow').forEach(arrow => {
+        arrow.addEventListener('click', function(e) {
+            e.stopPropagation(); // Ngăn chặn sự kiện nổi bọt
+            this.parentElement.click(); // Kích hoạt click trên phần tử cha
+        });
+    });
+
+    // Hiệu ứng ripple khi click (tùy chọn)
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', createRipple);
+    });
+
+    function createRipple(event) {
+        const button = event.currentTarget;
+
+        const circle = document.createElement('span');
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+        circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+        circle.classList.add('ripple');
+
+        const ripple = button.querySelector('.ripple');
+        if (ripple) {
+            ripple.remove();
         }
 
-        // Toggle the arrow icon
-        const arrow = this.querySelector('.arrow i');
-        arrow.classList.toggle('fa-chevron-down');
-        arrow.classList.toggle('fa-chevron-up');
-    });
+        button.appendChild(circle);
+    }
+
+    // Thêm style cho hiệu ứng ripple
+    const style = document.createElement('style');
+    style.textContent = `
+    .faq-question {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ripple {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
+    
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+  `;
+    document.head.appendChild(style);
 });
 // Initialize language based on saved preference or default to Vietnamese
 document.addEventListener('DOMContentLoaded', function() {
