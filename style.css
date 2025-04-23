@@ -110,14 +110,14 @@ header {
 @media (max-width: 768px) {
     #clear-input {
         position: absolute;
-        right: 10px;
-        top: 27%;
+        right: 13px;
+        top: 26%;
         transform: translateY(-50%);
-        color: white;
-        width: 50px;
+        background: none;
+        width: 35px;
         height: 35px;
-        background-color: #999999;
-        font-size: 15px;
+        font-size: 20px;
+        border-radius: 100%;
         border: none;
         cursor: pointer;
     }
@@ -338,7 +338,7 @@ header {
 .input-group input {
     flex: 1;
     height: 55px;
-    max-width: 900px;
+    max-width: 650px;
     border: 2px solid #ddd;
     border-radius: 10px;
     font-size: 1rem;
@@ -382,9 +382,6 @@ header {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
-.input-group button:hover {
-    background-color: #333333;
-}
 
 .result {
     display: none;
@@ -424,21 +421,19 @@ header {
 
 #video-url {
     width: 100%;
-    padding-right: 26px;
+    padding-right: 28px;
 }
 
 .clear-button {
     position: absolute;
-    right: 199px;
+    right: 330px;
     top: 50%;
     transform: translateY(-50%);
-    color: white;
-    font-weight: 600;
-    width: 70px;
-    height: 42px;
-    background-color: #999999;
-    font-size: 15px;
-    border-radius: 8px;
+    background: none;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    border-radius: 100%;
     border: none;
     cursor: pointer;
 }
@@ -784,6 +779,7 @@ footer {
 }
 
 .footer-description {
+    opacity: 90%;
     margin-bottom: 20px;
     max-width: 600px;
     margin-left: auto;
@@ -830,7 +826,7 @@ footer {
 .footer-bottom {
     font-size: 0.9rem;
     text-wrap: wrap;
-    opacity: 60%;
+    opacity: 90%;
     padding-top: 15px;
     border-top: 1px solid #333;
 }

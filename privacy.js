@@ -2,7 +2,7 @@ const translations = {
     vi: {
         'title-Privacy': 'Cập Nhật Lần Cuối: Ngày 21 Tháng 4 Năm 2025',
         'title-Privacy1': '1. GIỚI THIỆU',
-        'cte-Privacy': 'Chào mừng bạn đến với TikTokDL của chúng tôi. Tại TikTokDL, chúng tôi tôn trọng quyền riêng tư của bạn và cam kết bảo vệ thông tin cá nhân của bạn. Chính sách Bảo mật này giải thích cách chúng tôi thu thập, sử dụng, tiết lộ và bảo vệ thông tin của bạn khi bạn truy cập và sử dụng dịch vụ của chúng tôi.',
+        'cte-Privacy': 'Chào mừng bạn đến với TokSave của chúng tôi. Tại TokSave, chúng tôi tôn trọng quyền riêng tư của bạn và cam kết bảo vệ thông tin cá nhân của bạn. Chính sách Bảo mật này giải thích cách chúng tôi thu thập, sử dụng, tiết lộ và bảo vệ thông tin của bạn khi bạn truy cập và sử dụng dịch vụ của chúng tôi.',
         'title-Privacy2': '2. THÔNG TIN CHÚNG TÔI THU THẬP',
         'title-Privacy3': '2.1 Thông tin Bạn Cung Cấp',
         'cte-Privacy1': 'Khi sử dụng dịch vụ của chúng tôi để tải video TikTok, bạn có thể nhập URL video. Chúng tôi không yêu cầu bạn đăng ký hoặc cung cấp thông tin cá nhân nào khác như tên, email, v.v.',
@@ -50,17 +50,17 @@ const translations = {
         'cte-Privacy13': 'Chúng tôi có thể cập nhật Chính sách Bảo mật này theo thời gian. Ngày cập nhật sẽ luôn được hiển thị ở đầu.',
         'title-Privacy12': '10. LIÊN HỆ VỚI CHÚNG TÔI',
         'cte-Privacy14': 'Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào, hãy kéo xuống phần Liên hệ.',
-        'cte-Privacy15': 'Lưu ý: TikTokDL chỉ là công cụ tải video cá nhân và không liên quan đến TikTok.',
+        'cte-Privacy15': 'Lưu ý: TokSave chỉ là công cụ tải video cá nhân và không liên quan đến TikTok.',
         'footer-tech': 'Tải video TikTok không có watermark nhanh chóng, đơn giản và hoàn toàn miễn phí.',
         'footer-email': 'Email:',
         'footer-disclaimer': 'Lưu ý: Đây không phải là sản phẩm chính thức của TikTok, vui lòng tải video với mục đích cá nhân.',
-        'footer-copyright': '© 2025 TikTokDL. Tất cả các quyền được bảo lưu.'
+        'footer-copyright': '© 2025 TokSave. Tất cả các quyền được bảo lưu.'
     },
 
     en: {
         'title-Privacy': 'Last Updated: April 21, 2025',
         'title-Privacy1': '1. INTRODUCTION',
-        'cte-Privacy': 'Welcome to TikTokDL. At TikTokDL, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.',
+        'cte-Privacy': 'Welcome to TokSave. At TokSave, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.',
         'title-Privacy2': '2. INFORMATION WE COLLECT',
         'title-Privacy3': '2.1 Information You Provide',
         'cte-Privacy1': 'When using our service to download TikTok videos, you may enter a video URL. We do not ask for other personal information like name or email.',
@@ -108,11 +108,11 @@ const translations = {
         'cte-Privacy13': 'We may update this Privacy Policy from time to time. The latest update date will be shown at the top.',
         'title-Privacy12': '10. CONTACT US',
         'cte-Privacy14': 'If you have any questions or concerns, scroll down to the Contact section.',
-        'cte-Privacy15': 'Note: TikTokDL is a personal video tool and is not affiliated with TikTok.',
+        'cte-Privacy15': 'Note: TokSave is a personal video tool and is not affiliated with TikTok.',
         'footer-tech': 'Download TikTok videos without watermark — fast, simple, and completely free.',
         'footer-email': 'Email:',
         'footer-disclaimer': 'Note: This is not an official TikTok product. Please download videos for personal use only.',
-        'footer-copyright': '© 2025 TikTokDL. All rights reserved.'
+        'footer-copyright': '© 2025 TokSave. All rights reserved.'
     }
 };
 
