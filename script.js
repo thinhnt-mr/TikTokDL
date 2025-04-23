@@ -151,8 +151,9 @@ const translations = {
     'vi': {
         'page-title': 'Tải Video TikTok Không Watermark | Miễn Phí & Nhanh Chóng',
         'logo-text': 'TikTokDL',
-        'hero-title': 'Tải video TikTok không giới hạn',
-        'hero-desc': 'Công cụ tải video TikTok miễn phí, nhanh chóng và an toàn. Tải video TikTok không có watermark với chỉ một vài thao tác đơn giản.',
+        'hero-title': 'Tải video TikTok không Logo',
+        'hero-desc': 'Công cụ tải video TikTok miễn phí không giới hạn, nhanh chóng và an toàn.',
+        'clear-input': 'x Xóa',
         'video-url': 'Dán đường link video TikTok vào đây...',
         'download-btn': 'Tải xuống',
         'loading-text': 'Đang phân tích video...',
@@ -175,17 +176,17 @@ const translations = {
         'step3-desc': 'Nhấn nút "Tải xuống" và chọn định dạng bạn muốn tải video.',
 
         'step4-title': 'Lưu video TikTok trên điện thoại di động',
-        'step4-desc': '<b>1:</b> Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.',
-        'step5-desc': '<b>2:</b> Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
-        'step6-desc': '<b>3:</b> Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (TikTokDL).',
-        'step7-desc': '<b>4:</b> Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.',
+        'step4-desc': 'Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.',
+        'step5-desc': 'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
+        'step6-desc': 'Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (TikTokDL).',
+        'step7-desc': 'Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.',
         'step8-desc': 'Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.',
         'step5-title': 'Lưu video TikTok không có logo trên máy tính',
 
-        'step9-desc': '<b>1:</b> Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >\n' + 'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
-        'step10-desc': '<b>2:</b> Chọn đến mục Sao chép liên kết để tiến hành lấy link video.',
-        'step11-desc': '<b>3:</b> Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "TikTokDL" để tải video.',
-        'step12-desc': '<b>4:</b> Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.',
+        'step9-desc': 'Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >\n' + 'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
+        'step10-desc': 'Chọn đến mục Sao chép liên kết để tiến hành lấy link video.',
+        'step11-desc': 'Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "TikTokDL" để tải video.',
+        'step12-desc': 'Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.',
         'step13-desc': 'Chờ một chút Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.',
 
         'step6-title': 'Tải Video TikTok không logo trên iPhone',
@@ -193,29 +194,29 @@ const translations = {
         'step15-desc': 'Vì chính sách bảo mật của Apple, iOS từ phiên bản 12 trở nên sẽ không lưu được video từ TikTok trên trình duyệt.\n' + 'Hãy chép liên kết của một video bất kỳ trên TikTok, sau đó mở ứng dụng Documents by Readdle.',
         'step16-desc': 'Ngay góc dưới bên phải của màn hình, bạn sẽ thấy một biểu tượng trình duyệt web. Hãy chạm vào nó.',
         'faq-title': 'Câu hỏi thường gặp',
-        'faq-q1': '1. TikTokDL có hoàn toàn miễn phí không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q1': 'TikTokDL có hoàn toàn miễn phí không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a1': 'Có, TikTokDL hoàn toàn miễn phí để sử dụng. Không có phí ẩn hoặc giới hạn tải xuống.',
-        'faq-q2': '2. Tôi có thể tải video từ TikTok Trung Quốc (Douyin) không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q2': 'Tôi có thể tải video từ TikTok Trung Quốc (Douyin) không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a2': 'Hiện tại TikTokDL chỉ hỗ trợ video từ TikTok phiên bản quốc tế, không hỗ trợ Douyin.',
-        'faq-q3': '3. Có thể dùng TikTokDL trên máy tính bảng không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q3': 'Có thể dùng TikTokDL trên máy tính bảng không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a3': 'Có, TikTokDL tương thích với cả máy tính bảng và các thiết bị di động có trình duyệt web.',
-        'faq-q4': '4. Có thể tải video riêng tư không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q4': 'Có thể tải video riêng tư không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a4': 'Không, TikTokDL chỉ có thể tải các video công khai trên TikTok. Không thể tải video riêng tư.',
-        'faq-q5': '5. Video đã tải về được lưu ở đâu?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q5': 'Video đã tải về được lưu ở đâu?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a5': 'Sau khi tải xong, video sẽ được lưu trong thư mục "Tải xuống" (Downloads) mặc định trên thiết bị của bạn.',
-        'faq-q6': '6. Tôi có thể tải hàng loạt nhiều video cùng lúc không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q6': 'Tôi có thể tải hàng loạt nhiều video cùng lúc không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a6': 'Hiện tại, TikTokDL chỉ hỗ trợ tải từng video một. Tính năng tải hàng loạt sẽ được xem xét trong tương lai.',
-        'faq-q7': '7. Tôi có thể tải video TikTok trên điện thoại di động không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q7': 'Tôi có thể tải video TikTok trên điện thoại di động không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a7': 'Có, TikTokDL hoạt động trên tất cả các thiết bị, bao gồm điện thoại di động, máy tính bảng và máy tính để bàn.',
-        'faq-q8': '8. TikTokDL có hoạt động trên iPhone/iOS không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q8': 'TikTokDL có hoạt động trên iPhone/iOS không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a8': 'Có, bạn có thể sử dụng TikTokDL trên trình duyệt Safari hoặc Chrome trên iPhone mà không cần cài thêm ứng dụng.',
-        'faq-q9': '9. Có thể tải video TikTok ở chế độ HD không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q9': 'Có thể tải video TikTok ở chế độ HD không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a9': 'Tùy vào chất lượng gốc của video trên TikTok, TikTokDL sẽ cố gắng giữ nguyên độ phân giải cao nhất có thể (bao gồm HD nếu có).',
-        'faq-q10': '10. Website có chứa quảng cáo không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q10': 'Website có chứa quảng cáo không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a10': 'Một số quảng cáo có thể được hiển thị để duy trì hoạt động của website, nhưng sẽ không ảnh hưởng đến trải nghiệm tải video của bạn.',
-        'faq-q11': '11. Tôi có thể chia sẻ video đã tải không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q11': 'Tôi có thể chia sẻ video đã tải không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a11': 'Bạn có thể chia sẻ video đã tải cho mục đích cá nhân. Tuy nhiên, không nên chia sẻ công khai nếu video thuộc sở hữu của người khác và chưa được cho phép.',
-        'faq-q12': '12. Tải video không có watermark có hợp pháp không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q12': 'Tải video không có watermark có hợp pháp không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a12': 'Có, tải video TikTok để sử dụng cá nhân là hợp pháp. Tuy nhiên, hãy tôn trọng quyền sở hữu trí tuệ và không sử dụng video cho mục đích thương mại mà không có sự cho phép từ chủ sở hữu nội dung.',
         'footer-tech': 'Tải video TikTok không có watermark nhanh chóng, đơn giản và hoàn toàn miễn phí.',
         'footer-copyright': '© 2025 TikTokDL. Tất cả các quyền được bảo lưu.',
@@ -224,9 +225,10 @@ const translations = {
     'en': {
         'page-title': 'Download TikTok Videos Without Watermark | Free & Fast',
         'logo-text': 'TikTokDL',
-        'hero-title': 'Download unlimited TikTok videos',
-        'hero-desc': 'Free, fast and safe TikTok video downloader tool. Download TikTok videos without watermark with just a few simple steps.',
+        'hero-title': 'Download TikTok videos without Logo',
+        'hero-desc': 'Free unlimited TikTok video downloader, fast and safe.',
         'video-url': 'Paste TikTok video link here...',
+        'clear-input': 'x Delete',
         'download-btn': 'Download',
         'loading-text': 'Analyzing video...',
         'error-message': 'Sorry, we cannot process this link. Please check and try again.',
@@ -247,17 +249,17 @@ const translations = {
         'step3-title': 'Download',
         'step3-desc': 'Click the "Download" button and select the format you want to download the video in.',
         'step4-title': 'Save TikTok Video on Mobile Device',
-        'step4-desc': '<b>1:</b> Open the TikTok app and find the video you want to download.',
-        'step5-desc': '<b>2:</b> While watching the video, tap the “Share” icon (a right-pointing arrow) on the right side of the screen. Then select “Copy Link”.',
-        'step6-desc': '<b>3:</b> Next, go to a TikTok video downloader website (such as TikTokDL).',
-        'step7-desc': '<b>4:</b> Paste the copied link into the input field on the website and tap “Download”.',
+        'step4-desc': 'Open the TikTok app and find the video you want to download.',
+        'step5-desc': 'While watching the video, tap the “Share” icon (a right-pointing arrow) on the right side of the screen. Then select “Copy Link”.',
+        'step6-desc': 'Next, go to a TikTok video downloader website (such as TikTokDL).',
+        'step7-desc': 'Paste the copied link into the input field on the website and tap “Download”.',
         'step8-desc': 'The video will appear on the screen > Choose a download method, tap the three-dot icon, and save the video.',
 
         'step5-title': 'Download TikTok Video Without Watermark on PC',
-        'step9-desc': '<b>1:</b> Open TikTok on your computer — you can use either the web platform or the TikTok desktop app. While watching the video, click the “Share” icon (a right-pointing arrow) and select “Copy Link”.',
-        'step10-desc': '<b>2:</b> Choose the “Copy Link” option to get the video URL.',
-        'step11-desc': '<b>3:</b> Since TikTok does not support no-watermark downloads natively, open a third-party tool like "TikTokDL" to proceed.',
-        'step12-desc': '<b>4:</b> Paste the copied link into the input field > Click Download.',
+        'step9-desc': 'Open TikTok on your computer — you can use either the web platform or the TikTok desktop app. While watching the video, click the “Share” icon (a right-pointing arrow) and select “Copy Link”.',
+        'step10-desc': 'Choose the “Copy Link” option to get the video URL.',
+        'step11-desc': 'Since TikTok does not support no-watermark downloads natively, open a third-party tool like "TikTokDL" to proceed.',
+        'step12-desc': 'Paste the copied link into the input field > Click Download.',
         'step13-desc': 'Wait a moment — the video will be displayed on the screen > Choose a download option, click the three-dot icon, and save the file.',
 
         'step6-title': 'Download TikTok Video Without Watermark on iPhone',
@@ -266,29 +268,29 @@ const translations = {
         'step16-desc': 'In the bottom-right corner of the screen, you’ll find a browser icon. Tap on it to open the built-in browser.',
 
         'faq-title': 'Frequently Asked Questions',
-        'faq-q1': '1. Is TikTokDL completely free?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q1': 'Is TikTokDL completely free?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a1': 'Yes, TikTokDL is completely free to use. There are no hidden fees or download limits.',
-        'faq-q2': '2. Can I download videos from Chinese TikTok (Douyin)?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q2': 'Can I download videos from Chinese TikTok (Douyin)?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a2': 'Currently, TikTokDL only supports videos from the international version of TikTok, not Douyin.',
-        'faq-q3': '3. Can I use TikTokDL on a tablet?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q3': 'Can I use TikTokDL on a tablet?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a3': 'Yes, TikTokDL is compatible with both tablets and mobile devices with web browsers.',
-        'faq-q4': '4. Can I download private videos?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q4': 'Can I download private videos?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a4': 'No, TikTokDL can only download public videos on TikTok. Private videos cannot be downloaded.',
-        'faq-q5': '5. Where are downloaded videos saved?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q5': 'Where are downloaded videos saved?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a5': 'After downloading, the video will be saved in the default "Downloads" folder on your device.',
-        'faq-q6': '6. Can I download multiple videos at once?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q6': 'Can I download multiple videos at once?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a6': 'Currently, TikTokDL only supports downloading one video at a time. Batch download feature will be considered in the future.',
-        'faq-q7': '7. Can I download TikTok videos on my mobile phone?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q7': 'Can I download TikTok videos on my mobile phone?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a7': 'Yes, TikTokDL works on all devices, including mobile phones, tablets, and desktop computers.',
-        'faq-q8': '8. Does TikTokDL work on iPhone/iOS?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q8': 'Does TikTokDL work on iPhone/iOS?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a8': 'Yes, you can use TikTokDL on Safari or Chrome browser on iPhone without the need to install additional applications.',
-        'faq-q9': '9. Can I download TikTok videos in HD mode?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q9': 'Can I download TikTok videos in HD mode?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a9': 'Depending on the original quality of the video on TikTok, TikTokDL will try to maintain the highest possible resolution (including HD if available).',
-        'faq-q10': '10. Does the website contain advertisements?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q10': 'Does the website contain advertisements?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a10': 'Some advertisements may be displayed to maintain the operation of the website, but they will not affect your video downloading experience.',
-        'faq-q11': '11. Can I share downloaded videos?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q11': 'Can I share downloaded videos?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a11': 'You can share downloaded videos for personal purposes. However, you should not share publicly if the video belongs to someone else and has not been permitted.',
-        'faq-q12': '12. Is downloading videos without watermark legal?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q12': 'Is downloading videos without watermark legal?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a12': 'Yes, downloading TikTok videos for personal use is legal. However, respect intellectual property rights and do not use videos for commercial purposes without permission from the content owner.',
         'footer-tech': 'Quick, simple, and completely free TikTok video downloads without watermark.',
         'footer-copyright': '© 2025 TikTokDL. All rights reserved.',
@@ -475,4 +477,62 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const inputField = document.getElementById('video-url');
+    const clearButton = document.getElementById('clear-input');
 
+    // Hiển thị/ẩn nút X dựa vào nội dung input
+    inputField.addEventListener('input', function() {
+        if (this.value.length > 0) {
+            clearButton.style.display = 'block';
+        } else {
+            clearButton.style.display = 'none';
+        }
+    });
+
+    // Xóa input khi nhấn nút X
+    clearButton.addEventListener('click', function() {
+        inputField.value = '';
+        clearButton.style.display = 'none';
+        inputField.focus();
+    });
+
+    // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
+    if (inputField.value.length > 0) {
+        clearButton.style.display = 'block';
+    }
+});
+
+// Simple clear input functionality
+document.getElementById('clear-input').addEventListener('click', function() {
+    document.getElementById('video-url').value = '';
+});
+
+// Create additional circles dynamically for more variation
+document.addEventListener('DOMContentLoaded', function() {
+    const background = document.querySelector('.animated-background');
+
+    // Add 4 more circles with random positions and sizes
+    for (let i = 0; i < 4; i++) {
+        const circle = document.createElement('div');
+        circle.className = 'circle';
+
+        // Random size between 20px and 70px
+        const size = Math.floor(Math.random() * 50) + 20;
+
+        // Random position
+        const top = Math.floor(Math.random() * 80) + 10;
+        const left = Math.floor(Math.random() * 100);
+
+        // Random animation duration
+        const duration = Math.floor(Math.random() * 10) + 15;
+
+        circle.style.width = size + 'px';
+        circle.style.height = size + 'px';
+        circle.style.top = top + '%';
+        circle.style.left = left + '%';
+        circle.style.animation = `moveCircle ${duration}s linear infinite`;
+
+        background.appendChild(circle);
+    }
+});

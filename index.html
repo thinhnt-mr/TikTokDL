@@ -124,12 +124,21 @@
 <main class="container">
     <section class="downloader">
         <div class="animated-background">
+            <div class="animated-background1">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+                <div class="circle circle-4"></div>
+                <div class="circle circle-5"></div>
+                <div class="circle circle-6"></div>
+            </div>
             <div class="hero">
-                <h2 id="hero-title">Tải video TikTok không giới hạn</h2>
-                <p id="hero-desc">Công cụ tải video TikTok miễn phí, nhanh chóng và an toàn. Tải video TikTok không có watermark với chỉ một vài thao tác đơn giản.</p>
+                <h2 id="hero-title">Tải video TikTok không Logo</h2>
+                <p id="hero-desc">Công cụ tải video TikTok miễn phí không giới hạn, nhanh chóng và an toàn.</p>
             </div>
             <div class="input-group">
-                <input type="text" id="video-url" placeholder="Dán đường link video TikTok vào đây...">
+                <input type="text" id="video-url" class="video-url" placeholder="Dán đường link video TikTok vào đây...">
+                <button type="button" id="clear-input" class="clear-button">x Xóa</button>
                 <button id="download-btn">Tải xuống</button>
             </div>
         </div>
@@ -230,10 +239,10 @@
     <section class="section">
         <div class="text-content">
             <h2 id="step4-title">Lưu video TikTok trên điện thoại di động</h2>
-            <p id="step4-desc"><b>1:</b> Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.</p>
-            <p id="step5-desc"><b>2:</b> Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.</p>
-            <p id="step6-desc"><b>3:</b> Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (TikTokDL).</p>
-            <p id="step7-desc"><b>4:</b> Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.</p>
+            <p id="step4-desc">Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.</p>
+            <p id="step5-desc">Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.</p>
+            <p id="step6-desc">Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (TikTokDL).</p>
+            <p id="step7-desc">Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.</p>
             <p id="step8-desc">Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.</p>
         </div>
         <div class="image-container">
@@ -244,11 +253,11 @@
     <section id="section-reversed" class="section section-reversed">
         <div class="text-content">
             <h2 id="step5-title">Lưu video TikTok không có logo trên máy tính</h2>
-            <p id="step9-desc"><b>1:</b> Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >
+            <p id="step9-desc">Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >
                 Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.</p>
-            <p id="step10-desc"><b>2:</b> Chọn đến mục Sao chép liên kết để tiến hành lấy link video.</p>
-            <p id="step11-desc"><b>3:</b> Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "TikTokDL" để tải video.</p>
-            <p id="step12-desc"><b>4:</b> Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.</p>
+            <p id="step10-desc">Chọn đến mục Sao chép liên kết để tiến hành lấy link video.</p>
+            <p id="step11-desc">Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "TikTokDL" để tải video.</p>
+            <p id="step12-desc">Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.</p>
             <p id="step13-desc">Chờ một chút Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.</p>
         </div>
         <div class="image-container">
@@ -271,62 +280,62 @@
     <section class="faq">
         <h2 id="faq-title">Câu hỏi thường gặp</h2>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q1">1. TikTokDL có hoàn toàn miễn phí không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q1">TikTokDL có hoàn toàn miễn phí không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a1">Có, TikTokDL hoàn toàn miễn phí để sử dụng. Không có phí ẩn hoặc giới hạn tải xuống.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q2">2. Tôi có thể tải video từ TikTok Trung Quốc (Douyin) không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q2">Tôi có thể tải video từ TikTok Trung Quốc (Douyin) không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a2">Hiện tại TikTokDL chỉ hỗ trợ video từ TikTok phiên bản quốc tế, không hỗ trợ Douyin.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q3">3. Có thể dùng TikTokDL trên máy tính bảng không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q3">Có thể dùng TikTokDL trên máy tính bảng không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a3">Có, TikTokDL tương thích với cả máy tính bảng và các thiết bị di động có trình duyệt web.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q4">4. Có thể tải video riêng tư không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q4">Có thể tải video riêng tư không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a4">Không, TikTokDL chỉ có thể tải các video công khai trên TikTok. Không thể tải video riêng tư.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q5">5. Video đã tải về được lưu ở đâu?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q5">Video đã tải về được lưu ở đâu?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a5">Sau khi tải xong, video sẽ được lưu trong thư mục "Tải xuống" (Downloads) mặc định trên thiết bị của bạn.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q6">6. Tôi có thể tải hàng loạt nhiều video cùng lúc không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q6">Tôi có thể tải hàng loạt nhiều video cùng lúc không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a6">Hiện tại, TikTokDL chỉ hỗ trợ tải từng video một. Tính năng tải hàng loạt sẽ được xem xét trong tương lai.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q7">7. Tôi có thể tải video TikTok trên điện thoại di động không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q7">Tôi có thể tải video TikTok trên điện thoại di động không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a7">Có, TikTokDL hoạt động trên tất cả các thiết bị, bao gồm điện thoại di động, máy tính bảng và máy tính để bàn.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q8">8. TikTokDL có hoạt động trên iPhone/iOS không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q8">TikTokDL có hoạt động trên iPhone/iOS không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a8">Có, bạn có thể sử dụng TikTokDL trên trình duyệt Safari hoặc Chrome trên iPhone mà không cần cài thêm ứng dụng.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q9">9. Có thể tải video TikTok ở chế độ HD không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q9">Có thể tải video TikTok ở chế độ HD không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a9">Tùy vào chất lượng gốc của video trên TikTok, TikTokDL sẽ cố gắng giữ nguyên độ phân giải cao nhất có thể (bao gồm HD nếu có).</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q10">10. Website có chứa quảng cáo không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q10">Website có chứa quảng cáo không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a10">Một số quảng cáo có thể được hiển thị để duy trì hoạt động của website, nhưng sẽ không ảnh hưởng đến trải nghiệm tải video của bạn.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q11">11. Tôi có thể chia sẻ video đã tải không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q11">Tôi có thể chia sẻ video đã tải không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a11">Bạn có thể chia sẻ video đã tải cho mục đích cá nhân. Tuy nhiên, không nên chia sẻ công khai nếu video thuộc sở hữu của người khác và chưa được cho phép.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question" id="faq-q12">12. Tải video không có watermark có hợp pháp không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            <div class="faq-question" id="faq-q12">Tải video không có watermark có hợp pháp không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="faq-answer" id="faq-a12">Có, tải video TikTok để sử dụng cá nhân là hợp pháp. Tuy nhiên, hãy tôn trọng quyền sở hữu trí tuệ và không sử dụng video cho mục đích thương mại mà không có sự cho phép từ chủ sở hữu nội dung.</div>
         </div>
@@ -340,10 +349,10 @@
         </div>
 
         <div class="social-links">
-            <a href="#" title="Facebook"><img src="image/facebook1.png" width="70%" height="70%"></a>
-            <a href="#" title="Twitter"><img src="image/twitter1.png" width="70%" height="70%"></a>
-            <a href="#" title="Instagram"><img src="image/instagram1.png" width="90%" height="90%"></a>
-            <a href="#" title="YouTube"><img src="image/youtube1.png" width="70%" height="70%"></a>
+            <a href="#" title="Facebook"><img src="image/facebook1.png" alt="icon Facebook" width="70%" height="70%"></a>
+            <a href="#" title="Twitter"><img src="image/twitter1.png" alt="icon Twitter" width="70%" height="70%"></a>
+            <a href="#" title="Instagram"><img src="image/instagram1.png" alt="icon Instagram" width="90%" height="90%"></a>
+            <a href="#" title="YouTube"><img src="image/youtube1.png" alt="icon YouTube" width="70%" height="70%"></a>
         </div>
 
         <div class="contact-info">

@@ -108,6 +108,19 @@ header {
 
 /* Media query for mobile */
 @media (max-width: 768px) {
+    #clear-input {
+        position: absolute;
+        right: 10px;
+        top: 27%;
+        transform: translateY(-50%);
+        color: white;
+        width: 55px;
+        height: 35px;
+        background-color: #999999;
+        font-size: 15px;
+        border: none;
+        cursor: pointer;
+    }
     textarea{
         height: 150px;
     }
@@ -127,10 +140,12 @@ header {
         flex-direction: column;
     }
 
-    .input-group input {
+    .video-url {
         border-radius: 5px;
         margin-bottom: 10px;
-        height: 50px;
+        padding-top: 18px;
+        padding-bottom: 18px;
+        padding-left: 5px;
     }
 
     .input-group button {
@@ -228,13 +243,90 @@ header {
     background: linear-gradient(145deg, #ed2283, coral);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 }
+/* Animated circles background */
+.animated-background1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
 
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 1;
+}
+
+/* Circles with different starting positions */
+.circle-1 {
+    width: 60px;
+    height: 60px;
+    top: 15%;
+    left: 75%;
+    animation: moveCircle 20s linear infinite;
+}
+
+.circle-2 {
+    width: 30px;
+    height: 30px;
+    top: 40%;
+    left: 25%;
+    animation: moveCircle 15s linear infinite;
+}
+
+.circle-3 {
+    width: 120px;
+    height: 120px;
+    top: 65%;
+    left: 60%;
+    animation: moveCircle 18s linear infinite;
+}
+
+.circle-4 {
+    width: 50px;
+    height: 50px;
+    top: 25%;
+    left: 10%;
+    animation: moveCircle 12s linear infinite;
+}
+
+.circle-5 {
+    width: 160px;
+    height: 160px;
+    top: 75%;
+    left: 40%;
+    animation: moveCircle 22s linear infinite;
+}
+
+.circle-6 {
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 90%;
+    animation: moveCircle 17s linear infinite;
+}
+
+@keyframes moveCircle {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50vw);
+        opacity: 0;
+    }
+}
 .input-group {
     position: relative;
     z-index: 2;
     border-radius: 10px;
     display: flex;
+    justify-content: center;
     padding: 5px;
+    width: 100%;
     margin-bottom: 1.5rem;
     align-items: center;
     gap: 10px;
@@ -243,8 +335,9 @@ header {
 .input-group input {
     flex: 1;
     height: 55px;
+    max-width: 900px;
     border: 2px solid #ddd;
-    border-radius: 3px;
+    border-radius: 10px;
     font-size: 1rem;
     outline: none;
     transition: border-color 0.3s;
@@ -254,13 +347,13 @@ header {
     border-color: var(--primary);
 }
 
-.input-group button {
+#download-btn {
     background-color: black;
     color: var(--light);
     border: none;
     padding: 20px 30px;
     border-radius: 0 5px 5px 0;
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -306,8 +399,25 @@ header {
     justify-content: center;
 }
 
-#video-url{
-    padding: 18px;
+#video-url {
+    width: 100%;
+    padding-right: 26px;
+}
+
+.clear-button {
+    position: absolute;
+    right: 199px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-weight: 600;
+    width: 90px;
+    height: 42px;
+    background-color: #999999;
+    font-size: 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
 }
 .download-btn{
     background-color: gold;
@@ -321,8 +431,11 @@ header {
     box-shadow: 0 0 6px rgba(0,0,0,0.2);
 }
 #download-btn{
-    padding: 20px 30px;
-    border-radius: 3px;
+    padding: 18px 30px;
+    border-radius: 10px;
+}
+#download-btn:hover{
+    background-color: #333333;
 }
 .download-btn:hover {
     transform: translateY(-3px);
@@ -525,6 +638,7 @@ header {
     width: 100%;
     pointer-events: none;
 }
+
 .overlay h1{
     transform: rotate(-45deg);
     font-size: 83px;
