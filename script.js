@@ -153,7 +153,7 @@ const translations = {
         'logo-text': 'TikTokDL',
         'hero-title': 'Tải video TikTok không Logo',
         'hero-desc': 'Công cụ tải video TikTok miễn phí không giới hạn, nhanh chóng và an toàn.',
-        'clear-input': 'x Xóa',
+        'clear-input': 'Xóa',
         'video-url': 'Dán đường link video TikTok vào đây...',
         'download-btn': 'Tải xuống',
         'loading-text': 'Đang phân tích video...',
@@ -228,7 +228,7 @@ const translations = {
         'hero-title': 'Download TikTok videos without Logo',
         'hero-desc': 'Free unlimited TikTok video downloader, fast and safe.',
         'video-url': 'Paste TikTok video link here...',
-        'clear-input': 'x Delete',
+        'clear-input': 'Delete',
         'download-btn': 'Download',
         'loading-text': 'Analyzing video...',
         'error-message': 'Sorry, we cannot process this link. Please check and try again.',
@@ -535,4 +535,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         background.appendChild(circle);
     }
+});
+
+window.addEventListener('DOMContentLoaded', function () {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.lordicon.com/lordicon.js';
+    document.body.appendChild(script);
 });
