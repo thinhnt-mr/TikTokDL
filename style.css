@@ -151,42 +151,7 @@ header {
     .input-group button {
         border-radius: 5px;
     }
-   
-.input-container {
-  position: relative;
-  width: 100%;
-}
 
-.tiktok-input {
-  width: 100%;
-  padding: 10px;
-  padding-right: 40px; /* Make room for the X button */
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
-
-.clear-button {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  color: #999;
-  display: none;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  text-align: center;
-}
-
-.clear-button:hover {
-  color: #555;
-}
     .steps {
         grid-template-columns: 1fr;
     }
@@ -434,7 +399,6 @@ header {
     justify-content: center;
 }
 
-<<<<<<< HEAD
 #video-url {
     width: 100%;
     padding-right: 26px;
@@ -454,44 +418,7 @@ header {
     border-radius: 8px;
     border: none;
     cursor: pointer;
-=======
-.input-group {
-  position: relative;
-  width: 100%;
->>>>>>> 3417abd1eb89671b2068f6b7f383d866a238b470
 }
-
-#video-url {
-  width: 100%;
-  padding: 18px;
-  /* Bỏ padding-right để không chừa chỗ cho nút X */
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
-.clear-button {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.8); /* Background mờ để dễ nhìn */
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  color: #999;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  text-align: center;
-  z-index: 10;
-  border-radius: 50%; /* Làm tròn nút */
-}
-.clear-button:hover {
-  color: #555;
-  background: rgba(255, 255, 255, 0.95);
-}
-
 .download-btn{
     background-color: gold;
     text-decoration: none;
