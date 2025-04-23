@@ -475,4 +475,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
+document.addEventListener('DOMContentLoaded', function() {
+  const inputField = document.getElementById('video-url');
+  const clearButton = document.getElementById('clear-input');
+  
+  // Hiển thị/ẩn nút X dựa vào nội dung input
+  inputField.addEventListener('input', function() {
+    if (this.value.length > 0) {
+      clearButton.style.display = 'block';
+    } else {
+      clearButton.style.display = 'none';
+    }
+  });
+  
+  // Xóa input khi nhấn nút X
+  clearButton.addEventListener('click', function() {
+    inputField.value = '';
+    clearButton.style.display = 'none';
+    inputField.focus();
+  });
+  
+  // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
+  if (inputField.value.length > 0) {
+    clearButton.style.display = 'block';
+  }
+});
