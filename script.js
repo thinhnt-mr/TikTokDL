@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Xử lý tải video
     downloadBtn.addEventListener('click', async function () {
         const url = videoUrlInput.value.trim();
-        if (!url) {
-            alert('Vui lòng nhập đường link video TikTok');
+        if (!url || !url.startsWith('http') || !url.includes('tiktok.com')) {
+            alert('Vui lòng nhập URL hợp lệ của TikTok');
             return;
         }
 
@@ -26,63 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
             loading.style.display = 'none';
 
             if (videoData && videoData.data) {
-                // Hiển thị thông tin profile người dùng
                 displayUserProfile(videoData.data);
 
                 videoThumbnail.src = videoData.data.cover || '/api/placeholder/350/500';
-                const noWatermarkUrl = videoData.data.play || '';
-                const withWatermarkUrl = videoData.data.wmplay || '';
-                const audioUrl = videoData.data.music || '';
 
-                if (noWatermarkUrl) {
-                    downloadNoWatermark.onclick = e => {
-                        e.preventDefault();
-                        downloadVideo(noWatermarkUrl, 'tiktok-no-watermark.mp4');
-                    };
-                    downloadNoWatermark.style.opacity = '1';
-                    downloadNoWatermark.style.pointerEvents = 'auto';
-                } else {
-                    downloadNoWatermark.style.opacity = '0.5';
-                    downloadNoWatermark.style.pointerEvents = 'none';
-                }
-
-                if (withWatermarkUrl) {
-                    downloadWithWatermark.onclick = e => {
-                        e.preventDefault();
-                        downloadVideo(withWatermarkUrl, 'tiktok-with-watermark.mp4');
-                    };
-                    downloadWithWatermark.style.opacity = '1';
-                    downloadWithWatermark.style.pointerEvents = 'auto';
-                } else {
-                    downloadWithWatermark.style.opacity = '0.5';
-                    downloadWithWatermark.style.pointerEvents = 'none';
-                }
-
-                if (audioUrl) {
-                    downloadAudio.onclick = e => {
-                        e.preventDefault();
-                        downloadVideo(audioUrl, 'tiktok-audio.mp3');
-                    };
-                    downloadAudio.style.opacity = '1';
-                    downloadAudio.style.pointerEvents = 'auto';
-                } else {
-                    downloadAudio.style.opacity = '0.5';
-                    downloadAudio.style.pointerEvents = 'none';
-                }
-
-                // Thêm lựa chọn tải ảnh đại diện
-                const coverUrl = videoData.data.cover;
-                if (coverUrl) {
-                    downloadCover.onclick = e => {
-                        e.preventDefault();
-                        downloadVideo(coverUrl, 'tiktok-cover.jpg');
-                    };
-                    downloadCover.style.opacity = '1';
-                    downloadCover.style.pointerEvents = 'auto';
-                } else {
-                    downloadCover.style.opacity = '0.5';
-                    downloadCover.style.pointerEvents = 'none';
-                }
+                setupDownloadButton(downloadNoWatermark, videoData.data.play, 'tiktok-no-watermark.mp4');
+                setupDownloadButton(downloadWithWatermark, videoData.data.wmplay, 'tiktok-with-watermark.mp4');
+                setupDownloadButton(downloadAudio, videoData.data.music, 'tiktok-audio.mp3');
+                setupDownloadButton(downloadCover, videoData.data.cover, 'tiktok-cover.jpg');
 
                 result.style.display = 'block';
             } else {
@@ -97,45 +48,72 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-// Hàm hiển thị thông tin profile người dùng
+// Thiết lập button tải
+    function setupDownloadButton(button, url, filename) {
+        if (url) {
+            button.onclick = e => {
+                e.preventDefault();
+                downloadVideo(url, filename);
+            };
+            button.style.opacity = '1';
+            button.style.pointerEvents = 'auto';
+        } else {
+            button.style.opacity = '0.5';
+            button.style.pointerEvents = 'none';
+        }
+    }
+
+// Escape HTML để chống XSS
+    function escapeHTML(str) {
+        return str.replace(/[&<>"']/g, (char) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;',
+        }[char]));
+    }
+
+// Hiển thị profile người dùng
     function displayUserProfile(data) {
-        // Tạo hoặc tìm container chứa thông tin người dùng
         let profileContainer = document.getElementById('user-profile');
         if (!profileContainer) {
             profileContainer = document.createElement('div');
             profileContainer.id = 'user-profile';
-            // Chèn vào trước kết quả tải xuống
             result.parentNode.insertBefore(profileContainer, result);
         }
 
-        // Lấy thông tin người dùng từ response API
-        const authorName = data.author && data.author.nickname ? data.author.nickname : 'Unknown';
-        const authorAvatar = data.author && data.author.avatar ? data.author.avatar : '/api/placeholder/80/80';
-        const videoTitle = data.title || '';
+        const authorName = escapeHTML(data.author?.nickname || 'Unknown');
+        const authorAvatar = data.author?.avatar || '/api/placeholder/80/80';
+        const videoTitle = escapeHTML(data.title || '');
 
-        // Tạo HTML cho profile
         profileContainer.innerHTML = `
-    <div class="profile-container">
-        <div class="profile-info">
-            <img src="${authorAvatar}" alt="${authorName}" class="profile-avatar">
-            <div>
-                <h3 class="profile-name">${authorName}</h3>
-                <p class="profile-description">${videoTitle}</p>
+        <div class="profile-container">
+            <div class="profile-info">
+                <img src="${authorAvatar}" alt="${authorName}" class="profile-avatar">
+                <div>
+                    <h3 class="profile-name">${authorName}</h3>
+                    <p class="profile-description">${videoTitle}</p>
+                </div>
             </div>
         </div>
-    </div>
     `;
-
-        // Hiển thị container
         profileContainer.style.display = 'block';
     }
 
+// Gọi API backend
     async function downloadTikTokVideo(url) {
-        const response = await fetch(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`);
-        const result = await response.json();
-        return result;
+        try {
+            const response = await fetch(`http://localhost:3000/api/tiktok?url=${encodeURIComponent(url)}`);
+            if (!response.ok) throw new Error('API trả về lỗi');
+            return await response.json();
+        } catch (err) {
+            console.error('Lỗi khi gọi API:', err);
+            return {error: true, message: 'Lỗi server vui lòng thử lại sau!'};
+        }
     }
 
+// Tải file
     function downloadVideo(url, filename) {
         const a = document.createElement('a');
         a.href = url;
@@ -146,12 +124,13 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => document.body.removeChild(a), 100);
     }
 });
+
 // Define translations for all text elements
 const translations = {
     'vi': {
-        'page-title': 'Tải Video TikTok Không Watermark | Miễn Phí & Nhanh Chóng',
+        'page-title': 'Tải Video TikTok Không Logo | Miễn Phí & Nhanh Chóng',
         'logo-text': 'TokSave',
-        'hero-title': 'Tải video TikTok không Logo',
+        'hero-title': 'Tải video TikTok không Watermark',
         'hero-desc': 'Công cụ tải video TikTok miễn phí không giới hạn, nhanh chóng và an toàn.',
         'video-url': 'Dán liên kết video TikTok tại đây để tải...',
         'download-btn': 'Tải xuống',
@@ -222,9 +201,9 @@ const translations = {
         'footer-disclaimer': 'Lưu ý: Đây không phải là sản phẩm chính thức của TikTok, vui lòng tải video với mục đích cá nhân.',
     },
     'en': {
-        'page-title': 'Download TikTok Videos Without Watermark | Free & Fast',
+        'page-title': 'Download TikTok Videos Without Logo | Free & Fast',
         'logo-text': 'TokSave',
-        'hero-title': 'Download TikTok videos without Logo',
+        'hero-title': 'Download TikTok videos without Watermark',
         'hero-desc': 'Free unlimited TikTok video downloader, fast and safe.',
         'video-url': 'Paste the TikTok video link here to download...',
         'download-btn': 'Download',
