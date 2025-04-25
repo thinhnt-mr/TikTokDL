@@ -130,9 +130,9 @@ const translations = {
     'vi': {
         'page-title': 'Tải Video TikTok Không Logo | Miễn Phí & Nhanh Chóng',
         'logo-text': 'TokSave',
-        'hero-title': 'Tải video TikTok không Watermark',
-        'hero-desc': 'Công cụ tải video TikTok miễn phí không giới hạn, nhanh chóng và an toàn.',
-        'video-url': 'Dán liên kết video TikTok tại đây để tải...',
+        'hero-title': 'Tải video Miễn Phí',
+        'hero-desc': 'Tải video TikTok không Logo, không giới hạn, nhanh chóng và an toàn.',
+        'video-url': 'Dán link video tại đây để tải...',
         'download-btn': 'Tải xuống',
         'loading-text': 'Đang phân tích video...',
         'error-message': 'Xin lỗi, không thể xử lý đường link này. Vui lòng kiểm tra và thử lại.',
@@ -203,9 +203,9 @@ const translations = {
     'en': {
         'page-title': 'Download TikTok Videos Without Logo | Free & Fast',
         'logo-text': 'TokSave',
-        'hero-title': 'Download TikTok videos without Watermark',
-        'hero-desc': 'Free unlimited TikTok video downloader, fast and safe.',
-        'video-url': 'Paste the TikTok video link here to download...',
+        'hero-title': 'Download videos For Free',
+        'hero-desc': 'Download TikTok videos without Logo, unlimited, fast and safe.',
+        'video-url': 'Paste the video link here to download...',
         'download-btn': 'Download',
         'loading-text': 'Analyzing video...',
         'error-message': 'Sorry, we cannot process this link. Please check and try again.',
@@ -428,22 +428,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Get the mobile menu icon and mobile menu elements
     const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
     const mobileMenu = document.querySelector('.mobile-menu');
+    const header = document.querySelector('header');
 
-    // Add click event listener to the mobile menu icon
+    // Auto set chiều cao header vào CSS biến
+    const headerHeight = header.offsetHeight;
+    document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
+
     mobileMenuIcon.addEventListener('click', function() {
-        // Toggle the active class on the mobile menu
         mobileMenu.classList.toggle('active');
     });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
-    const mobileMenu = document.querySelector('.mobile-menu');
-
-    // Nếu click ra ngoài menu -> đóng menu
     document.addEventListener('click', function(event) {
         const isClickInsideMenu = mobileMenu.contains(event.target);
         const isClickOnIcon = mobileMenuIcon.contains(event.target);

@@ -33,6 +33,7 @@ header {
 .logo {
     display: flex;
     align-items: center;
+    max-width: 100%;
     justify-content: space-between;
     gap: 10px;
     color: black;
@@ -42,7 +43,7 @@ header {
 .logo h1 {
     font-size: 1.5rem;
     font-weight: 800;
-    background: linear-gradient(to right, #ff0000, #0000ff);
+    background: linear-gradient(to right,#667eea, #ff0000, #764ba2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -79,22 +80,25 @@ header {
     color: black;
 }
 
-/* Mobile dropdown menu */
 .mobile-menu {
-    display: none;
-    position: absolute;
-    top: -200px; /* Start off-screen */
+    position: fixed;
+    top: var(70px); /* mặc định 70px, hoặc set biến dynamic */
     left: 0;
-    right: 0;
+    width: 100%;
+    height: calc(100vh - var( 70px));
     background-color: white;
-    transition: top 0.5s ease;
-    z-index: 100;
+    z-index: 999;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.3s ease;
+    pointer-events: none;
+    overflow-y: auto;
 }
 
 .mobile-menu.active {
-    box-shadow: 0 0 2px rgba(0,0,0.2,0.8);
-    top: 80px; /* Slide down to below the header */
-    display: block;
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .mobile-menu .menu-link {
@@ -104,7 +108,12 @@ header {
     text-decoration: none;
     font-weight: bold;
     text-align: center;
-    box-shadow: 0 0 1px rgba(0,0,0.2,0.2);
+    border-bottom: solid 1px lightgrey;
+    box-shadow: 0 0 1px rgba(0,0,0.1,0.1);
+}
+#link-contact{
+    box-shadow: 0 0 1px rgba(0,0,0.1,0.1);
+    border-bottom: solid 2px lightgrey;
 }
 
 /* Media query for mobile */
@@ -179,34 +188,12 @@ header {
         padding: 1.5rem;
     }
 }
-
+.language-switcher{
+    display: flex;
+}
 .language-btn {
-    padding: 5px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 5px;
     transition: all 0.3s ease;
-}
-
-/* Màu sắc mặc định cho nút khi không active */
-.language-btn {
-    background-color: #f8f8f8;
-    color: #333;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-/* Trạng thái active cho nút VI */
-.language-btn[onclick="changeLanguage('vi')"].active {
-    background-color: black;
-    color: white;
-}
-
-/* Trạng thái active cho nút EN */
-.language-btn[onclick="changeLanguage('en')"].active {
-    background-color: black;
-    color: white;
 }
 
 .container {
@@ -225,12 +212,13 @@ header {
 }
 
 .hero h2 {
-    font-size: 2rem;
+    font-size: 3.6rem;
+    font-weight: normal;
     margin-bottom: 1rem;
 }
 
 .hero p {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: white;
     max-width: 800px;
     margin: 0 auto 2rem;
@@ -248,7 +236,9 @@ header {
     overflow: hidden;
     border-radius: 10px;
     padding: 50px 20px 50px 20px;
-    background: linear-gradient(145deg, #ed2283, coral);
+    min-height: 645px;
+    align-content: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 }
 /* Animated circles background */
@@ -601,7 +591,7 @@ header {
 }
 
 .step-number {
-    background-color: var(--primary);
+    background-color: #667eea;
     color: var(--light);
     width: 50px;
     height: 50px;

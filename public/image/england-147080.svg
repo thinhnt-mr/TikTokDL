@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="600" baseProfile="full" viewBox="-15 -7.5 30 15" xmlns="http://www.w3.org/2000/svg" zoomAndPan="magnify">
+ <defs>
+  <clipPath id="a">
+   <path d="m-15-7.5h30v15h-30z"/>
+  </clipPath>
+ </defs>
+ <g clip-path="url(#a)">
+  <path d="m20 0a20 20 0 1 0 -40 0 20 20 0 1 0 40 0" fill="#00247d"/>
+  <path d="m-20-10 40 20m-40 0 40-20" stroke="#fff" stroke-width="3"/>
+  <path d="m-20-10 40 20m-40 0 40-20" stroke="#cf142b" stroke-width="2"/>
+  <path d="m0 0 20 10h-3l-20-10m3 0 20-10h3l-20 10m-3 0-20 10h-3l20-10m3 0-20-10h3l20 10" fill="#fff"/>
+  <path d="m-20 0h40m-20-10v20" stroke="#fff" stroke-width="5"/>
+  <path d="m-20 0h40m-20-10v20" stroke="#cf142b" stroke-width="3"/>
+ </g>
+</svg>
