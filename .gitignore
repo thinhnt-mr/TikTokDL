@@ -1,8 +1,18 @@
-# Bỏ thư mục chứa thư viện
+# Thư mục node_modules - chứa các dependencies, không cần đẩy lên Git
 node_modules/
 
-# Bỏ file cấu hình môi trường
+# File environment - chứa thông tin nhạy cảm
 .env
 
-# Bỏ file log
+# File log
 *.log
+
+# File hệ thống
+.DS_Store
+.idea/
+.vscode/
+
+# File build
+dist/
+build/
+*.exe
