@@ -459,30 +459,44 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearButton = document.getElementById('clear-input');
 
     // Hiển thị/ẩn nút X dựa vào nội dung input
-    inputField.addEventListener('input', function() {
-        if (this.value.length > 0) {
+    function updateClearButton() {
+        if (inputField.value.length > 0) {
             clearButton.style.display = 'block';
         } else {
             clearButton.style.display = 'none';
         }
-    });
+    }
+
+    // Gọi hàm khi có thay đổi nội dung
+    inputField.addEventListener('input', updateClearButton);
 
     // Xóa input khi nhấn nút X
     clearButton.addEventListener('click', function() {
         inputField.value = '';
-        clearButton.style.display = 'none';
+        updateClearButton();
         inputField.focus();
     });
 
-    // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
-    if (inputField.value.length > 0) {
-        clearButton.style.display = 'block';
-    }
-});
+    // Khi người dùng nhấp vào ô input
+    inputField.addEventListener('click', function() {
+        // Chỉ paste khi ô input trống
+        if (inputField.value === '') {
+            navigator.clipboard.readText()
+                .then(text => {
+                    if (text) {
+                        inputField.value = text;
+                        // Quan trọng: Cập nhật trạng thái nút xóa sau khi dán
+                        updateClearButton();
+                    }
+                })
+                .catch(err => {
+                    console.log('Không thể truy cập clipboard');
+                });
+        }
+    });
 
-// Simple clear input functionality
-document.getElementById('clear-input').addEventListener('click', function() {
-    document.getElementById('video-url').value = '';
+    // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
+    updateClearButton();
 });
 
 // Create additional circles dynamically for more variation
