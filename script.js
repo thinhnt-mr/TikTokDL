@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Gọi API backend
     async function downloadTikTokVideo(url) {
         try {
-            const response = await fetch(`http://localhost:3000/api/tiktok?url=${encodeURIComponent(url)}`);
+            const response = await fetch(`https://toksave-server.onrender.com/api/tiktok?url=${encodeURIComponent(url)}`);
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('API response:', errorText);
