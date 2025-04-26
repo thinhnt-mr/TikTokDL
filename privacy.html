@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chính Sách Riêng Tư | TokSave</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title id="page-title">Chính Sách Bảo Mật Riêng Tư | TokSave</title>
     <meta name="description" content="Tải video TikTok không có watermark, nhanh chóng và miễn phí. Hỗ trợ mọi thiết bị và không cần cài đặt. Công cụ tải video TikTok chất lượng cao nhất.">
 
     <!-- Preload critical resources -->
-    <link rel="preload" href="/public/css/style.css?v=2" as="style">
+    <link rel="preload" href="style.css" as="style">
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
     <!-- Critical CSS -->
-    <link rel="stylesheet" href="/public/css/style.css?v=2">
+    <link rel="stylesheet" href="style.css">
 
     <!-- Favicon with reduced redundancy -->
-    <link rel="icon" href="/public/favicon/favicon_io/favicon.ico?v=2">
-    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon/favicon_io/favicon-32x32.png?v=2">
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/favicon/favicon_io/apple-touch-icon.png?v=2">
-    <link rel="manifest" href="/public/favicon/favicon_io/site.webmanifest?v=2">
+    <link rel="icon" href="favicon/favicon_io/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon_io/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/favicon_io/apple-touch-icon.png">
+
+    <!-- Load Font Awesome only when needed -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
 
     <!-- SEO Meta Tags (consolidated) -->
     <link rel="canonical" href="https://toksave.online/">
@@ -37,7 +43,7 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- Mobile Web App -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <!-- Structured Data -->
@@ -57,17 +63,21 @@
             }
         }
     </script>
+    <!-- Fallback for no JavaScript -->
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
+    </noscript>
 </head>
 <body>
 <header>
     <div class="container">
         <div class="logo">
-            <a href="index.html?v=1"><h1 id="logo-text">TokSave</h1></a>
+            <a href="index.html"><h1 id="logo-text">TokSave</h1></a>
             <div class="menu-container">
                 <!-- Menu links visible on desktop -->
                 <div class="desktop-menu">
-                    <a href="index.html?v=1" class="menu-link">HOME</a>
-                    <a href="contact.html?v=1" class="menu-link">CONTACT</a>
+                    <a href="index.html" class="menu-link">HOME</a>
+                    <a href="contact.html" class="menu-link">CONTACT</a>
                 </div>
                 <!-- Mobile menu icon -->
                 <div class="mobile-menu-icon">
@@ -75,13 +85,13 @@
                 </div>
                 <!-- Mobile menu dropdown (hidden by default) -->
                 <div class="mobile-menu">
-                    <a href="index.html?v=1" class="menu-link">HOME</a>
-                    <a href="contact.html?v=1" id="link-contact" class="menu-link">CONTACT</a>
+                    <a href="index.html" class="menu-link">HOME</a>
+                    <a href="contact.html" id="link-contact" class="menu-link">CONTACT</a>
                 </div>
             </div>
             <div class="language-switcher">
-                <img class="language-btn active" onclick="changeLanguage('vi')" src="/public/image/vietnam-26834.svg?v=2" alt="Icon Cờ Việt Nam" width="45" height="45">
-                <img class="language-btn" onclick="changeLanguage('en')" src="/public/image/england-147080.svg?v=2" alt="Icon Cờ Pháp" width="45" height="45">
+                <img class="language-btn active" onclick="changeLanguage('vi')" src="image/vietnam-26834.svg" alt="Icon Cờ Việt Nam" width="45" height="45">
+                <img class="language-btn" onclick="changeLanguage('en')" src="image/england-147080.svg" alt="Icon Cờ Pháp" width="45" height="45">
             </div>
         </div>
     </div>
@@ -171,14 +181,14 @@
         </div>
 
         <div class="social-links">
-            <a href="#" title="Facebook"><img src="/public/image/facebook1.png?v=2" loading="lazy" alt="icon Facebook" width="30" height="30"></a>
-            <a href="#" title="Twitter"><img src="/public/image/twitter1.png?v=2" loading="lazy" alt="icon Twitter" width="24" height="24"></a>
-            <a href="#" title="Instagram"><img src="/public/image/instagram1.png?v=2" loading="lazy" alt="icon Instagram" width="32" height="32"></a>
-            <a href="#" title="YouTube"><img src="/public/image/youtube1.png?v=2" loading="lazy" alt="icon YouTube" width="24" height="24"></a>
+            <a href="#" title="Facebook"><img src="image/facebook1.png" loading="lazy" alt="icon Facebook" width="30" height="30"></a>
+            <a href="#" title="Twitter"><img src="image/twitter1.png" loading="lazy" alt="icon Twitter" width="24" height="24"></a>
+            <a href="#" title="Instagram"><img src="image/instagram1.png" loading="lazy" alt="icon Instagram" width="32" height="32"></a>
+            <a href="#" title="YouTube"><img src="image/youtube1.png" loading="lazy" alt="icon YouTube" width="24" height="24"></a>
         </div>
 
         <div class="contact-info">
-            <p>Email: <a href="mailto:toksavebeta@gmail.com?v=1">toksavebeta@gmail.com</a></p>
+            <p>Email: <a href="mailto:toksavebeta@gmail.com">toksavebeta@gmail.com</a></p>
         </div>
 
         <div class="footer-bottom">
@@ -187,6 +197,6 @@
         </div>
     </div>
 </footer>
-<script src="/public/js/privacy.js?v=2" defer></script>
+<script src="privacy.js" defer></script>
 </body>
 </html>

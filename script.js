@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const downloadNoWatermark = document.getElementById('download-no-watermark');
     const downloadWithWatermark = document.getElementById('download-with-watermark');
     const downloadAudio = document.getElementById('download-audio');
+    const downloadCover = document.getElementById('download-cover');
 
     // Xử lý tải video
     downloadBtn.addEventListener('click', async function () {
@@ -21,6 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
         errorMessage.style.display = 'none';
         result.style.display = 'none';
 
+        // Xóa thông tin profile cũ nếu có
+        const existingProfile = document.getElementById('user-profile');
+        if (existingProfile) {
+            existingProfile.style.display = 'none';
+        }
+
         try {
             const videoData = await downloadTikTokVideo(url);
             loading.style.display = 'none';
@@ -28,12 +35,19 @@ document.addEventListener('DOMContentLoaded', function () {
             if (videoData && videoData.data) {
                 displayUserProfile(videoData.data);
 
+                // Set video thumbnail
                 videoThumbnail.src = videoData.data.cover || '/api/placeholder/350/500';
+                videoThumbnail.alt = 'Video Thumbnail';
 
+                // Setup download buttons
                 setupDownloadButton(downloadNoWatermark, videoData.data.play, 'tiktok-no-watermark.mp4');
                 setupDownloadButton(downloadWithWatermark, videoData.data.wmplay, 'tiktok-with-watermark.mp4');
                 setupDownloadButton(downloadAudio, videoData.data.music, 'tiktok-audio.mp3');
-                setupDownloadButton(downloadCover, videoData.data.cover, 'tiktok-cover.jpg');
+
+                // Đảm bảo downloadCover được định nghĩa trước khi sử dụng
+                if (downloadCover) {
+                    setupDownloadButton(downloadCover, videoData.data.cover, 'tiktok-cover.jpg');
+                }
 
                 result.style.display = 'block';
             } else {
@@ -48,8 +62,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-// Thiết lập button tải
+    // Thiết lập button tải
     function setupDownloadButton(button, url, filename) {
+        if (!button) return;
+
         if (url) {
             button.onclick = e => {
                 e.preventDefault();
@@ -63,8 +79,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-// Escape HTML để chống XSS
+    // Escape HTML để chống XSS
     function escapeHTML(str) {
+        if (!str) return '';
         return str.replace(/[&<>"']/g, (char) => ({
             '&': '&amp;',
             '<': '&lt;',
@@ -74,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }[char]));
     }
 
-// Hiển thị profile người dùng
+    // Hiển thị profile người dùng
     function displayUserProfile(data) {
         let profileContainer = document.getElementById('user-profile');
         if (!profileContainer) {
@@ -97,27 +114,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             </div>
         </div>
-    `;
+        `;
         profileContainer.style.display = 'block';
     }
 
-// Gọi API backend
+    // Gọi API backend
     async function downloadTikTokVideo(url) {
         try {
-            const response = await fetch(`https://tiktokdl-1-i88s.onrender.com/api/tiktok?url=${encodeURIComponent(url)}`);
-            if (!response.ok) throw new Error('API trả về lỗi');
+            const response = await fetch(`http://localhost:3000/api/tiktok?url=${encodeURIComponent(url)}`);
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('API response:', errorText);
+                throw new Error(`API trả về lỗi: ${response.status}`);
+            }
             return await response.json();
         } catch (err) {
             console.error('Lỗi khi gọi API:', err);
-            return {error: true, message: 'Lỗi server vui lòng thử lại sau!'};
+            return {error: true, message: `Lỗi server: ${err.message}`};
         }
     }
 
-// Tải file
+    // Tải file
     function downloadVideo(url, filename) {
         const a = document.createElement('a');
         a.href = url;
         a.download = filename;
+        a.target = '_blank'; // Mở trong tab mới để tránh các vấn đề CORS
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
