@@ -1,13 +1,19 @@
 const translations = {
     vi: {
-        'contact-description': 'Nếu bạn có bất kỳ câu hỏi, góp ý hoặc cần hỗ trợ, vui lòng gửi tin nhắn cho chúng tôi qua biểu mẫu bên dưới hoặc email trực tiếp.',
+        'contact-description': 'Liên Hệ',
+        'user-name': 'Họ và tên:*',
+        'label-email': 'Địa chỉ email:*',
+        'label-content': 'Nội dung:*',
         'submit': 'Gửi yêu cầu',
         'footer-tech': 'Tải video TikTok không có watermark nhanh chóng, đơn giản và hoàn toàn miễn phí.',
         'footer-disclaimer': 'Lưu ý: Đây không phải là sản phẩm chính thức của TikTok, vui lòng tải video với mục đích cá nhân.',
         'footer-copyright': '© 2025 TikTokDL. Tất cả các quyền được bảo lưu.',
     },
     en: {
-        'contact-description': 'If you have any questions, feedback or need support, please send us a message using the form below or email us directly.',
+        'contact-description': 'Contact',
+        'user-name': 'Full name:*',
+        'label-email': 'Email Address:*',
+        'label-content': 'Content:*',
         'submit': 'Submit request',
         'footer-tech': 'Download TikTok videos without watermark quickly, easily, and completely free.',
         'footer-disclaimer': 'Note: This is not an official TikTok product. Please download videos for personal use only.',

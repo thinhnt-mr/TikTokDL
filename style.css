@@ -886,10 +886,7 @@ footer {
     display: none;
     margin-top: 1rem;
 }
-#contact-description{
-    padding: 10px;
-    font-size: 1.1rem;
-}
+
 form {
     display: flex;
     flex-direction: column;
@@ -930,6 +927,11 @@ iframe {
     width: 100%;
     height: 50vh;
 }
+#contact-description{
+    padding: 10px;
+    font-weight: 600;
+    font-size: 2.6rem;
+}
 .contact-wrapper {
     display: flex;
     justify-content: center;
@@ -944,13 +946,19 @@ iframe {
 .contact-wrapper p{
     text-align: center;
 }
+#userForm label{
+    padding: 5px;
+}
+#userForm textarea{
+    min-height: 155px;
+}
 .contact form {
     max-width: 600px;
     text-align: left;
 }
 .contact input, .contact textarea {
     width: 100%;
-    padding: 12px;
+    padding: 13px;
     margin-bottom: 10px;
     border: none;
     border-radius: 5px;
