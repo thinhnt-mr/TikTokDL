@@ -1,14 +1,16 @@
 require('dotenv').config();
 
 const express = require('express');
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const TIKWM_API = process.env.TIKWM_API || 'https://tikwm.com/api/';
 
-// Thêm middleware CORS
+// Đảm bảo URL API chuẩn, xóa dấu '/' thừa cuối nếu có
+const TIKWM_API = (process.env.TIKWM_API || 'https://tikwm.com/api').replace(/\/+$/, '');
+
+// Middleware CORS
 app.use(cors({
     origin: '*',
 }));
@@ -22,14 +24,16 @@ app.get('/api/tiktok', async (req, res) => {
     }
 
     try {
-        const apiUrl = `${TIKWM_API}?url=${encodeURIComponent(videoUrl)}`;
+        // Ghép URL chắc chắn đúng
+        const apiUrl = `${TIKWM_API}/?url=${encodeURIComponent(videoUrl)}`;
+        console.log('Gọi API đến:', apiUrl); // Debug URL thực tế
 
         const response = await fetch(apiUrl, {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
                 'Accept': 'application/json',
-                'Referer': 'https://tikwm.com/'
-            }
+                'Referer': 'https://tikwm.com/',
+            },
         });
 
         if (!response.ok) {
@@ -44,16 +48,16 @@ app.get('/api/tiktok', async (req, res) => {
     }
 });
 
-// Thêm endpoint cho placeholder images
+// Endpoint placeholder images
 app.get('/api/placeholder/:width/:height', (req, res) => {
     const { width, height } = req.params;
     res.redirect(`https://via.placeholder.com/${width}x${height}`);
 });
 
-// Phục vụ các file tĩnh từ thư mục public (nếu cần)
+// Phục vụ file tĩnh nếu cần
 app.use(express.static('public'));
 
 // Chạy server
 app.listen(PORT, () => {
-    console.log(`✅ Server proxy TikTok chạy tại http://localhost:${PORT}`);
+    console.log(`✅ Server proxy TikTok đang chạy tại http://localhost:${PORT}`);
 });

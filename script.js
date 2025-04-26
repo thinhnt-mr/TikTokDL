@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const downloadNoWatermark = document.getElementById('download-no-watermark');
     const downloadWithWatermark = document.getElementById('download-with-watermark');
     const downloadAudio = document.getElementById('download-audio');
-    const downloadCover = document.getElementById('download-cover');
+    const downloadCover = document.getElementById('downloadCover');
 
     // Xử lý tải video
     downloadBtn.addEventListener('click', async function () {
