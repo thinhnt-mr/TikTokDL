@@ -8,33 +8,58 @@ const PORT = process.env.PORT || 3000;
 const TIKWM_API = (process.env.TIKWM_API || 'https://tikwm.com/api').replace(/\/+$/, '');
 // Middleware CORS
 app.use(cors({
-    origin: ['https://toksave.online', 'https://thinhnt-mr.github.io']
+    origin: [
+        'https://toksave.online',
+        'https://thinhnt-mr.github.io',
+        'https://cron-job.org'
+    ]
 }));
-// API Proxy TikTok
+// Thêm route này vào server.js
+app.get('/', (req, res) => {
+    res.status(200).json({
+        status: 'OK',
+        message: 'TikTok Proxy Server is running',
+        timestamp: new Date().toISOString()
+    });
+});
+// Sửa lại phần API TikTok proxy
 app.get('/api/tiktok', async (req, res) => {
     const videoUrl = req.query.url;
     if (!videoUrl) {
         return res.status(400).json({ error: 'Thiếu URL video' });
     }
+
+    // Thêm timeout
+    const controller = new AbortController();
+    const timeout = setTimeout(() => {
+        controller.abort();
+    }, 8000); // 8 giây timeout
+
     try {
-        // Ghép URL chắc chắn đúng
         const apiUrl = `${TIKWM_API}/?url=${encodeURIComponent(videoUrl)}`;
-        console.log('Gọi API đến:', apiUrl); // Debug URL thực tế
         const response = await fetch(apiUrl, {
+            signal: controller.signal,
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
                 'Accept': 'application/json',
                 'Referer': 'https://tikwm.com/',
             },
         });
+
+        clearTimeout(timeout);
+
         if (!response.ok) {
             throw new Error(`API response status: ${response.status}`);
         }
         const data = await response.json();
         res.json(data);
     } catch (error) {
+        clearTimeout(timeout);
         console.error('Lỗi khi kết nối tới API Tikwm:', error);
-        res.status(500).json({ error: 'Lỗi khi kết nối API', message: error.message });
+        res.status(500).json({
+            error: 'Lỗi khi kết nối API',
+            message: error.message
+        });
     }
 });
 // Endpoint placeholder images
@@ -45,6 +70,11 @@ app.get('/api/placeholder/:width/:height', (req, res) => {
 // Phục vụ file tĩnh nếu cần
 app.use(express.static('public'));
 // Chạy server
-app.listen(PORT, () => {
-    console.log(`✅ Server proxy TikTok đang chạy tại http://localhost:${PORT}`);
+const server = app.listen(PORT, () => {
+    console.log(`✅ Server đang chạy tại http://localhost:${PORT}`);
+});
+
+process.on('SIGTERM', () => {
+    console.log('🛑 Server tắt do SIGTERM');
+    server.close(() => process.exit(0));
 });
