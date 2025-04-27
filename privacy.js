@@ -56,7 +56,6 @@ const translations = {
         'footer-disclaimer': 'Lưu ý: Đây không phải là sản phẩm chính thức của TikTok, vui lòng tải video với mục đích cá nhân.',
         'footer-copyright': '© 2025 TokSave. Tất cả các quyền được bảo lưu.'
     },
-
     en: {
         'title-Privacy': 'Last Updated: April 21, 2025',
         'title-Privacy1': '1. INTRODUCTION',
@@ -115,18 +114,15 @@ const translations = {
         'footer-copyright': '© 2025 TokSave. All rights reserved.'
     }
 };
-
 function changeLanguage(lang) {
     const t = translations[lang];
     if (!t) return;
-
     for (const key in t) {
         const el = document.getElementById(key);
         if (el) {
             el.innerText = t[key];
         }
     }
-
     // Update nút active (giống bên index.js)
     document.querySelectorAll(".language-btn").forEach(btn => {
         btn.classList.remove("active");
@@ -134,34 +130,27 @@ function changeLanguage(lang) {
             btn.classList.add("active");
         }
     });
-
     // Lưu ngôn ngữ vào localStorage nếu cần
     localStorage.setItem("lang", lang);
 }
-
 // Optional: auto-apply language on page load
 window.addEventListener("DOMContentLoaded", () => {
     const savedLang = localStorage.getItem("lang") || "vi";
     changeLanguage(savedLang);
 });
-
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
     const mobileMenu = document.querySelector('.mobile-menu');
     const header = document.querySelector('header');
-
     // Auto set chiều cao header vào CSS biến
     const headerHeight = header.offsetHeight;
     document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
-
     mobileMenuIcon.addEventListener('click', function() {
         mobileMenu.classList.toggle('active');
     });
-
     document.addEventListener('click', function(event) {
         const isClickInsideMenu = mobileMenu.contains(event.target);
         const isClickOnIcon = mobileMenuIcon.contains(event.target);
-
         if (!isClickInsideMenu && !isClickOnIcon) {
             mobileMenu.classList.remove('active');
         }

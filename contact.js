@@ -20,18 +20,15 @@ const translations = {
         'footer-copyright': '© 2025 TokSave. All rights reserved.',
     }
 };
-
 function changeLanguage(lang) {
     const t = translations[lang];
     if (!t) return;
-
     for (const key in t) {
         const el = document.getElementById(key);
         if (el) {
             el.innerText = t[key];
         }
     }
-
     // Update nút ngôn ngữ đang active
     document.querySelectorAll(".language-btn").forEach(btn => {
         btn.classList.remove("active");
@@ -39,19 +36,15 @@ function changeLanguage(lang) {
             btn.classList.add("active");
         }
     });
-
     // Lưu vào localStorage để dùng cho lần sau
     localStorage.setItem("lang", lang);
 }
-
 window.addEventListener("DOMContentLoaded", () => {
     const savedLang = localStorage.getItem("lang") || "vi";
     changeLanguage(savedLang);
 });
-
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("userForm");
-
     form.addEventListener("submit", function (event) {
         event.preventDefault(); // Ngăn trang reload
 
@@ -76,19 +69,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
     const mobileMenu = document.querySelector('.mobile-menu');
     const header = document.querySelector('header');
-
     // Auto set chiều cao header vào CSS biến
     const headerHeight = header.offsetHeight;
     document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
-
     mobileMenuIcon.addEventListener('click', function() {
         mobileMenu.classList.toggle('active');
     });
-
     document.addEventListener('click', function(event) {
         const isClickInsideMenu = mobileMenu.contains(event.target);
         const isClickOnIcon = mobileMenuIcon.contains(event.target);
-
         if (!isClickInsideMenu && !isClickOnIcon) {
             mobileMenu.classList.remove('active');
         }

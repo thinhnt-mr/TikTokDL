@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const downloadWithWatermark = document.getElementById('download-with-watermark');
     const downloadAudio = document.getElementById('download-audio');
     const downloadCover = document.getElementById('downloadCover');
-
     // Xử lý tải video
     downloadBtn.addEventListener('click', async function () {
         const url = videoUrlInput.value.trim();
@@ -17,38 +16,30 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Vui lòng nhập URL hợp lệ của TikTok');
             return;
         }
-
         loading.style.display = 'block';
         errorMessage.style.display = 'none';
         result.style.display = 'none';
-
         // Xóa thông tin profile cũ nếu có
         const existingProfile = document.getElementById('user-profile');
         if (existingProfile) {
             existingProfile.style.display = 'none';
         }
-
         try {
             const videoData = await downloadTikTokVideo(url);
             loading.style.display = 'none';
-
             if (videoData && videoData.data) {
                 displayUserProfile(videoData.data);
-
                 // Set video thumbnail
                 videoThumbnail.src = videoData.data.cover || '/api/placeholder/350/500';
                 videoThumbnail.alt = 'Video Thumbnail';
-
                 // Setup download buttons
                 setupDownloadButton(downloadNoWatermark, videoData.data.play, 'tiktok-no-watermark.mp4');
                 setupDownloadButton(downloadWithWatermark, videoData.data.wmplay, 'tiktok-with-watermark.mp4');
                 setupDownloadButton(downloadAudio, videoData.data.music, 'tiktok-audio.mp3');
-
                 // Đảm bảo downloadCover được định nghĩa trước khi sử dụng
                 if (downloadCover) {
                     setupDownloadButton(downloadCover, videoData.data.cover, 'tiktok-cover.jpg');
                 }
-
                 result.style.display = 'block';
             } else {
                 errorMessage.textContent = videoData.message || 'Không thể tải video. Vui lòng kiểm tra URL và thử lại.';
@@ -61,11 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
             errorMessage.style.display = 'block';
         }
     });
-
     // Thiết lập button tải
     function setupDownloadButton(button, url, filename) {
         if (!button) return;
-
         if (url) {
             button.onclick = e => {
                 e.preventDefault();
@@ -78,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function () {
             button.style.pointerEvents = 'none';
         }
     }
-
     // Escape HTML để chống XSS
     function escapeHTML(str) {
         if (!str) return '';
@@ -90,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
             "'": '&#039;',
         }[char]));
     }
-
     // Hiển thị profile người dùng
     function displayUserProfile(data) {
         let profileContainer = document.getElementById('user-profile');
@@ -99,11 +86,9 @@ document.addEventListener('DOMContentLoaded', function () {
             profileContainer.id = 'user-profile';
             result.parentNode.insertBefore(profileContainer, result);
         }
-
         const authorName = escapeHTML(data.author?.nickname || 'Unknown');
         const authorAvatar = data.author?.avatar || '/api/placeholder/80/80';
         const videoTitle = escapeHTML(data.title || '');
-
         profileContainer.innerHTML = `
         <div class="profile-container">
             <div class="profile-info">
@@ -117,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
         profileContainer.style.display = 'block';
     }
-
     // Gọi API backend
     async function downloadTikTokVideo(url) {
         try {
@@ -133,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return {error: true, message: `Lỗi server: ${err.message}`};
         }
     }
-
     // Tải file
     function downloadVideo(url, filename) {
         const a = document.createElement('a');
@@ -146,15 +129,13 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => document.body.removeChild(a), 100);
     }
 });
-
 // Define translations for all text elements
 const translations = {
     'vi': {
         'page-title': 'Tải Video TikTok Không Logo | Miễn Phí & Nhanh Chóng',
         'logo-text': 'TokSave',
         'cookie-h3': 'Chúng tôi sử dụng cookie!',
-        'cookie-title': 'Trang này sử dụng cookie để đảm bảo bạn có trải nghiệm tốt nhất trên trang web của chúng tôi.\n' +
-            'Bằng cách tiếp tục duyệt trang, bạn đồng ý với việc sử dụng cookie của chúng tôi. <a href="privacy.html">Tìm hiểu thêm',
+        'cookie-title': 'Trang này sử dụng cookie để đảm bảo bạn có trải nghiệm tốt nhất trên trang web của chúng tôi.\n' + 'Bằng cách tiếp tục duyệt trang, bạn đồng ý với việc sử dụng cookie của chúng tôi. <a href="privacy.html">Tìm hiểu thêm',
         'accept-cookies': 'Chấp nhận',
         'reject-cookies': 'Từ chối',
         'hero-title': 'Tải video Miễn Phí',
@@ -179,7 +160,6 @@ const translations = {
         'step2-desc': 'Dán liên kết video vào ô nhập liệu trên trang web của chúng tôi.',
         'step3-title': 'Tải xuống',
         'step3-desc': 'Nhấn nút "Tải xuống" và chọn định dạng bạn muốn tải video.',
-
         'step4-title': 'Lưu video TikTok trên điện thoại di động',
         'step4-desc': 'Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.',
         'step5-desc': 'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
@@ -187,13 +167,11 @@ const translations = {
         'step7-desc': 'Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.',
         'step8-desc': 'Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.',
         'step5-title': 'Lưu video TikTok không có logo trên máy tính',
-
         'step9-desc': 'Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >\n' + 'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
         'step10-desc': 'Chọn đến mục Sao chép liên kết để tiến hành lấy link video.',
         'step11-desc': 'Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "TokSave" để tải video.',
         'step12-desc': 'Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.',
         'step13-desc': 'Chờ một chút Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.',
-
         'step6-title': 'Tải Video TikTok không logo trên iPhone',
         'step14-desc': 'Nếu bạn đang dùng iPhone hoặc iPad bạn cũng có thể tải video TikTok miễn phí cho thiết bị Apple, nhưng bạn cần cài thêm ứng dụng Documents by Readdle trên App Store.',
         'step15-desc': 'Vì chính sách bảo mật của Apple, iOS từ phiên bản 12 trở nên sẽ không lưu được video từ TikTok trên trình duyệt.\n' + 'Hãy chép liên kết của một video bất kỳ trên TikTok, sau đó mở ứng dụng Documents by Readdle.',
@@ -231,8 +209,7 @@ const translations = {
         'page-title': 'Download TikTok Videos Without Logo | Free & Fast',
         'logo-text': 'TokSave',
         'cookie-h3': 'We use cookies!',
-        'cookie-title': 'This page uses cookies to ensure you have the best experience on our website.n' +
-            'By continuing to browse the page, you consent to our use of cookies. <a href="privacy.html">Learn More',
+        'cookie-title': 'This page uses cookies to ensure you have the best experience on our website.n' + 'By continuing to browse the page, you consent to our use of cookies. <a href="privacy.html">Learn More',
         'accept-cookies': 'Accept',
         'reject-cookies': 'reject',
         'hero-title': 'Download videos For Free',
@@ -263,19 +240,16 @@ const translations = {
         'step6-desc': 'Next, go to a TikTok video downloader website (such as TokSave).',
         'step7-desc': 'Paste the copied link into the input field on the website and tap “Download”.',
         'step8-desc': 'The video will appear on the screen > Choose a download method, tap the three-dot icon, and save the video.',
-
         'step5-title': 'Download TikTok Video Without Watermark on PC',
         'step9-desc': 'Open TikTok on your computer — you can use either the web platform or the TikTok desktop app. While watching the video, click the “Share” icon (a right-pointing arrow) and select “Copy Link”.',
         'step10-desc': 'Choose the “Copy Link” option to get the video URL.',
         'step11-desc': 'Since TikTok does not support no-watermark downloads natively, open a third-party tool like "TokSave" to proceed.',
         'step12-desc': 'Paste the copied link into the input field > Click Download.',
         'step13-desc': 'Wait a moment — the video will be displayed on the screen > Choose a download option, click the three-dot icon, and save the file.',
-
         'step6-title': 'Download TikTok Video Without Watermark on iPhone',
         'step14-desc': 'If you’re using an iPhone or iPad, you can also download TikTok videos for free on your Apple device, but you’ll need to install the “Documents by Readdle” app from the App Store.',
         'step15-desc': 'Due to Apple’s security policy, iOS 12 and above will not allow video downloads directly through the browser. Copy the link of any TikTok video, then open the Documents by Readdle app.',
         'step16-desc': 'In the bottom-right corner of the screen, you’ll find a browser icon. Tap on it to open the built-in browser.',
-
         'faq-title': 'Frequently Asked Questions',
         'faq-q1': 'Is TokSave completely free?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a1': 'Yes, TokSave is completely free to use. There are no hidden fees or download limits.',
@@ -306,12 +280,10 @@ const translations = {
         'footer-disclaimer': 'Disclaimer: This is not an official TikTok product. Please download videos for personal use only.',
     }
 };
-
 // Function to change language
 function changeLanguage(lang) {
     // Save the selected language in localStorage
     localStorage.setItem('selectedLanguage', lang);
-
     // Update button active states
     document.querySelectorAll('.language-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -339,13 +311,11 @@ function changeLanguage(lang) {
     function changeLanguage(lang) {
         // Lưu ngôn ngữ được chọn vào localStorage
         localStorage.setItem('selectedLanguage', lang);
-
         // Cập nhật trạng thái active của nút
         document.querySelectorAll('.language-btn').forEach(btn => {
             btn.classList.remove('active');
         });
         document.querySelector(`.language-btn[onclick="changeLanguage('${lang}')"]`).classList.add('active');
-
         // Thêm/xóa class trên header để thay đổi màu sắc
         const header = document.querySelector('header');
         if (lang === 'vi') {
@@ -360,26 +330,21 @@ function changeLanguage(lang) {
 document.addEventListener('DOMContentLoaded', function() {
     // Lấy tất cả các phần tử câu hỏi
     const faqQuestions = document.querySelectorAll('.faq-question');
-
     // Thêm sự kiện click cho mỗi câu hỏi
     faqQuestions.forEach(question => {
         // Lấy phần tử câu trả lời tương ứng
         const answer = question.nextElementSibling;
-
         // Thêm sự kiện click
         question.addEventListener('click', function() {
             // Kiểm tra trạng thái hiện tại
             const isActive = this.classList.contains('active');
-
             // Đóng tất cả các câu hỏi và câu trả lời đang mở
             document.querySelectorAll('.faq-question').forEach(q => {
                 q.classList.remove('active');
             });
-
             document.querySelectorAll('.faq-answer').forEach(a => {
                 a.classList.remove('active');
             });
-
             // Nếu câu hỏi chưa active, mở nó lên
             if (!isActive) {
                 this.classList.add('active');
@@ -387,7 +352,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
     // Xử lý click trực tiếp vào mũi tên
     document.querySelectorAll('.arrow').forEach(arrow => {
         arrow.addEventListener('click', function(e) {
@@ -395,32 +359,25 @@ document.addEventListener('DOMContentLoaded', function() {
             this.parentElement.click(); // Kích hoạt click trên phần tử cha
         });
     });
-
     // Hiệu ứng ripple khi click (tùy chọn)
     faqQuestions.forEach(question => {
         question.addEventListener('click', createRipple);
     });
-
     function createRipple(event) {
         const button = event.currentTarget;
-
         const circle = document.createElement('span');
         const diameter = Math.max(button.clientWidth, button.clientHeight);
         const radius = diameter / 2;
-
         circle.style.width = circle.style.height = `${diameter}px`;
         circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
         circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
         circle.classList.add('ripple');
-
         const ripple = button.querySelector('.ripple');
         if (ripple) {
             ripple.remove();
         }
-
         button.appendChild(circle);
     }
-
     // Thêm style cho hiệu ứng ripple
     const style = document.createElement('style');
     style.textContent = `
@@ -428,7 +385,6 @@ document.addEventListener('DOMContentLoaded', function() {
       position: relative;
       overflow: hidden;
     }
-    
     .ripple {
       position: absolute;
       background-color: rgba(0, 0, 0, 0.1);
@@ -437,7 +393,6 @@ document.addEventListener('DOMContentLoaded', function() {
       animation: ripple 0.6s linear;
       pointer-events: none;
     }
-    
     @keyframes ripple {
       to {
         transform: scale(4);
@@ -452,18 +407,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedLanguage = localStorage.getItem('selectedLanguage') || 'vi';
     changeLanguage(savedLanguage);
 });
-
 // Thêm vào đoạn chạy khi trang tải xong
 document.addEventListener('DOMContentLoaded', function() {
     const savedLanguage = localStorage.getItem('selectedLanguage') || 'vi';
     changeLanguage(savedLanguage);
 });
-
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
     const mobileMenu = document.querySelector('.mobile-menu');
     const header = document.querySelector('header');
-
     // Auto set chiều cao header vào CSS biến
     const headerHeight = header.offsetHeight;
     document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
@@ -471,7 +423,6 @@ document.addEventListener('DOMContentLoaded', function() {
     mobileMenuIcon.addEventListener('click', function() {
         mobileMenu.classList.toggle('active');
     });
-
     document.addEventListener('click', function(event) {
         const isClickInsideMenu = mobileMenu.contains(event.target);
         const isClickOnIcon = mobileMenuIcon.contains(event.target);
@@ -481,11 +432,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
 document.addEventListener('DOMContentLoaded', function() {
     const inputField = document.getElementById('video-url');
     const clearButton = document.getElementById('clear-input');
-
     // Hiển thị/ẩn nút X dựa vào nội dung input
     function updateClearButton() {
         if (inputField.value.length > 0) {
@@ -494,17 +443,14 @@ document.addEventListener('DOMContentLoaded', function() {
             clearButton.style.display = 'none';
         }
     }
-
     // Gọi hàm khi có thay đổi nội dung
     inputField.addEventListener('input', updateClearButton);
-
     // Xóa input khi nhấn nút X
     clearButton.addEventListener('click', function() {
         inputField.value = '';
         updateClearButton();
         inputField.focus();
     });
-
     // Khi người dùng nhấp vào ô input
     inputField.addEventListener('click', function() {
         // Chỉ paste khi ô input trống
@@ -522,51 +468,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         }
     });
-
     // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
     updateClearButton();
 });
-
 // Create additional circles dynamically for more variation
 document.addEventListener('DOMContentLoaded', function() {
     const background = document.querySelector('.animated-background');
-
     // Add 4 more circles with random positions and sizes
     for (let i = 0; i < 4; i++) {
         const circle = document.createElement('div');
         circle.className = 'circle';
-
         // Random size between 20px and 70px
         const size = Math.floor(Math.random() * 50) + 20;
-
         // Random position
         const top = Math.floor(Math.random() * 80) + 10;
         const left = Math.floor(Math.random() * 100);
-
         // Random animation duration
         const duration = Math.floor(Math.random() * 10) + 15;
-
         circle.style.width = size + 'px';
         circle.style.height = size + 'px';
         circle.style.top = top + '%';
         circle.style.left = left + '%';
         circle.style.animation = `moveCircle ${duration}s linear infinite`;
-
         background.appendChild(circle);
     }
 });
-
-window.addEventListener('DOMContentLoaded', function () {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.lordicon.com/lordicon.js';
-    document.body.appendChild(script);
-});
-
 // Kiểm tra xem người dùng đã chấp nhận cookie chưa
 function checkCookieConsent() {
     return localStorage.getItem('cookieConsent');
 }
-
 // Lấy giá trị cookie theo tên
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -574,31 +504,24 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
 }
-
 // Lưu lựa chọn của người dùng
 function saveCookieConsent(consent) {
     localStorage.setItem('cookieConsent', consent);
     document.getElementById('cookie-banner').style.display = 'none';
 }
-
 // Thiết lập cookie khi người dùng chấp nhận
 function setCookies() {
     const expiryDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
-
     // Cookie cơ bản
     document.cookie = "acceptCookies=true; expires=" + expiryDate + "; path=/";
-
     // Khởi tạo cookie cho lịch sử video đã tải
     if (!getCookie('downloadHistory')) {
         document.cookie = "downloadHistory=[]; expires=" + expiryDate + "; path=/";
     }
-
     // Khởi tạo cookie cho định dạng tải xuống ưa thích
     document.cookie = "preferredFormat=mp4; expires=" + expiryDate + "; path=/";
-
     // Khởi tạo cookie cho chất lượng video mặc định
     document.cookie = "preferredQuality=high; expires=" + expiryDate + "; path=/";
-
     // Cookie theo dõi sử dụng
     const currentUsage = getCookie('usageCount');
     if (currentUsage) {
@@ -606,17 +529,14 @@ function setCookies() {
     } else {
         document.cookie = "usageCount=1; expires=" + expiryDate + "; path=/";
     }
-
     // Cookie ghi nhớ thời gian truy cập cuối
     document.cookie = "lastVisit=" + new Date().toString() + "; expires=" + expiryDate + "; path=/";
 }
-
 // Thêm video vào lịch sử tải xuống
 function addToDownloadHistory(videoId, videoTitle, downloadDate) {
     if (checkCookieConsent() === 'accepted') {
         const history = getCookie('downloadHistory');
         let downloadHistory = [];
-
         if (history) {
             try {
                 downloadHistory = JSON.parse(history);
@@ -624,7 +544,6 @@ function addToDownloadHistory(videoId, videoTitle, downloadDate) {
                 downloadHistory = [];
             }
         }
-
         // Thêm thông tin video mới vào đầu mảng
         downloadHistory.unshift({
             id: videoId,
@@ -632,18 +551,15 @@ function addToDownloadHistory(videoId, videoTitle, downloadDate) {
             date: downloadDate || new Date().toString(),
             format: getCookie('preferredFormat') || 'mp4'
         });
-
         // Giới hạn lịch sử lưu tối đa 20 video
         if (downloadHistory.length > 20) {
             downloadHistory = downloadHistory.slice(0, 20);
         }
-
         // Lưu lại lịch sử
         const expiryDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
         document.cookie = "downloadHistory=" + JSON.stringify(downloadHistory) + "; expires=" + expiryDate + "; path=/";
     }
 }
-
 // Cập nhật định dạng tải xuống ưa thích
 function updatePreferredFormat(format) {
     if (checkCookieConsent() === 'accepted') {
@@ -651,7 +567,6 @@ function updatePreferredFormat(format) {
         document.cookie = "preferredFormat=" + format + "; expires=" + expiryDate + "; path=/";
     }
 }
-
 // Cập nhật chất lượng video ưa thích
 function updatePreferredQuality(quality) {
     if (checkCookieConsent() === 'accepted') {
@@ -659,7 +574,6 @@ function updatePreferredQuality(quality) {
         document.cookie = "preferredQuality=" + quality + "; expires=" + expiryDate + "; path=/";
     }
 }
-
 // Tăng số lần sử dụng
 function incrementUsageCount() {
     if (checkCookieConsent() === 'accepted') {
@@ -669,7 +583,6 @@ function incrementUsageCount() {
         document.cookie = "usageCount=" + newCount + "; expires=" + expiryDate + "; path=/";
     }
 }
-
 // Lấy lịch sử tải xuống
 function getDownloadHistory() {
     const history = getCookie('downloadHistory');
@@ -682,18 +595,15 @@ function getDownloadHistory() {
     }
     return [];
 }
-
 // Xử lý khi người dùng chấp nhận cookie
 document.getElementById('accept-cookies').addEventListener('click', function() {
     setCookies();
     saveCookieConsent('accepted');
 });
-
 // Xử lý khi người dùng từ chối cookie
 document.getElementById('reject-cookies').addEventListener('click', function() {
     saveCookieConsent('rejected');
 });
-
 // Hiển thị thông báo cookie nếu người dùng chưa có lựa chọn
 window.onload = function() {
     if (!checkCookieConsent()) {
@@ -705,13 +615,11 @@ window.onload = function() {
         const expiryDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
         document.cookie = "lastVisit=" + new Date().toString() + "; expires=" + expiryDate + "; path=/";
         incrementUsageCount();
-
         // Tải các tùy chọn người dùng từ cookie (nếu có)
         const preferredFormat = getCookie('preferredFormat');
         const preferredQuality = getCookie('preferredQuality');
     }
 };
-
 // Hàm ví dụ để hiển thị lịch sử tải xuống
 function displayDownloadHistory() {
     const historyContainer = document.getElementById('download-history');
@@ -732,18 +640,12 @@ function displayDownloadHistory() {
         }
     }
 }
-
 // Hàm ví dụ khi người dùng tải một video
-function downloadVideo(videoUrl, videoTitle) {
-    // Xử lý tải xuống video
-    // ...
-
+function saveDownloadHistory(videoUrl, videoTitle) {
     // Sau khi tải xuống thành công
     incrementUsageCount();
-
     // Tạo ID ngẫu nhiên cho video (trong thực tế bạn sẽ lấy từ URL TikTok)
     const videoId = 'tiktok_' + Math.random().toString(36).substr(2, 9);
-
     // Thêm vào lịch sử
     addToDownloadHistory(videoId, videoTitle, new Date().toString());
 }
