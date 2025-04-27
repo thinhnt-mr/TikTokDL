@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 const TIKWM_API = (process.env.TIKWM_API || 'https://tikwm.com/api').replace(/\/+$/, '');
 // Middleware CORS
 app.use(cors({
-    origin: 'https://thinhnt-mr.github.io',
+    origin: 'https://toksave.online',
 }));
 // API Proxy TikTok
 app.get('/api/tiktok', async (req, res) => {
