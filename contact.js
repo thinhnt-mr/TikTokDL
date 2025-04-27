@@ -7,7 +7,7 @@ const translations = {
         'submit': 'Gửi yêu cầu',
         'footer-tech': 'Tải video TikTok không có watermark nhanh chóng, đơn giản và hoàn toàn miễn phí.',
         'footer-disclaimer': 'Lưu ý: Đây không phải là sản phẩm chính thức của TikTok, vui lòng tải video với mục đích cá nhân.',
-        'footer-copyright': '© 2025 TikTokDL. Tất cả các quyền được bảo lưu.',
+        'footer-copyright': '© 2025 TokSave. Tất cả các quyền được bảo lưu.',
     },
     en: {
         'contact-description': 'Contact',
@@ -17,7 +17,7 @@ const translations = {
         'submit': 'Submit request',
         'footer-tech': 'Download TikTok videos without watermark quickly, easily, and completely free.',
         'footer-disclaimer': 'Note: This is not an official TikTok product. Please download videos for personal use only.',
-        'footer-copyright': '© 2025 TikTokDL. All rights reserved.',
+        'footer-copyright': '© 2025 TokSave. All rights reserved.',
     }
 };
 

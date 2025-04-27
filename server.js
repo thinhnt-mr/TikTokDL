@@ -12,7 +12,7 @@ const TIKWM_API = (process.env.TIKWM_API || 'https://tikwm.com/api').replace(/\/
 
 // Middleware CORS
 app.use(cors({
-    origin: '*',
+    origin: 'https://thinhnt-mr.github.io',
 }));
 
 // API Proxy TikTok
