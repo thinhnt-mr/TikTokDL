@@ -17,6 +17,7 @@ body {
     padding: 20px 0;
 }
 .blog-header, .blog-footer {
+    width: 100%;
     background: #fff;
     padding: 15px 0;
     text-align: center;
