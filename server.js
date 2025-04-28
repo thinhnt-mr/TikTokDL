@@ -1,13 +1,30 @@
+const path = require('path');
 require('dotenv').config();
 const express = require('express');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Cấu hình View Engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // Đặt thư mục chứa view
+
+app.get('/contact', (req, res) => {
+    res.render('contact', {
+        siteKey: process.env.RECAPTCHA_SITE_KEY
+    });
+});
+
+app.get('/contact.html', (req, res) => {
+    res.redirect(301, '/contact');
+});
+
 // Đảm bảo URL API chuẩn, xóa dấu '/' thừa cuối nếu có
 app.use('/sitemap.xml', express.static('sitemap.xml'));
 app.use('/robots.txt', express.static('robots.txt'));
 const TIKWM_API = (process.env.TIKWM_API || 'https://tikwm.com/api').replace(/\/+$/, '');
+
 // Middleware CORS
 app.use(cors({
     origin: [
@@ -16,6 +33,7 @@ app.use(cors({
         'https://cron-job.org'
     ]
 }));
+
 // Thêm route này vào server.js
 app.get('/', (req, res) => {
     res.status(200).json({
@@ -24,6 +42,7 @@ app.get('/', (req, res) => {
         timestamp: new Date().toISOString()
     });
 });
+
 // Sửa lại phần API TikTok proxy
 app.get('/api/tiktok', async (req, res) => {
     const videoUrl = req.query.url;
@@ -64,13 +83,16 @@ app.get('/api/tiktok', async (req, res) => {
         });
     }
 });
+
 // Endpoint placeholder images
 app.get('/api/placeholder/:width/:height', (req, res) => {
     const { width, height } = req.params;
     res.redirect(`https://via.placeholder.com/${width}x${height}`);
 });
+
 // Phục vụ file tĩnh nếu cần
 app.use(express.static('public'));
+
 // Chạy server
 const server = app.listen(PORT, () => {
     console.log(`✅ Server đang chạy tại http://localhost:${PORT}`);
