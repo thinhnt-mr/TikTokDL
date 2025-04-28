@@ -188,25 +188,3 @@ document.addEventListener('DOMContentLoaded', function() {
     // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
     updateClearButton();
 });
-// Create additional circles dynamically for more variation
-document.addEventListener('DOMContentLoaded', function() {
-    const background = document.querySelector('.animated-background');
-    // Add 4 more circles with random positions and sizes
-    for (let i = 0; i < 4; i++) {
-        const circle = document.createElement('div');
-        circle.className = 'circle';
-        // Random size between 20px and 70px
-        const size = Math.floor(Math.random() * 50) + 20;
-        // Random position
-        const top = Math.floor(Math.random() * 80) + 10;
-        const left = Math.floor(Math.random() * 100);
-        // Random animation duration
-        const duration = Math.floor(Math.random() * 10) + 15;
-        circle.style.width = size + 'px';
-        circle.style.height = size + 'px';
-        circle.style.top = top + '%';
-        circle.style.left = left + '%';
-        circle.style.animation = `moveCircle ${duration}s linear infinite`;
-        background.appendChild(circle);
-    }
-});

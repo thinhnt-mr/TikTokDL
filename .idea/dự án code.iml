@@ -15,5 +15,6 @@
     <orderEntry type="library" name="tsparticles" level="application" />
     <orderEntry type="library" name="lottie-web" level="application" />
     <orderEntry type="library" name="lordicon" level="application" />
+    <orderEntry type="library" name="canvas-confetti" level="application" />
   </component>
 </module>
