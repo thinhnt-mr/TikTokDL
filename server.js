@@ -5,6 +5,8 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 // Đảm bảo URL API chuẩn, xóa dấu '/' thừa cuối nếu có
+app.use('/sitemap.xml', express.static('sitemap.xml'));
+app.use('/robots.txt', express.static('robots.txt'));
 const TIKWM_API = (process.env.TIKWM_API || 'https://tikwm.com/api').replace(/\/+$/, '');
 // Middleware CORS
 app.use(cors({
