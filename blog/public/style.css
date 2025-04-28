@@ -1,0 +1,106 @@
+/* blog.css */
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+.logo{
+    background:linear-gradient(to right,#667eea, #ff0000, #764ba2);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px 0;
+}
+.blog-header, .blog-footer {
+    background: #fff;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.blog-header .logo {
+    font-size: 28px;
+    color: #ff0050;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.blog-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.main-title {
+    font-size: 30px;
+    color: #222;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.section-title {
+    font-size: 26px;
+    color: black;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.step-title {
+    font-size: 22px;
+    color: black;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.faq-title {
+    font-size: 20px;
+    color: #0066cc;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.breadcrumb {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.breadcrumb a {
+    color: #ff0050;
+    text-decoration: none;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+.image-wrapper {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.image-wrapper img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.blog-footer{
+    background: #333333;
+}
+footer p {
+    font-size: 14px;
+    color: #d0d0d0;
+}
+
