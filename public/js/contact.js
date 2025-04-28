@@ -39,3 +39,43 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.getElementById("userForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Lấy token CAPTCHA
+    const captchaToken = grecaptcha.getResponse();
+    if (!captchaToken) {
+        alert("Vui lòng xác nhận CAPTCHA!");
+        return;
+    }
+
+    // Thu thập dữ liệu form
+    const formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        content: document.getElementById("content").value,
+        "g-recaptcha-response": captchaToken
+    };
+
+    // Gửi dữ liệu đến Express backend
+    try {
+        const response = await fetch("/submit-form", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert("Gửi thành công!");
+            document.getElementById("userForm").reset();
+        } else {
+            alert(`Lỗi: ${result.message}`);
+        }
+    } catch (error) {
+        console.error("Lỗi khi gửi form:", error);
+        alert("Có lỗi xảy ra, vui lòng thử lại!");
+    } finally {
+        grecaptcha.reset(); // Reset CAPTCHA
+    }
+});

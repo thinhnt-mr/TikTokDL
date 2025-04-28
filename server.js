@@ -5,19 +5,46 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const axios = require("axios");
+const bodyParser = require("body-parser");
 
-// Cấu hình View Engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views')); // Đặt thư mục chứa view
+app.use(bodyParser.json());
+// Phục vụ file tĩnh nếu cần
+app.use(express.static('public'));
 
-app.get('/contact', (req, res) => {
-    res.render('contact', {
-        siteKey: process.env.RECAPTCHA_SITE_KEY
-    });
-});
+const RECAPTCHA_SECRET_KEY = "6LcRiScrAAAAAOXZfLjYIwEFdEnbDXQ-Oo8Fwcaf";
 
-app.get('/contact.html', (req, res) => {
-    res.redirect(301, '/contact');
+// Route xử lý form
+app.post("/submit-form", async (req, res) => {
+    const { name, email, content, "g-recaptcha-response": captchaToken } = req.body;
+
+    // Kiểm tra CAPTCHA với Google
+    try {
+        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET_KEY}&response=${captchaToken}`;
+        const captchaResponse = await axios.post(verifyUrl);
+
+        if (!captchaResponse.data.success) {
+            return res.status(400).json({
+                success: false,
+                message: "CAPTCHA không hợp lệ. Vui lòng thử lại!"
+            });
+        }
+
+        // Xử lý dữ liệu form ở đây (lưu vào DB, gửi email, etc.)
+        console.log("Dữ liệu hợp lệ:", { name, email, content });
+
+        res.json({
+            success: true,
+            message: "Form đã được gửi thành công!"
+        });
+
+    } catch (error) {
+        console.error("Lỗi xác minh CAPTCHA:", error);
+        res.status(500).json({
+            success: false,
+            message: "Lỗi server khi xử lý CAPTCHA"
+        });
+    }
 });
 
 // Đảm bảo URL API chuẩn, xóa dấu '/' thừa cuối nếu có
@@ -89,9 +116,6 @@ app.get('/api/placeholder/:width/:height', (req, res) => {
     const { width, height } = req.params;
     res.redirect(`https://via.placeholder.com/${width}x${height}`);
 });
-
-// Phục vụ file tĩnh nếu cần
-app.use(express.static('public'));
 
 // Chạy server
 const server = app.listen(PORT, () => {
