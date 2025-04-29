@@ -205,7 +205,7 @@ header{
     max-width:1100px;
     background-color:rgba(255, 255, 255, 0.97);
     color:#333;
-    padding:25px 30px;
+    padding:20px;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -229,9 +229,9 @@ header{
 }
 .cookie-content{
     flex: 1;
-    padding-right:40px;
+    padding: 10px;
 }
-.cookie-content h3{
+.cookie-content h2{
     margin-top:0;
     margin-bottom:12px;
     font-size:22px;

@@ -1,51 +1,57 @@
 const path = require('path');
 require('dotenv').config();
 const express = require('express');
+const bodyParser = require("body-parser");
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const axios = require("axios");
-const bodyParser = require("body-parser");
+const oneYear = 31536000000;
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// Phục vụ file tĩnh nếu cần
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-const RECAPTCHA_SECRET_KEY = "6LcRiScrAAAAAOXZfLjYIwEFdEnbDXQ-Oo8Fwcaf";
+app.post("/verify-captcha", async (req, res) => {
+    const recaptchaToken = req.body["g-recaptcha-response"];
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
-// Route xử lý form
-app.post("/submit-form", async (req, res) => {
-    const { name, email, content, "g-recaptcha-response": captchaToken } = req.body;
+    if (!recaptchaToken) {
+        return res.json({ success: false, message: "Vui lòng xác nhận CAPTCHA" });
+    }
 
-    // Kiểm tra CAPTCHA với Google
     try {
-        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET_KEY}&response=${captchaToken}`;
-        const captchaResponse = await axios.post(verifyUrl);
+        const response = await axios.post(
+            `https://www.google.com/recaptcha/api/siteverify`,
+            null,
+            {
+                params: {
+                    secret: secretKey,
+                    response: recaptchaToken
+                }
+            }
+        );
 
-        if (!captchaResponse.data.success) {
-            return res.status(400).json({
-                success: false,
-                message: "CAPTCHA không hợp lệ. Vui lòng thử lại!"
-            });
+        if (response.data.success) {
+            res.json({ success: true, message: "CAPTCHA hợp lệ!" });
+        } else {
+            res.json({ success: false, message: "Xác thực CAPTCHA thất bại!" });
         }
 
-        // Xử lý dữ liệu form ở đây (lưu vào DB, gửi email, etc.)
-        console.log("Dữ liệu hợp lệ:", { name, email, content });
-
-        res.json({
-            success: true,
-            message: "Form đã được gửi thành công!"
-        });
-
-    } catch (error) {
-        console.error("Lỗi xác minh CAPTCHA:", error);
-        res.status(500).json({
-            success: false,
-            message: "Lỗi server khi xử lý CAPTCHA"
-        });
+    } catch (err) {
+        res.json({ success: false, message: "Có lỗi khi kiểm tra CAPTCHA!" });
     }
 });
+
+app.use(express.static('public', {
+    maxAge: oneYear,
+    setHeaders: (res, path) => {
+        if (path.endsWith('.html')) {
+            res.setHeader('Cache-Control', 'no-cache'); // HTML không nên cache lâu
+        }
+    }
+}));
 
 // Đảm bảo URL API chuẩn, xóa dấu '/' thừa cuối nếu có
 app.use('/sitemap.xml', express.static('sitemap.xml'));
