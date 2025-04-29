@@ -48,7 +48,9 @@ app.use(express.static('public', {
     maxAge: oneYear,
     setHeaders: (res, path) => {
         if (path.endsWith('.html')) {
-            res.setHeader('Cache-Control', 'no-cache'); // HTML không nên cache lâu
+            res.setHeader('Cache-Control', 'no-cache');
+        } else {
+            res.setHeader('Cache-Control', 'public, max-age=31536000000, immutable');
         }
     }
 }));
