@@ -1,7 +1,7 @@
 // Define translations for all text elements
 const translations = {
     'vi': {
-        'page-title': 'Tải Video TikTok Không Logo Miễn Phí | TokSave Online',
+        'page-title': 'Tải Video TikTok Không Logo Miễn Phí | Tải Video TikTok Không Watermark nhanh chóng',
         'logo-text': 'TokSave',
         'cookie-h3': 'Chúng tôi sử dụng cookie!',
         'cookie-title': 'Trang này sử dụng cookie để đảm bảo bạn có trải nghiệm tốt nhất trên trang web của chúng tôi.\n' + 'Bằng cách tiếp tục duyệt trang, bạn đồng ý với việc sử dụng cookie của chúng tôi. <a href="privacy.html">Tìm hiểu thêm',
@@ -74,6 +74,7 @@ const translations = {
         'footer-copyright': '© 2025 TokSave. Tất cả các quyền được bảo lưu.',
         'footer-disclaimer': 'Lưu ý: Đây không phải là sản phẩm chính thức của TikTok, vui lòng tải video với mục đích cá nhân.',
 
+        'page-title-privacy': 'Chính Sách Bảo Mật Riêng Tư | Cam kết bảo vệ thông tin cá nhân',
         'title-Privacy': 'Cập Nhật Lần Cuối: Ngày 21 Tháng 4 Năm 2025',
         'title-Privacy1': '1. GIỚI THIỆU',
         'cte-Privacy': 'Chào mừng bạn đến với TokSave của chúng tôi. Tại TokSave, chúng tôi tôn trọng quyền riêng tư của bạn và cam kết bảo vệ thông tin cá nhân của bạn. Chính sách Bảo mật này giải thích cách chúng tôi thu thập, sử dụng, tiết lộ và bảo vệ thông tin của bạn khi bạn truy cập và sử dụng dịch vụ của chúng tôi.',
@@ -126,6 +127,7 @@ const translations = {
         'cte-Privacy14': 'Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào, hãy kéo xuống phần Liên hệ.',
         'cte-Privacy15': 'Lưu ý: TokSave chỉ là công cụ tải video cá nhân và không liên quan đến TikTok.',
 
+        'page-title-contact': 'Liên Hệ Với Chúng Tôi | Hỗ trợ giải đáp thắc mắc',
         'contact-description': 'Liên Hệ',
         'user-name': 'Họ và tên:*',
         'label-email': 'Địa chỉ email:*',
@@ -133,7 +135,7 @@ const translations = {
         'submit': 'Gửi yêu cầu',
     },
     'en': {
-        'page-title': 'Download TikTok Videos Without Watermark For Free | TokSave Online',
+        'page-title': 'Download TikTok Videos Without Logo for Free | Download TikTok Videos Without Watermark Quickly',
         'logo-text': 'TokSave',
         'cookie-h3': 'We use cookies!',
         'cookie-title': 'This page uses cookies to ensure you have the best experience on our website.n' + 'By continuing to browse the page, you consent to our use of cookies. <a href="privacy.html">Learn More',
@@ -206,6 +208,7 @@ const translations = {
         'footer-copyright': '© 2025 TokSave. All rights reserved.',
         'footer-disclaimer': 'Disclaimer: This is not an official TikTok product. Please download videos for personal use only.',
 
+        'page-title-privacy': 'Privacy Policy | Commitment to protect personal information',
         'title-Privacy': 'Last Updated: April 21, 2025',
         'title-Privacy1': '1. INTRODUCTION',
         'cte-Privacy': 'Welcome to TokSave. At TokSave, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.',
@@ -258,6 +261,7 @@ const translations = {
         'cte-Privacy14': 'If you have any questions or concerns, scroll down to the Contact section.',
         'cte-Privacy15': 'Note: TokSave is a personal video tool and is not affiliated with TikTok.',
 
+        'page-title-contact': 'Contact Us | Support for answering questions',
         'contact-description': 'Contact',
         'user-name': 'Full name:*',
         'label-email': 'Email Address:*',
