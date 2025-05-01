@@ -62,24 +62,10 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             button.style.opacity = '1';
             button.style.pointerEvents = 'auto';
-
-            // Tự động tải xuống nếu là máy tính (tùy chọn)
-            if (!/Mobi|Android/i.test(navigator.userAgent)) {
-                setTimeout(() => {
-                    button.click();
-                }, 300); // Chờ 300ms để đảm bảo mọi thứ đã sẵn sàng
-            }
         } else {
             button.style.opacity = '0.5';
             button.style.pointerEvents = 'none';
         }
-    }
-    function isMobileDevice() {
-        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    }
-
-    function isIOS() {
-        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
     // Escape HTML để chống XSS
     function escapeHTML(str) {
@@ -131,8 +117,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return {error: true, message: `Lỗi server: ${err.message}`};
         }
     }
+    // Tải file
     function downloadVideo(url, filename) {
-        // Tạo một thẻ <a> ẩn để kích hoạt tải xuống
         const a = document.createElement('a');
         a.href = url;
         a.download = filename;
@@ -141,20 +127,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.appendChild(a);
         a.click();
         setTimeout(() => document.body.removeChild(a), 100);
-
-        // Thêm fallback cho iOS nếu cần
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-            const iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            setTimeout(() => document.body.removeChild(iframe), 1000);
-        }
-        if (isIOS()) {
-            // Mở video trong tab mới và hướng dẫn người dùng lưu thủ công
-            window.open(url, '_blank');
-            alert('Trên iOS, vui lòng chạm và giữ video để lưu vào thư viện ảnh.');
-        }
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
