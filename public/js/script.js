@@ -62,10 +62,24 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             button.style.opacity = '1';
             button.style.pointerEvents = 'auto';
+
+            // Tự động tải xuống nếu là máy tính (tùy chọn)
+            if (!/Mobi|Android/i.test(navigator.userAgent)) {
+                setTimeout(() => {
+                    button.click();
+                }, 300); // Chờ 300ms để đảm bảo mọi thứ đã sẵn sàng
+            }
         } else {
             button.style.opacity = '0.5';
             button.style.pointerEvents = 'none';
         }
+    }
+    function isMobileDevice() {
+        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function isIOS() {
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
     // Escape HTML để chống XSS
     function escapeHTML(str) {
@@ -117,75 +131,31 @@ document.addEventListener('DOMContentLoaded', function () {
             return {error: true, message: `Lỗi server: ${err.message}`};
         }
     }
-    // Function tải video được cập nhật - Giải pháp đơn giản hơn
     function downloadVideo(url, filename) {
-        // Phương pháp đơn giản, hoạt động trực tiếp với hầu hết các trình duyệt di động
+        // Tạo một thẻ <a> ẩn để kích hoạt tải xuống
         const a = document.createElement('a');
         a.href = url;
         a.download = filename;
-        a.target = '_blank';
+        a.target = '_blank'; // Mở trong tab mới để tránh các vấn đề CORS
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => document.body.removeChild(a), 100);
 
-        // Thêm thuộc tính rel=noopener để tăng cường bảo mật
-        a.rel = 'noopener noreferrer';
-
-        // Hiển thị thông báo cho người dùng iOS
-        const userAgent = navigator.userAgent.toLowerCase();
-        const isIOS = /iphone|ipad|ipod/.test(userAgent);
-
-        if (isIOS) {
-            // Phương pháp thay thế cho iOS: mở URL trực tiếp
-            window.location.href = url;
-
-            // Hiển thị thông báo nhanh
-            const iosToast = document.createElement('div');
-            iosToast.className = 'ios-toast';
-            iosToast.textContent = 'Video đang được mở, nhấn "Tải xuống" khi được hỏi';
-            document.body.appendChild(iosToast);
-
-            // Ẩn thông báo sau 5 giây
-            setTimeout(() => {
-                iosToast.classList.add('fade-out');
-                setTimeout(() => document.body.removeChild(iosToast), 500);
-            }, 5000);
-        } else {
-            // Cho Android và các thiết bị khác
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => document.body.removeChild(a), 100);
+        // Thêm fallback cho iOS nếu cần
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            setTimeout(() => document.body.removeChild(iframe), 1000);
+        }
+        if (isIOS()) {
+            // Mở video trong tab mới và hướng dẫn người dùng lưu thủ công
+            window.open(url, '_blank');
+            alert('Trên iOS, vui lòng chạm và giữ video để lưu vào thư viện ảnh.');
         }
     }
-
-    // Thêm CSS cho thông báo toast trên iOS
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-    .ios-toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    z-index: 9999;
-    max-width: 90%;
-    text-align: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translate(-50%, 20px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
-}
-
-.ios-toast.fade-out {
-    opacity: 0;
-    transition: opacity 0.5s ease-out;
-}
-`;
-    document.head.appendChild(styleElement);
 });
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
