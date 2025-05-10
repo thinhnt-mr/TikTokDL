@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const downloadWithWatermark = document.getElementById('download-with-watermark');
     const downloadAudio = document.getElementById('download-audio');
     const downloadCover = document.getElementById('downloadCover');
-
     // Xử lý tải video
     downloadBtn.addEventListener('click', async function () {
         const url = videoUrlInput.value.trim();
@@ -33,57 +32,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Set video thumbnail
                 videoThumbnail.src = videoData.data.cover || '/api/placeholder/350/500';
                 videoThumbnail.alt = 'Video Thumbnail';
-
-                // Setup download buttons với URL proxy server để ẩn URL gốc
-                if (videoData.data.play) {
-                    setupProxyDownload(downloadNoWatermark, videoData.data.play, 'nowm');
-                    downloadNoWatermark.style.opacity = '1';
-                    downloadNoWatermark.style.pointerEvents = 'auto';
-                } else {
-                    downloadNoWatermark.style.opacity = '0.5';
-                    downloadNoWatermark.style.pointerEvents = 'none';
-                }
-
-                if (videoData.data.wmplay) {
-                    setupProxyDownload(downloadWithWatermark, videoData.data.wmplay, 'wm');
-                    downloadWithWatermark.style.opacity = '1';
-                    downloadWithWatermark.style.pointerEvents = 'auto';
-                } else {
-                    downloadWithWatermark.style.opacity = '0.5';
-                    downloadWithWatermark.style.pointerEvents = 'none';
-                }
-
-                if (videoData.data.music) {
-                    setupProxyDownload(downloadAudio, videoData.data.music, 'audio');
-                    downloadAudio.style.opacity = '1';
-                    downloadAudio.style.pointerEvents = 'auto';
-                } else {
-                    downloadAudio.style.opacity = '0.5';
-                    downloadAudio.style.pointerEvents = 'none';
-                }
-
+                // Setup download buttons
+                setupDownloadButton(downloadNoWatermark, videoData.data.play, 'tiktok-no-watermark.mp4');
+                setupDownloadButton(downloadWithWatermark, videoData.data.wmplay, 'tiktok-with-watermark.mp4');
+                setupDownloadButton(downloadAudio, videoData.data.music, 'tiktok-audio.mp3');
                 // Đảm bảo downloadCover được định nghĩa trước khi sử dụng
-                if (downloadCover && videoData.data.cover) {
-                    setupProxyDownload(downloadCover, videoData.data.cover, 'cover');
-                    downloadCover.style.opacity = '1';
-                    downloadCover.style.pointerEvents = 'auto';
-                } else if (downloadCover) {
-                    downloadCover.style.opacity = '0.5';
-                    downloadCover.style.pointerEvents = 'none';
+                if (downloadCover) {
+                    setupDownloadButton(downloadCover, videoData.data.cover, 'tiktok-cover.jpg');
                 }
-
                 result.style.display = 'block';
-
-                // Xóa URL từ ô input sau khi tải thành công
-                videoUrlInput.value = '';
-                // Cập nhật nút clear input
-                updateClearButton();
-
-                // Thay đổi URL trang web để ẩn URL video gốc
-                if (window.history && window.history.pushState) {
-                    const newUrl = window.location.pathname;
-                    window.history.pushState({}, document.title, newUrl);
-                }
             } else {
                 errorMessage.textContent = videoData.message || 'Không thể tải video. Vui lòng kiểm tra URL và thử lại.';
                 errorMessage.style.display = 'block';
@@ -95,30 +52,21 @@ document.addEventListener('DOMContentLoaded', function () {
             errorMessage.style.display = 'block';
         }
     });
-
-    // Thiết lập button tải qua proxy server để ẩn URL gốc
-    function setupProxyDownload(button, url, type) {
+    // Thiết lập button tải
+    function setupDownloadButton(button, url, filename) {
         if (!button) return;
-
-        button.onclick = function(e) {
-            e.preventDefault();
-
-            // Tạo URL proxy và thêm tham số URL gốc
-            const proxyUrl = `/proxy/video/${type}?url=${encodeURIComponent(url)}`;
-
-            // Sử dụng iframe ẩn để tải xuống mà không hiển thị URL gốc trên thanh địa chỉ
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = proxyUrl;
-            document.body.appendChild(iframe);
-
-            // Xóa iframe sau khi đã tải xuống
-            setTimeout(() => {
-                document.body.removeChild(iframe);
-            }, 5000);
-        };
+        if (url) {
+            button.onclick = e => {
+                e.preventDefault();
+                downloadVideo(url, filename);
+            };
+            button.style.opacity = '1';
+            button.style.pointerEvents = 'auto';
+        } else {
+            button.style.opacity = '0.5';
+            button.style.pointerEvents = 'none';
+        }
     }
-
     // Escape HTML để chống XSS
     function escapeHTML(str) {
         if (!str) return '';
@@ -130,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
             "'": '&#039;',
         }[char]));
     }
-
     // Hiển thị profile người dùng
     function displayUserProfile(data) {
         let profileContainer = document.getElementById('user-profile');
@@ -155,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
         profileContainer.style.display = 'block';
     }
-
     // Gọi API backend
     async function downloadTikTokVideo(url) {
         try {
@@ -171,79 +117,74 @@ document.addEventListener('DOMContentLoaded', function () {
             return {error: true, message: `Lỗi server: ${err.message}`};
         }
     }
-
-    // Hàm thực hiện việc tải file đã được di chuyển vào setupProxyDownload
-
-    // Xử lý menu mobile
+    // Tải file
+    function downloadVideo(url, filename) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.target = '_blank'; // Mở trong tab mới để tránh các vấn đề CORS
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => document.body.removeChild(a), 100);
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
     const mobileMenu = document.querySelector('.mobile-menu');
     const header = document.querySelector('header');
-
     // Auto set chiều cao header vào CSS biến
-    if (header) {
-        const headerHeight = header.offsetHeight;
-        document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
-    }
+    const headerHeight = header.offsetHeight;
+    document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
 
-    if (mobileMenuIcon && mobileMenu) {
-        mobileMenuIcon.addEventListener('click', function() {
-            mobileMenu.classList.toggle('active');
-        });
+    mobileMenuIcon.addEventListener('click', function() {
+        mobileMenu.classList.toggle('active');
+    });
+    document.addEventListener('click', function(event) {
+        const isClickInsideMenu = mobileMenu.contains(event.target);
+        const isClickOnIcon = mobileMenuIcon.contains(event.target);
 
-        document.addEventListener('click', function(event) {
-            const isClickInsideMenu = mobileMenu.contains(event.target);
-            const isClickOnIcon = mobileMenuIcon.contains(event.target);
-
-            if (!isClickInsideMenu && !isClickOnIcon) {
-                mobileMenu.classList.remove('active');
-            }
-        });
-    }
-
-    // Xử lý clear input button
+        if (!isClickInsideMenu && !isClickOnIcon) {
+            mobileMenu.classList.remove('active');
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const inputField = document.getElementById('video-url');
     const clearButton = document.getElementById('clear-input');
-
     // Hiển thị/ẩn nút X dựa vào nội dung input
     function updateClearButton() {
-        if (clearButton) {
-            if (videoUrlInput.value.length > 0) {
-                clearButton.style.display = 'block';
-            } else {
-                clearButton.style.display = 'none';
-            }
+        if (inputField.value.length > 0) {
+            clearButton.style.display = 'block';
+        } else {
+            clearButton.style.display = 'none';
         }
     }
-
     // Gọi hàm khi có thay đổi nội dung
-    if (videoUrlInput && clearButton) {
-        videoUrlInput.addEventListener('input', updateClearButton);
-
-        // Xóa input khi nhấn nút X
-        clearButton.addEventListener('click', function() {
-            videoUrlInput.value = '';
-            updateClearButton();
-            videoUrlInput.focus();
-        });
-
-        // Khi người dùng nhấp vào ô input
-        videoUrlInput.addEventListener('click', function() {
-            // Chỉ paste khi ô input trống
-            if (videoUrlInput.value === '') {
-                navigator.clipboard.readText()
-                    .then(text => {
-                        if (text) {
-                            videoUrlInput.value = text;
-                            // Quan trọng: Cập nhật trạng thái nút xóa sau khi dán
-                            updateClearButton();
-                        }
-                    })
-                    .catch(err => {
-                        console.log('Không thể truy cập clipboard');
-                    });
-            }
-        });
-
-        // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
+    inputField.addEventListener('input', updateClearButton);
+    // Xóa input khi nhấn nút X
+    clearButton.addEventListener('click', function() {
+        inputField.value = '';
         updateClearButton();
-    }
+        inputField.focus();
+    });
+    // Khi người dùng nhấp vào ô input
+    inputField.addEventListener('click', function() {
+        // Chỉ paste khi ô input trống
+        if (inputField.value === '') {
+            navigator.clipboard.readText()
+                .then(text => {
+                    if (text) {
+                        inputField.value = text;
+                        // Quan trọng: Cập nhật trạng thái nút xóa sau khi dán
+                        updateClearButton();
+                    }
+                })
+                .catch(err => {
+                    console.log('Không thể truy cập clipboard');
+                });
+        }
+    });
+    // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
+    updateClearButton();
 });

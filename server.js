@@ -119,50 +119,6 @@ app.get('/api/tiktok', async (req, res) => {
     }
 });
 
-// Thêm proxy endpoint để phục vụ video
-app.get('/proxy/video/:type', async (req, res) => {
-    const videoUrl = req.query.url;
-    const type = req.params.type; // Loại: nowm, wm, audio, cover
-
-    if (!videoUrl) {
-        return res.status(400).send('Missing URL parameter');
-    }
-
-    try {
-        const response = await axios({
-            method: 'get',
-            url: videoUrl,
-            responseType: 'stream'
-        });
-
-        // Set Content-Type header based on type
-        if (type === 'audio') {
-            res.setHeader('Content-Type', 'audio/mpeg');
-            res.setHeader('Content-Disposition', 'attachment; filename="tiktok-audio.mp3"');
-        } else if (type === 'cover') {
-            res.setHeader('Content-Type', 'image/jpeg');
-            res.setHeader('Content-Disposition', 'attachment; filename="tiktok-cover.jpg"');
-        } else {
-            res.setHeader('Content-Type', 'video/mp4');
-            const filename = type === 'wm' ? 'tiktok-with-watermark.mp4' : 'tiktok-no-watermark.mp4';
-            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-        }
-
-        // Forward all headers from the source
-        for (const [key, value] of Object.entries(response.headers)) {
-            if (key.toLowerCase() !== 'content-type' && key.toLowerCase() !== 'content-disposition') {
-                res.setHeader(key, value);
-            }
-        }
-
-        // Pipe the response stream to our response
-        response.data.pipe(res);
-    } catch (error) {
-        console.error('Proxy error:', error);
-        res.status(500).send('Error proxying content');
-    }
-});
-
 // Endpoint placeholder images
 app.get('/api/placeholder/:width/:height', (req, res) => {
     const { width, height } = req.params;

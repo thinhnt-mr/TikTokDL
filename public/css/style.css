@@ -71,10 +71,9 @@ header{
 }
 .mobile-menu{
     position:fixed;
-    top:var(70px); /* mặc định 70px, hoặc set biến dynamic */
     left:0;
-    width:100%;
-    height:calc(100vh - var( 70px));
+    width:50%;
+    height:100vh;
     background-color:white;
     z-index:999;
     transform:translateY(-100%);
@@ -84,6 +83,7 @@ header{
     overflow-y:auto;
 }
 .mobile-menu.active{
+    padding-top: 50px;
     transform:translateY(0);
     opacity:1;
     pointer-events:auto;
@@ -146,6 +146,14 @@ header{
     }
     .desktop-menu{
         display:none;
+    }
+    .mobile-menu{
+        display: flex;
+        flex-direction:column;
+        justify-content:space-between;
+    }
+    .version{
+        opacity: 60%;
     }
     .mobile-menu-icon{
         display:block;
