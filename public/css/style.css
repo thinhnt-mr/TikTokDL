@@ -76,7 +76,7 @@ header{
     position:fixed;
     left:0;
     width:50%;
-    height:100vh;
+    height:95vh;
     background-color:white;
     z-index:999;
     transform:translateY(-100%);
@@ -153,10 +153,14 @@ header{
     .mobile-menu{
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: space-between;
     }
     .mobile-menu-icon{
         display:block;
+    }
+    .version {
+        padding: 25px;
+        opacity: 60%;
     }
     .input-group{
         flex-direction:column;
