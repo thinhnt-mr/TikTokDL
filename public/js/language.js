@@ -71,7 +71,7 @@ const translations = {
         'faq-q12': 'Tải video không có watermark có hợp pháp không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a12': 'Có, tải video TikTok để sử dụng cá nhân là hợp pháp. Tuy nhiên, hãy tôn trọng quyền sở hữu trí tuệ và không sử dụng video cho mục đích thương mại mà không có sự cho phép từ chủ sở hữu nội dung.',
         'footer-tech': 'Tải video TikTok không có watermark nhanh chóng, đơn giản và hoàn toàn miễn phí.',
-        'footer-copyright': '© 2025 TokSave. Tất cả các quyền được bảo lưu.',
+        'footer-copyright': '© 2025 TokSave. Bảo lưu mọi quyền.',
         'footer-disclaimer': 'Lưu ý: Đây không phải là sản phẩm chính thức của TikTok, vui lòng tải video với mục đích cá nhân.',
 
         'page-title-privacy': 'Chính Sách Bảo Mật Riêng Tư | Cam kết bảo vệ thông tin cá nhân',
