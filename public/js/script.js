@@ -130,22 +130,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuIcon = document.querySelector('.mobile-menu-btn');
+    const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
+    const hamburgerIcon = document.querySelector('.hamburger-icon');
     const mobileMenu = document.querySelector('.mobile-menu');
     const header = document.querySelector('header');
-    // Auto set chiều cao header vào CSS biến
+
+    // Auto set header height into CSS variable
     const headerHeight = header.offsetHeight;
     document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
 
+    // Toggle menu and icon animation
     mobileMenuIcon.addEventListener('click', function() {
         mobileMenu.classList.toggle('active');
+        hamburgerIcon.classList.toggle('active');
     });
+
+    // Close menu and reset icon when clicking outside
     document.addEventListener('click', function(event) {
         const isClickInsideMenu = mobileMenu.contains(event.target);
         const isClickOnIcon = mobileMenuIcon.contains(event.target);
 
         if (!isClickInsideMenu && !isClickOnIcon) {
             mobileMenu.classList.remove('active');
+            hamburgerIcon.classList.remove('active');
         }
     });
 });

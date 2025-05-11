@@ -65,56 +65,12 @@ header{
 .desktop-menu .menu-link:hover{
     background-color:#f4f4f4;
 }
-.mobile-menu-btn {
-    display: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-.menu-icon {
-    width: 30px;
-    height: 24px;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.menu-icon span {
-    display: block;
-    position: absolute;
-    height: 3px;
-    width: 100%;
-    background: var(--dark);
-    border-radius: 3px;
-    opacity: 1;
-    left: 0;
-    transform: rotate(0deg);
-    transition: all 0.3s ease;
-}
-
-.menu-icon span:nth-child(1) {
-    top: 0px;
-}
-
-.menu-icon span:nth-child(2) {
-    top: 10px;
-}
-
-.menu-icon span:nth-child(3) {
-    top: 20px;
-}
-
-.menu-icon.active span:nth-child(1) {
-    top: 10px;
-    transform: rotate(135deg);
-}
-
-.menu-icon.active span:nth-child(2) {
-    opacity: 0;
-    left: -60px;
-}
-
-.menu-icon.active span:nth-child(3) {
-    top: 10px;
-    transform: rotate(-135deg);
+/* Mobile menu icon */
+.mobile-menu-icon{
+    display:none;
+    cursor:pointer;
+    font-size:24px;
+    color:black;
 }
 .mobile-menu{
     position:fixed;
@@ -151,55 +107,6 @@ header{
 }
 /* Media query for mobile */
 @media (max-width: 768px){
-    .mobile-menu-btn {
-        display: block;
-    }
-    .menu-icon {
-        width: 30px;
-        height: 24px;
-        position: relative;
-        transition: all 0.3s ease;
-    }
-
-    .menu-icon span {
-        display: block;
-        position: absolute;
-        height: 3px;
-        width: 100%;
-        background: var(--dark);
-        border-radius: 3px;
-        opacity: 1;
-        left: 0;
-        transform: rotate(0deg);
-        transition: all 0.3s ease;
-    }
-
-    .menu-icon span:nth-child(1) {
-        top: 0;
-    }
-
-    .menu-icon span:nth-child(2) {
-        top: 10px;
-    }
-
-    .menu-icon span:nth-child(3) {
-        top: 20px;
-    }
-
-    .menu-icon.active span:nth-child(1) {
-        top: 10px;
-        transform: rotate(135deg);
-    }
-
-    .menu-icon.active span:nth-child(2) {
-        opacity: 0;
-        left: -60px;
-    }
-
-    .menu-icon.active span:nth-child(3) {
-        top: 10px;
-        transform: rotate(-135deg);
-    }
     #cookie-banner{
         flex-direction:column;
         align-items:flex-start;
@@ -247,6 +154,43 @@ header{
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+    }
+    .mobile-menu-icon{
+        display:block;
+    }
+    /* Animated hamburger menu icon */
+    .hamburger-icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .hamburger-icon .line {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: black;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+    }
+
+    /* Animation for hamburger to X */
+    .hamburger-icon.active .line-1 {
+        transform: translateY(8.5px) rotate(45deg);
+        background-color: var(--primary);
+    }
+
+    .hamburger-icon.active .line-2 {
+        opacity: 0;
+    }
+
+    .hamburger-icon.active .line-3 {
+        transform: translateY(-8.5px) rotate(-45deg);
+        background-color: var(--primary);
     }
     .version {
         padding: 25px;
