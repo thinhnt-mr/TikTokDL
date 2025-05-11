@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
+    const mobileMenuIcon = document.querySelector('.mobile-menu-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
     const header = document.querySelector('header');
     // Auto set chiều cao header vào CSS biến
