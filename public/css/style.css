@@ -185,6 +185,7 @@ header{
     }
 
     .hamburger-icon.active .line-2 {
+        transform: translateX(-15px);
         opacity: 0;
     }
 
@@ -327,7 +328,10 @@ header{
     box-shadow:0 4px 12px rgba(0, 0, 0, 0.08);
 }
 footer{
-    background-color:#000000;
+    background-image: url("image/sao.jpg");
+    background-size: cover;
+    background-color: #f5f5f5;
+    background-position: center;
     color:white;
     padding:25px 0;
     text-align:center;
