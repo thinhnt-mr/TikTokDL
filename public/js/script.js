@@ -122,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const a = document.createElement('a');
         a.href = url;
         a.download = filename;
+        a.target = '_self';
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
