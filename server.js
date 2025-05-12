@@ -77,16 +77,22 @@ app.get('/api/download', async (req, res) => {
     if (!fileUrl) return res.status(400).send('Thiếu URL');
 
     try {
-        https.get(fileUrl, (fileRes) => {
-            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-            res.setHeader('Content-Type', 'application/octet-stream');
-            fileRes.pipe(res);
-        }).on('error', (err) => {
-            console.error('Proxy lỗi:', err);
-            res.status(500).send('Không thể tải file');
+        const response = await fetch(fileUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0', // Quan trọng
+            }
         });
+
+        if (!response.ok) {
+            console.error('Lỗi khi fetch file:', response.status, await response.text());
+            return res.status(500).send('Không thể tải file');
+        }
+
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-Type', 'application/octet-stream');
+        response.body.pipe(res);
     } catch (error) {
-        console.error('Lỗi:', error);
+        console.error('Lỗi server:', error);
         res.status(500).send('Lỗi server');
     }
 });
