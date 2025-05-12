@@ -38,27 +38,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-document.getElementById("userForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const captchaResponse = grecaptcha.getResponse();
-    if (!captchaResponse) {
-        alert("Vui lòng xác nhận CAPTCHA!");
-        return;
-    }
-
-    const res = await fetch("/verify-captcha", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ "g-recaptcha-response": captchaResponse })
-    });
-
-    const data = await res.json();
-    if (data.success) {
-        alert("Gửi form thành công!");
-        // Ở đây thêm đoạn gửi dữ liệu form đi tiếp nếu muốn
-    } else {
-        alert(data.message);
-    }
-});

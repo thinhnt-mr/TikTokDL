@@ -76,7 +76,7 @@ header{
     position:fixed;
     left:0;
     width:60%;
-    height:95vh;
+    height:95%;
     background-color:white;
     z-index:999;
     transform:translateY(-100%);
@@ -328,7 +328,7 @@ header{
     box-shadow:0 4px 12px rgba(0, 0, 0, 0.08);
 }
 footer{
-    background-color:#000000;
+    background-color:#1d1c1c;
     color:white;
     padding:25px 0;
     text-align:center;

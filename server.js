@@ -1,59 +1,10 @@
 const path = require('path');
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require("body-parser");
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const axios = require("axios");
-const oneYear = 31536000000;
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static("public"));
-
-app.post("/verify-captcha", async (req, res) => {
-    const recaptchaToken = req.body["g-recaptcha-response"];
-    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-
-    if (!recaptchaToken) {
-        return res.json({ success: false, message: "Vui lòng xác nhận CAPTCHA" });
-    }
-
-    try {
-        const response = await axios.post(
-            `https://www.google.com/recaptcha/api/siteverify`,
-            null,
-            {
-                params: {
-                    secret: secretKey,
-                    response: recaptchaToken
-                }
-            }
-        );
-
-        if (response.data.success) {
-            res.json({ success: true, message: "CAPTCHA hợp lệ!" });
-        } else {
-            res.json({ success: false, message: "Xác thực CAPTCHA thất bại!" });
-        }
-
-    } catch (err) {
-        res.json({ success: false, message: "Có lỗi khi kiểm tra CAPTCHA!" });
-    }
-});
-
-app.use(express.static('public', {
-    maxAge: oneYear,
-    setHeaders: (res, path) => {
-        if (path.endsWith('.html')) {
-            res.setHeader('Cache-Control', 'no-cache');
-        } else {
-            res.setHeader('Cache-Control', 'public, max-age=31536000000, immutable');
-        }
-    }
-}));
 
 // Đảm bảo URL API chuẩn, xóa dấu '/' thừa cuối nếu có
 app.use('/sitemap.xml', express.static('sitemap.xml'));

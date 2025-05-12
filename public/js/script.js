@@ -122,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const a = document.createElement('a');
         a.href = url;
         a.download = filename;
-        a.target = '_blank'; // Mở trong tab mới để tránh các vấn đề CORS
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
