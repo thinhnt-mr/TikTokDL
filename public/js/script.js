@@ -119,10 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // Tải file
     function downloadVideo(url, filename) {
+        const proxyUrl = `https://toksave-server.onrender.com/api/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename)}`;
         const a = document.createElement('a');
-        a.href = url;
+        a.href = proxyUrl;
         a.download = filename;
-        a.target = '_self';
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();

@@ -70,6 +70,27 @@ app.get('/api/tiktok', async (req, res) => {
     }
 });
 
+app.get('/api/download', async (req, res) => {
+    const fileUrl = req.query.url;
+    const filename = req.query.filename || 'download.mp4';
+
+    if (!fileUrl) return res.status(400).send('Thiếu URL');
+
+    try {
+        https.get(fileUrl, (fileRes) => {
+            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+            res.setHeader('Content-Type', 'application/octet-stream');
+            fileRes.pipe(res);
+        }).on('error', (err) => {
+            console.error('Proxy lỗi:', err);
+            res.status(500).send('Không thể tải file');
+        });
+    } catch (error) {
+        console.error('Lỗi:', error);
+        res.status(500).send('Lỗi server');
+    }
+});
+
 // Endpoint placeholder images
 app.get('/api/placeholder/:width/:height', (req, res) => {
     const { width, height } = req.params;
