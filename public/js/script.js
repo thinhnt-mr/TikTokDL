@@ -16,30 +16,34 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Vui lòng nhập URL hợp lệ của TikTok');
             return;
         }
+
         loading.style.display = 'block';
         errorMessage.style.display = 'none';
         result.style.display = 'none';
-        // Xóa thông tin profile cũ nếu có
+
         const existingProfile = document.getElementById('user-profile');
         if (existingProfile) {
             existingProfile.style.display = 'none';
         }
+
         try {
             const videoData = await downloadTikTokVideo(url);
             loading.style.display = 'none';
             if (videoData && videoData.data) {
                 displayUserProfile(videoData.data);
-                // Set video thumbnail
+
                 videoThumbnail.src = videoData.data.cover || '/api/placeholder/350/500';
                 videoThumbnail.alt = 'Video Thumbnail';
+
                 // Setup download buttons
                 setupDownloadButton(downloadNoWatermark, videoData.data.play, 'tiktok-no-watermark.mp4');
                 setupDownloadButton(downloadWithWatermark, videoData.data.wmplay, 'tiktok-with-watermark.mp4');
                 setupDownloadButton(downloadAudio, videoData.data.music, 'tiktok-audio.mp3');
-                // Đảm bảo downloadCover được định nghĩa trước khi sử dụng
+
                 if (downloadCover) {
                     setupDownloadButton(downloadCover, videoData.data.cover, 'tiktok-cover.jpg');
                 }
+
                 result.style.display = 'block';
             } else {
                 errorMessage.textContent = videoData.message || 'Không thể tải video. Vui lòng kiểm tra URL và thử lại.';
@@ -52,13 +56,26 @@ document.addEventListener('DOMContentLoaded', function () {
             errorMessage.style.display = 'block';
         }
     });
-    // Thiết lập button tải
+    // Thiết lập button tải hoặc xem ảnh
     function setupDownloadButton(button, url, filename) {
         if (!button) return;
         if (url) {
+            const isImage = /\.(jpg|jpeg|png)$/i.test(filename);
             button.onclick = e => {
                 e.preventDefault();
-                downloadVideo(url, filename);
+                if (isImage) {
+                    window.open(url, '_blank'); // Mở ảnh ở tab mới để xem trước
+                } else {
+                    // Gọi endpoint proxy tải file để ép tải về
+                    const proxyUrl = `https://toksave-server.onrender.com/api/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename)}`;
+                    const a = document.createElement('a');
+                    a.href = proxyUrl;
+                    a.download = filename;
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => document.body.removeChild(a), 100);
+                }
             };
             button.style.opacity = '1';
             button.style.pointerEvents = 'auto';
