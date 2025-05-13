@@ -309,10 +309,12 @@
 }
 .text-content{
     flex:1;
-    padding:0;
+    padding:5px;
 }
 .text-content a{
     text-decoration:none;
+    font-size: 20px;
+    font-weight:550;
 }
 .text-content a:hover{
     text-decoration:underline;
@@ -382,7 +384,7 @@
     margin-bottom:20px;
 }
 .text-content p{
-    font-size:18px;
+    font-size:17px;
     line-height:1.6;
     margin-bottom:15px;
 }
