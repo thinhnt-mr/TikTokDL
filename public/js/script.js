@@ -278,6 +278,9 @@ function addCommentToDOM(comment, hidden) {
     const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
     const ratingHTML = comment.rating ? `<div class="comment-rating">${generateStarRating(comment.rating)}</div>` : '';
 
+    // Định danh bình luận (dựa trên timestamp)
+    const commentId = `comment-${comment.timestamp}`;
+
     commentElement.innerHTML = `
         <div class="comment-avatar">
             <img src="${comment.avatar}" alt="Avatar">
@@ -287,9 +290,50 @@ function addCommentToDOM(comment, hidden) {
             ${ratingHTML}
             <div class="comment-text">${comment.text}</div>
             <div class="comment-date">${formattedDate}</div>
+            <div class="comment-actions">
+                <button class="like-btn" data-id="${commentId}">👍 <span>${comment.likes || 0}</span></button>
+                <button class="dislike-btn" data-id="${commentId}">👎 <span>${comment.dislikes || 0}</span></button>
+            </div>
         </div>
     `;
+
+    // Xử lý nút like/dislike
+    const likeBtn = commentElement.querySelector('.like-btn');
+    const dislikeBtn = commentElement.querySelector('.dislike-btn');
+
+    likeBtn.addEventListener('click', () => handleReaction(comment.timestamp, 'like', likeBtn));
+    dislikeBtn.addEventListener('click', () => handleReaction(comment.timestamp, 'dislike', dislikeBtn));
+
     commentsContainer.appendChild(commentElement);
+}
+async function handleReaction(commentTimestamp, type, button) {
+    const storageKey = `reaction-${commentTimestamp}`;
+    const reacted = localStorage.getItem(storageKey);
+    if (reacted) {
+        showMessage('Bạn đã phản hồi bình luận này rồi!', 'error');
+        return;
+    }
+
+    try {
+        const res = await fetch('https://toksave-server.onrender.com/api/comments/reaction', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ timestamp: commentTimestamp, type })
+        });
+
+        if (!res.ok) throw new Error('Gửi phản hồi thất bại');
+        const data = await res.json();
+
+        const countSpan = button.querySelector('span');
+        countSpan.textContent = type === 'like' ? data.likes : data.dislikes;
+
+        button.classList.add('reacted');
+
+        localStorage.setItem(storageKey, type);
+    } catch (err) {
+        console.error('Lỗi phản hồi:', err);
+        showMessage('Không thể gửi phản hồi!', 'error');
+    }
 }
 
 function showMessage(message, type = 'error') {
@@ -316,6 +360,13 @@ async function fetchCommentsFromServer() {
 }
 
 submitButton.addEventListener('click', async () => {
+    const today = new Date().toISOString().slice(0, 10); // 'yyyy-mm-dd'
+    const lastCommentDate = localStorage.getItem('lastCommentDate');
+
+    if (lastCommentDate === today) {
+        return showMessage('Bạn đã bình luận hôm nay rồi. Vui lòng quay lại vào ngày mai!', 'error');
+    }
+
     const commentText = commentInput.value.trim();
     const rating = getSelectedRating();
 
@@ -343,6 +394,7 @@ submitButton.addEventListener('click', async () => {
         showMessage('Bình luận của bạn đã được gửi!', 'success');
         commentInput.value = '';
         ratingInputs.forEach(input => input.checked = false);
+        localStorage.setItem('lastCommentDate', today); // ✅ Ghi lại thời điểm bình luận
         await fetchCommentsFromServer();
     } catch (err) {
         console.error('Gửi bình luận lỗi:', err);

@@ -119,7 +119,11 @@ app.get('/api/comments', (req, res) => {
 
 // Gửi bình luận mới
 app.post('/api/comments', (req, res) => {
-    const newComment = req.body;
+    const newComment = {
+        ...req.body,
+        likes: 0,
+        dislikes: 0
+    };
 
     try {
         let comments = [];
@@ -132,6 +136,34 @@ app.post('/api/comments', (req, res) => {
     } catch (err) {
         console.error('Lỗi khi lưu bình luận:', err);
         res.status(500).json({ error: 'Không thể lưu bình luận' });
+    }
+});
+// Cập nhật like/dislike
+app.post('/api/comments/reaction', (req, res) => {
+    const { timestamp, type } = req.body;
+
+    if (!timestamp || !['like', 'dislike'].includes(type)) {
+        return res.status(400).json({ error: 'Thiếu hoặc sai tham số' });
+    }
+
+    try {
+        let comments = [];
+        if (fs.existsSync(COMMENTS_FILE)) {
+            comments = JSON.parse(fs.readFileSync(COMMENTS_FILE));
+        }
+
+        const comment = comments.find(c => c.timestamp === timestamp);
+        if (!comment) {
+            return res.status(404).json({ error: 'Không tìm thấy bình luận' });
+        }
+
+        comment[type + 's'] = (comment[type + 's'] || 0) + 1;
+
+        fs.writeFileSync(COMMENTS_FILE, JSON.stringify(comments, null, 2));
+        res.json({ message: 'Đã cập nhật phản hồi', likes: comment.likes, dislikes: comment.dislikes });
+    } catch (err) {
+        console.error('Lỗi khi cập nhật phản hồi:', err);
+        res.status(500).json({ error: 'Lỗi server khi cập nhật phản hồi' });
     }
 });
 
