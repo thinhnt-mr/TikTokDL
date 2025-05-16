@@ -1,9 +1,9 @@
 require('dotenv').config();
 const admin = require('firebase-admin');
-const serviceAccount = require('./firebaseKey.json');
+const firebaseKey = JSON.parse(process.env.FIREBASE_KEY);
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://comments-483c3-default-rtdb.firebaseio.com/' // thay bằng URL thật
+    credential: admin.credential.cert(firebaseKey),
+    databaseURL: 'https://comments-483c3-default-rtdb.firebaseio.com/'
 });
 const db = admin.database();
 const commentsRef = db.ref('comments');
