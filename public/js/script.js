@@ -306,7 +306,7 @@ function getSelectedRating() {
 
 async function fetchCommentsFromServer() {
     try {
-        const res = await fetch('/api/comments');
+        const res = await fetch('https://toksave-server.onrender.com/api/comments');
         comments = await res.json();
         displayComments();
     } catch (err) {
@@ -334,7 +334,7 @@ submitButton.addEventListener('click', async () => {
     };
 
     try {
-        const res = await fetch('/api/comments', {
+        const res = await fetch('https://toksave-server.onrender.com/api/comments', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newComment)
