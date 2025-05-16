@@ -5,6 +5,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const mongoose = require('mongoose');
 
 // Đảm bảo URL API chuẩn, xóa dấu '/' thừa cuối nếu có
 app.use('/sitemap.xml', express.static('sitemap.xml'));
@@ -97,49 +98,51 @@ app.get('/api/download', async (req, res) => {
     }
 });
 
-const fs = require('fs');
-const COMMENTS_FILE = path.join(__dirname, 'comments.json');
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+    .then(() => console.log('✅ Đã kết nối MongoDB'))
+    .catch(err => {
+        console.error('❌ Kết nối MongoDB thất bại:', err);
+        process.exit(1);
+    });
+
+const commentSchema = new mongoose.Schema({
+    userName: String,
+    text: String,
+    rating: Number,
+    timestamp: Number,
+    avatar: String,
+    likes: { type: Number, default: 0 },
+    dislikes: { type: Number, default: 0 }
+});
+
+const Comment = mongoose.model('Comment', commentSchema);
 
 app.use(express.json()); // Cho phép đọc body JSON
 
 // Lấy tất cả bình luận
-app.get('/api/comments', (req, res) => {
+app.get('/api/comments', async (req, res) => {
     try {
-        if (fs.existsSync(COMMENTS_FILE)) {
-            const data = fs.readFileSync(COMMENTS_FILE);
-            res.json(JSON.parse(data));
-        } else {
-            res.json([]);
-        }
+        const comments = await Comment.find().sort({ timestamp: -1 });
+        res.json(comments);
     } catch (err) {
-        console.error('Lỗi khi đọc comments:', err);
-        res.status(500).json({ error: 'Không thể đọc bình luận' });
+        console.error('Lỗi khi lấy bình luận:', err);
+        res.status(500).json({ error: 'Không thể lấy bình luận' });
     }
 });
-
-// Gửi bình luận mới
-app.post('/api/comments', (req, res) => {
-    const newComment = {
-        ...req.body,
-        likes: 0,
-        dislikes: 0
-    };
-
+app.post('/api/comments', async (req, res) => {
     try {
-        let comments = [];
-        if (fs.existsSync(COMMENTS_FILE)) {
-            comments = JSON.parse(fs.readFileSync(COMMENTS_FILE));
-        }
-        comments.push(newComment);
-        fs.writeFileSync(COMMENTS_FILE, JSON.stringify(comments, null, 2));
+        const newComment = new Comment(req.body);
+        await newComment.save();
         res.status(201).json({ message: 'Bình luận đã được lưu!' });
     } catch (err) {
         console.error('Lỗi khi lưu bình luận:', err);
         res.status(500).json({ error: 'Không thể lưu bình luận' });
     }
 });
-// Cập nhật like/dislike
-app.post('/api/comments/reaction', (req, res) => {
+app.post('/api/comments/reaction', async (req, res) => {
     const { timestamp, type } = req.body;
 
     if (!timestamp || !['like', 'dislike'].includes(type)) {
@@ -147,19 +150,13 @@ app.post('/api/comments/reaction', (req, res) => {
     }
 
     try {
-        let comments = [];
-        if (fs.existsSync(COMMENTS_FILE)) {
-            comments = JSON.parse(fs.readFileSync(COMMENTS_FILE));
-        }
+        const update = type === 'like' ? { $inc: { likes: 1 } } : { $inc: { dislikes: 1 } };
+        const comment = await Comment.findOneAndUpdate({ timestamp }, update, { new: true });
 
-        const comment = comments.find(c => c.timestamp === timestamp);
         if (!comment) {
             return res.status(404).json({ error: 'Không tìm thấy bình luận' });
         }
 
-        comment[type + 's'] = (comment[type + 's'] || 0) + 1;
-
-        fs.writeFileSync(COMMENTS_FILE, JSON.stringify(comments, null, 2));
         res.json({ message: 'Đã cập nhật phản hồi', likes: comment.likes, dislikes: comment.dislikes });
     } catch (err) {
         console.error('Lỗi khi cập nhật phản hồi:', err);
