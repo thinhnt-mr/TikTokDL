@@ -1,6 +1,5 @@
 require('dotenv').config();
 const fs = require('fs');
-const commentsFilePath = path.join(__dirname, 'comments.json');
 const path = require('path');
 const express = require('express');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
@@ -8,12 +7,9 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Đảm bảo URL API chuẩn, xóa dấu '/' thừa cuối nếu có
-app.use('/sitemap.xml', express.static('sitemap.xml'));
-app.use('/robots.txt', express.static('robots.txt'));
-const TIKWM_API = (process.env.TIKWM_API || 'https://tikwm.com/api').replace(/\/+$/, '');
+const commentsFilePath = path.join(__dirname, 'comments.json');
 
-// Middleware CORS
+// Cấu hình CORS và route tĩnh
 app.use(cors({
     origin: [
         'https://toksave.online',
@@ -21,8 +17,12 @@ app.use(cors({
         'https://cron-job.org'
     ]
 }));
+app.use(express.json());
+app.use('/sitemap.xml', express.static('sitemap.xml'));
+app.use('/robots.txt', express.static('robots.txt'));
 
-// Thêm route này vào server.js
+const TIKWM_API = (process.env.TIKWM_API || 'https://tikwm.com/api').replace(/\/+$/, '');
+
 app.get('/', (req, res) => {
     res.status(200).json({
         status: 'OK',
@@ -31,25 +31,20 @@ app.get('/', (req, res) => {
     });
 });
 
-// Sửa lại phần API TikTok proxy
+// TikTok proxy API
 app.get('/api/tiktok', async (req, res) => {
     const videoUrl = req.query.url;
-    if (!videoUrl) {
-        return res.status(400).json({ error: 'Thiếu URL video' });
-    }
+    if (!videoUrl) return res.status(400).json({ error: 'Thiếu URL video' });
 
-    // Thêm timeout
     const controller = new AbortController();
-    const timeout = setTimeout(() => {
-        controller.abort();
-    }, 8000); // 8 giây timeout
+    const timeout = setTimeout(() => controller.abort(), 8000);
 
     try {
         const apiUrl = `${TIKWM_API}/?url=${encodeURIComponent(videoUrl)}`;
         const response = await fetch(apiUrl, {
             signal: controller.signal,
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0',
                 'Accept': 'application/json',
                 'Referer': 'https://tikwm.com/',
             },
@@ -57,18 +52,14 @@ app.get('/api/tiktok', async (req, res) => {
 
         clearTimeout(timeout);
 
-        if (!response.ok) {
-            throw new Error(`API response status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`API response status: ${response.status}`);
+
         const data = await response.json();
         res.json(data);
     } catch (error) {
         clearTimeout(timeout);
         console.error('Lỗi khi kết nối tới API Tikwm:', error);
-        res.status(500).json({
-            error: 'Lỗi khi kết nối API',
-            message: error.message
-        });
+        res.status(500).json({ error: 'Lỗi khi kết nối API', message: error.message });
     }
 });
 
@@ -80,13 +71,11 @@ app.get('/api/download', async (req, res) => {
 
     try {
         const response = await fetch(fileUrl, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0', // Quan trọng
-            }
+            headers: { 'User-Agent': 'Mozilla/5.0' }
         });
 
         if (!response.ok) {
-            console.error('Lỗi khi fetch file:', response.status, await response.text());
+            console.error('Lỗi khi fetch file:', response.status);
             return res.status(500).send('Không thể tải file');
         }
 
@@ -99,8 +88,7 @@ app.get('/api/download', async (req, res) => {
     }
 });
 
-app.use(express.json()); // Cho phép đọc body JSON
-
+// API lấy bình luận
 app.get('/api/comments', (req, res) => {
     fs.readFile(commentsFilePath, 'utf8', (err, data) => {
         if (err) {
@@ -116,7 +104,8 @@ app.get('/api/comments', (req, res) => {
         }
     });
 });
-// Lưu bình luận mới
+
+// API lưu bình luận
 app.post('/api/comments', (req, res) => {
     const newComment = req.body;
 
@@ -141,7 +130,8 @@ app.post('/api/comments', (req, res) => {
         });
     });
 });
-// Like / Dislike
+
+// API like / dislike
 app.post('/api/comments/reaction', (req, res) => {
     const { timestamp, type } = req.body;
 
@@ -184,13 +174,12 @@ app.post('/api/comments/reaction', (req, res) => {
     });
 });
 
-// Endpoint placeholder images
 app.get('/api/placeholder/:width/:height', (req, res) => {
     const { width, height } = req.params;
     res.redirect(`https://via.placeholder.com/${width}x${height}`);
 });
 
-// Chạy server
+// Start server
 const server = app.listen(PORT, () => {
     console.log(`✅ Server đang chạy tại http://localhost:${PORT}`);
 });
