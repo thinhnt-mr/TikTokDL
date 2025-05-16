@@ -7,8 +7,6 @@ admin.initializeApp({
 });
 const db = admin.database();
 const commentsRef = db.ref('comments');
-const fs = require('fs');
-const path = require('path');
 const express = require('express');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const cors = require('cors');
@@ -125,35 +123,41 @@ app.post('/api/comments', async (req, res) => {
 app.post('/api/comments/reaction', async (req, res) => {
     const { timestamp, type } = req.body;
 
+    if (!timestamp || !['like', 'dislike'].includes(type)) {
+        return res.status(400).json({ error: 'Thiếu hoặc sai tham số' });
+    }
+
     try {
         const snapshot = await commentsRef.once('value');
         let foundKey = null;
+        let commentData = null;
+
         snapshot.forEach(child => {
             if (child.val().timestamp === timestamp) {
                 foundKey = child.key;
+                commentData = child.val();
             }
         });
 
-        if (!foundKey) {
+        if (!foundKey || !commentData) {
             return res.status(404).json({ error: 'Không tìm thấy bình luận' });
         }
 
-        const commentRef = commentsRef.child(foundKey);
-        const commentSnap = await commentRef.once('value');
-        const comment = commentSnap.val();
+        const newLikes = type === 'like' ? (commentData.likes || 0) + 1 : commentData.likes || 0;
+        const newDislikes = type === 'dislike' ? (commentData.dislikes || 0) + 1 : commentData.dislikes || 0;
 
-        if (type === 'like') comment.likes = (comment.likes || 0) + 1;
-        else comment.dislikes = (comment.dislikes || 0) + 1;
-
-        await commentRef.update({ likes: comment.likes, dislikes: comment.dislikes });
+        await commentsRef.child(foundKey).update({
+            likes: newLikes,
+            dislikes: newDislikes
+        });
 
         res.json({
             message: 'Đã cập nhật phản hồi',
-            likes: comment.likes,
-            dislikes: comment.dislikes
+            likes: newLikes,
+            dislikes: newDislikes
         });
     } catch (error) {
-        console.error('Firebase update error:', error);
+        console.error('Lỗi cập nhật phản hồi Firebase:', error);
         res.status(500).json({ error: 'Không thể cập nhật phản hồi' });
     }
 });
