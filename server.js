@@ -1,11 +1,34 @@
-const path = require('path');
 require('dotenv').config();
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+    .then(() => console.log('✅ Đã kết nối MongoDB'))
+    .catch(err => {
+        console.error('❌ Lỗi kết nối MongoDB:', err);
+        process.exit(1);
+    });
+
+const commentSchema = new mongoose.Schema({
+    userName: String,
+    text: String,
+    rating: Number,
+    timestamp: Number,
+    avatar: String,
+    likes: { type: Number, default: 0 },
+    dislikes: { type: Number, default: 0 }
+});
+
+const Comment = mongoose.model('Comment', commentSchema);
+
+const path = require('path');
 const express = require('express');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const mongoose = require('mongoose');
 
 // Đảm bảo URL API chuẩn, xóa dấu '/' thừa cuối nếu có
 app.use('/sitemap.xml', express.static('sitemap.xml'));
@@ -97,28 +120,6 @@ app.get('/api/download', async (req, res) => {
         res.status(500).send('Lỗi server');
     }
 });
-
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-    .then(() => console.log('✅ Đã kết nối MongoDB'))
-    .catch(err => {
-        console.error('❌ Kết nối MongoDB thất bại:', err);
-        process.exit(1);
-    });
-
-const commentSchema = new mongoose.Schema({
-    userName: String,
-    text: String,
-    rating: Number,
-    timestamp: Number,
-    avatar: String,
-    likes: { type: Number, default: 0 },
-    dislikes: { type: Number, default: 0 }
-});
-
-const Comment = mongoose.model('Comment', commentSchema);
 
 app.use(express.json()); // Cho phép đọc body JSON
 
