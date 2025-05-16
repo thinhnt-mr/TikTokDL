@@ -97,6 +97,44 @@ app.get('/api/download', async (req, res) => {
     }
 });
 
+const fs = require('fs');
+const COMMENTS_FILE = path.join(__dirname, 'comments.json');
+
+app.use(express.json()); // Cho phép đọc body JSON
+
+// Lấy tất cả bình luận
+app.get('/api/comments', (req, res) => {
+    try {
+        if (fs.existsSync(COMMENTS_FILE)) {
+            const data = fs.readFileSync(COMMENTS_FILE);
+            res.json(JSON.parse(data));
+        } else {
+            res.json([]);
+        }
+    } catch (err) {
+        console.error('Lỗi khi đọc comments:', err);
+        res.status(500).json({ error: 'Không thể đọc bình luận' });
+    }
+});
+
+// Gửi bình luận mới
+app.post('/api/comments', (req, res) => {
+    const newComment = req.body;
+
+    try {
+        let comments = [];
+        if (fs.existsSync(COMMENTS_FILE)) {
+            comments = JSON.parse(fs.readFileSync(COMMENTS_FILE));
+        }
+        comments.push(newComment);
+        fs.writeFileSync(COMMENTS_FILE, JSON.stringify(comments, null, 2));
+        res.status(201).json({ message: 'Bình luận đã được lưu!' });
+    } catch (err) {
+        console.error('Lỗi khi lưu bình luận:', err);
+        res.status(500).json({ error: 'Không thể lưu bình luận' });
+    }
+});
+
 // Endpoint placeholder images
 app.get('/api/placeholder/:width/:height', (req, res) => {
     const { width, height } = req.params;
