@@ -10,8 +10,8 @@
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <!-- Critical CSS -->
-    <link rel="stylesheet" href="public/css/style.css?v=0.2.5">
-    <link rel="stylesheet" href="public/css/body.css?v=0.2.5">
+    <link rel="stylesheet" href="public/css/style.css?v=0.2.6">
+    <link rel="stylesheet" href="public/css/body.css?v=0.2.6">
     <!-- Basic Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon_io/favicon-32x32.png?v=1.0">
@@ -89,7 +89,7 @@
                         <a href="#faq" data-lang="faq" class="menu-link">FAQ</a>
                     </div>
                     <div class="version">
-                        <p>Version 0.2.5</p>
+                        <p>Version 0.2.6</p>
                     </div>
                 </div>
             </div>
@@ -305,6 +305,14 @@
                     <label for="star1" title="1 sao"></label>
                 </div>
             </div>
+            <div class="user-info">
+                <input type="text" id="username-input" placeholder="Nhập tên của bạn (tùy chọn)">
+                <label for="avatar-input" class="custom-file-upload">
+                    <span>Chọn ảnh đại diện</span>
+                    <input type="file" id="avatar-input" accept="image/*">
+                </label>
+                <span id="avatar-file-name">Chưa chọn ảnh</span>
+            </div>
             <textarea id="comment-input" placeholder="Nhập bình luận của bạn..."></textarea>
             <button id="submit-comment">Gửi bình luận</button>
             <div id="message-container"></div>
@@ -398,7 +406,7 @@
         </div>
     </div>
 </footer>
-<script src="public/js/script.js?v=2.6" defer></script>
+<script src="public/js/script.js?v=2.7" defer></script>
 <script src="public/js/language.js?v=1.6" defer></script>
 <script src="public/js/cookie.js?v=1.2" defer></script>
 <script src="public/js/faq.js?v=1.2" defer></script>

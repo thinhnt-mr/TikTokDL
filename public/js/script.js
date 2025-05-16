@@ -235,6 +235,9 @@ const commentsContainer = document.getElementById('comments-container');
 const loadMoreBtn = document.getElementById('load-more-btn');
 const messageContainer = document.getElementById('message-container');
 const ratingInputs = document.querySelectorAll('input[name="rating"]');
+const usernameInput = document.getElementById('username-input');
+const avatarInput = document.getElementById('avatar-input');
+const avatarFileName = document.getElementById('avatar-file-name');
 
 function displayComments() {
     commentsContainer.innerHTML = '';
@@ -360,7 +363,7 @@ async function fetchCommentsFromServer() {
 }
 
 submitButton.addEventListener('click', async () => {
-    const today = new Date().toISOString().slice(0, 10); // 'yyyy-mm-dd'
+    const today = new Date().toISOString().slice(0, 10);
     const lastCommentDate = localStorage.getItem('lastCommentDate');
 
     if (lastCommentDate === today) {
@@ -369,39 +372,62 @@ submitButton.addEventListener('click', async () => {
 
     const commentText = commentInput.value.trim();
     const rating = getSelectedRating();
+    const username = usernameInput.value.trim();
+    const avatarFile = avatarInput.files[0];
 
     if (commentText === '') return showMessage('Vui lòng nhập nội dung bình luận!');
     if (rating === 0) return showMessage('Vui lòng chọn đánh giá sao!');
 
-    const randomAvatarIndex = Math.floor(Math.random() * 7) + 1;
-    const avatarPath = `img/avatar${randomAvatarIndex}.png`;
+    let avatarDataUrl = '';
 
-    const newComment = {
-        userName: generateRandomUserId(),
-        text: commentText,
-        rating: rating,
-        timestamp: Date.now(),
-        avatar: avatarPath
-    };
+    if (avatarFile) {
+        const reader = new FileReader();
+        reader.onload = async function () {
+            avatarDataUrl = reader.result;
+            await sendComment();
+        };
+        reader.readAsDataURL(avatarFile);
+    } else {
+        await sendComment(); // nếu không upload avatar, dùng random
+    }
 
-    try {
-        const res = await fetch('https://toksave-server.onrender.com/api/comments', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newComment)
-        });
-        if (!res.ok) throw new Error('Lỗi khi gửi bình luận');
-        showMessage('Bình luận của bạn đã được gửi!', 'success');
-        commentInput.value = '';
-        ratingInputs.forEach(input => input.checked = false);
-        localStorage.setItem('lastCommentDate', today); // ✅ Ghi lại thời điểm bình luận
-        await fetchCommentsFromServer();
-    } catch (err) {
-        console.error('Gửi bình luận lỗi:', err);
-        showMessage('Không thể gửi bình luận!', 'error');
+    async function sendComment() {
+        const userName = username || generateRandomUserId();
+        const avatar = avatarDataUrl || `img/avatar${Math.floor(Math.random() * 7 + 1)}.png`;
+
+        const newComment = {
+            userName,
+            text: commentText,
+            rating,
+            timestamp: Date.now(),
+            avatar
+        };
+
+        try {
+            const res = await fetch('https://toksave-server.onrender.com/api/comments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newComment)
+            });
+            if (!res.ok) throw new Error('Lỗi khi gửi bình luận');
+            showMessage('Bình luận của bạn đã được gửi!', 'success');
+            commentInput.value = '';
+            usernameInput.value = '';
+            avatarInput.value = '';
+            ratingInputs.forEach(input => input.checked = false);
+            localStorage.setItem('lastCommentDate', today);
+            await fetchCommentsFromServer();
+        } catch (err) {
+            console.error('Gửi bình luận lỗi:', err);
+            showMessage('Không thể gửi bình luận!', 'error');
+        }
     }
 });
-
+avatarInput.addEventListener('change', () => {
+    avatarFileName.textContent = avatarInput.files.length > 0
+        ? avatarInput.files[0].name
+        : 'Chưa chọn ảnh';
+});
 loadMoreBtn.addEventListener('click', () => {
     const hiddenComments = document.querySelectorAll('.comment.hidden');
     hiddenComments.forEach(comment => comment.classList.remove('hidden'));
