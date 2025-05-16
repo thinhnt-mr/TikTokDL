@@ -1,6 +1,9 @@
 # Bỏ thư mục chứa thư viện
 node_modules/
 
+# Bỏ thư mục firebaseKey.json
+
+firebaseKey.json
 # Bỏ file cấu hình môi trường
 .env
 .env.local

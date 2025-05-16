@@ -1,4 +1,12 @@
 require('dotenv').config();
+const admin = require('firebase-admin');
+const serviceAccount = require('./firebaseKey.json');
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://comments-483c3-default-rtdb.firebaseio.com/' // thay bằng URL thật
+});
+const db = admin.database();
+const commentsRef = db.ref('comments');
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
@@ -6,8 +14,6 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-const commentsFilePath = path.join(__dirname, 'comments.json');
 
 // Cấu hình CORS và route tĩnh
 app.use(cors({
@@ -89,89 +95,67 @@ app.get('/api/download', async (req, res) => {
 });
 
 // API lấy bình luận
-app.get('/api/comments', (req, res) => {
-    fs.readFile(commentsFilePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Lỗi đọc file bình luận:', err);
-            return res.json([]);
-        }
-        try {
-            const comments = JSON.parse(data || '[]');
-            res.json(comments);
-        } catch (parseErr) {
-            console.error('Lỗi parse file:', parseErr);
-            res.json([]);
-        }
-    });
+app.get('/api/comments', async (req, res) => {
+    try {
+        const snapshot = await commentsRef.once('value');
+        const data = snapshot.val() || {};
+        const comments = Object.values(data);
+        res.json(comments);
+    } catch (error) {
+        console.error('Firebase read error:', error);
+        res.status(500).json([]);
+    }
 });
 
 // API lưu bình luận
-app.post('/api/comments', (req, res) => {
+app.post('/api/comments', async (req, res) => {
     const newComment = req.body;
+    newComment.timestamp = Date.now(); // Đảm bảo có timestamp
 
-    fs.readFile(commentsFilePath, 'utf8', (err, data) => {
-        let comments = [];
-        if (!err && data) {
-            try {
-                comments = JSON.parse(data);
-            } catch (parseErr) {
-                console.error('Lỗi parse file:', parseErr);
-            }
-        }
-
-        comments.push(newComment);
-
-        fs.writeFile(commentsFilePath, JSON.stringify(comments, null, 2), err => {
-            if (err) {
-                console.error('Lỗi ghi bình luận:', err);
-                return res.status(500).json({ error: 'Không thể lưu bình luận' });
-            }
-            res.status(201).json({ message: 'Bình luận đã được lưu!' });
-        });
-    });
+    try {
+        await commentsRef.push(newComment);
+        res.status(201).json({ message: 'Bình luận đã được lưu!' });
+    } catch (error) {
+        console.error('Firebase write error:', error);
+        res.status(500).json({ error: 'Không thể lưu bình luận' });
+    }
 });
 
 // API like / dislike
-app.post('/api/comments/reaction', (req, res) => {
+app.post('/api/comments/reaction', async (req, res) => {
     const { timestamp, type } = req.body;
 
-    if (!timestamp || !['like', 'dislike'].includes(type)) {
-        return res.status(400).json({ error: 'Thiếu hoặc sai tham số' });
-    }
-
-    fs.readFile(commentsFilePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Lỗi đọc file:', err);
-            return res.status(500).json({ error: 'Không thể đọc dữ liệu' });
-        }
-
-        let comments = [];
-        try {
-            comments = JSON.parse(data);
-        } catch (parseErr) {
-            console.error('Lỗi parse:', parseErr);
-            return res.status(500).json({ error: 'Dữ liệu bị hỏng' });
-        }
-
-        const index = comments.findIndex(c => c.timestamp === timestamp);
-        if (index === -1) return res.status(404).json({ error: 'Không tìm thấy bình luận' });
-
-        if (type === 'like') comments[index].likes = (comments[index].likes || 0) + 1;
-        else comments[index].dislikes = (comments[index].dislikes || 0) + 1;
-
-        fs.writeFile(commentsFilePath, JSON.stringify(comments, null, 2), err => {
-            if (err) {
-                console.error('Lỗi ghi lại file:', err);
-                return res.status(500).json({ error: 'Không thể cập nhật phản hồi' });
+    try {
+        const snapshot = await commentsRef.once('value');
+        let foundKey = null;
+        snapshot.forEach(child => {
+            if (child.val().timestamp === timestamp) {
+                foundKey = child.key;
             }
-
-            res.json({
-                message: 'Đã cập nhật phản hồi',
-                likes: comments[index].likes,
-                dislikes: comments[index].dislikes
-            });
         });
-    });
+
+        if (!foundKey) {
+            return res.status(404).json({ error: 'Không tìm thấy bình luận' });
+        }
+
+        const commentRef = commentsRef.child(foundKey);
+        const commentSnap = await commentRef.once('value');
+        const comment = commentSnap.val();
+
+        if (type === 'like') comment.likes = (comment.likes || 0) + 1;
+        else comment.dislikes = (comment.dislikes || 0) + 1;
+
+        await commentRef.update({ likes: comment.likes, dislikes: comment.dislikes });
+
+        res.json({
+            message: 'Đã cập nhật phản hồi',
+            likes: comment.likes,
+            dislikes: comment.dislikes
+        });
+    } catch (error) {
+        console.error('Firebase update error:', error);
+        res.status(500).json({ error: 'Không thể cập nhật phản hồi' });
+    }
 });
 
 app.get('/api/placeholder/:width/:height', (req, res) => {
