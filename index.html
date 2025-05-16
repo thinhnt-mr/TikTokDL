@@ -10,8 +10,8 @@
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <!-- Critical CSS -->
-    <link rel="stylesheet" href="public/css/style.css?v=0.2.2">
-    <link rel="stylesheet" href="public/css/body.css?v=0.2.2">
+    <link rel="stylesheet" href="public/css/style.css?v=0.2.3">
+    <link rel="stylesheet" href="public/css/body.css?v=0.2.3">
     <!-- Basic Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon_io/favicon-32x32.png?v=1.0">
@@ -69,7 +69,7 @@
                 <div class="desktop-menu">
                     <a href="./privacy.html" class="menu-link">PRIVACY POLICY</a>
                     <a href="contact.html" class="menu-link">CONTACT</a>
-                    <a href="#fa q" class="menu-link">FAQ</a>
+                    <a href="#faq" class="menu-link">FAQ</a>
                 </div>
                 <!-- Mobile menu icon -->
                 <div class="mobile-menu-icon">
@@ -91,24 +91,25 @@
                     </div>
                 </div>
             </div>
-            <div class="language-switcher">
-                <img class="language-btn active" onclick="changeLanguage('vi')" src="image/vietnam-26834.svg" alt="Icon Cờ Việt Nam" width="45" height="45">
-                <img class="language-btn" onclick="changeLanguage('en')" src="image/england-147080.svg" alt="Icon Cờ Pháp" width="45" height="45">
-            </div>
-        </div>
-        <div id="cookie-banner" style="display: none;">
-            <div class="cookie-content">
-                <h2 id="cookie-h3">Chúng tôi sử dụng cookie!</h2>
-                <p id="cookie-title">Trang này sử dụng cookie để đảm bảo bạn có trải nghiệm tốt nhất trên trang web của chúng tôi.
-                    Bằng cách tiếp tục duyệt trang, bạn đồng ý với việc sử dụng cookie của chúng tôi. <a href="privacy.html">Tìm hiểu thêm</a></p>
-            </div>
-            <div class="cookie-buttons">
-                <button id="accept-cookies">Chấp nhận</button>
-                <button id="reject-cookies">Từ chối</button>
+            <button class="globe-icon" id="globeIcon" onclick="toggleLanguageMenu()">🌐</button>
+            <div class="language-menu" id="languageMenu">
+                <p class="language-btn active" onclick="changeLanguage('vi')">🇻🇳 Vietnamese</p>
+                <p class="language-btn" onclick="changeLanguage('en')">🇺🇸 English</p>
             </div>
         </div>
     </div>
 </header>
+<div id="cookie-banner" style="display: none;">
+    <div class="cookie-content">
+        <h2 id="cookie-h3">Chúng tôi sử dụng cookie!</h2>
+        <p id="cookie-title">Trang này sử dụng cookie để đảm bảo bạn có trải nghiệm tốt nhất trên trang web của chúng tôi.
+            Bằng cách tiếp tục duyệt trang, bạn đồng ý với việc sử dụng cookie của chúng tôi. <a href="privacy.html">Tìm hiểu thêm</a></p>
+    </div>
+    <div class="cookie-buttons">
+        <button id="accept-cookies">Chấp nhận</button>
+        <button id="reject-cookies">Từ chối</button>
+    </div>
+</div>
 <main class="container">
     <section class="downloader">
         <div class="animated-background">
@@ -176,7 +177,7 @@
                 để nghe lại bất cứ lúc nào mà không cần truy cập TikTok.</p>
         </div>
         <div class="image-container">
-            <img src="image/toksave.jpg" alt="Ảnh Minh họa TokSave" width="100%" height="100%">
+            <img src="image/toksave.jpg" alt="Ảnh Minh họa TokSave" width="500" height="500">
         </div>
     </section>
     <section class="features">
@@ -188,7 +189,7 @@
                     stroke="bold"
                     state="loop-roll"
                     colors="primary:#242424,secondary:#c71f16"
-                    style="width:110px;height:110px">
+                    style="width:80px;height:80px">
             </lord-icon>
             <h3 id="feature1-title">Tải xuống nhanh chóng</h3>
             <p id="feature1-desc">Tải video TikTok chỉ trong vài giây với tốc độ cao và không có giới hạn.</p>
@@ -201,14 +202,14 @@
                     stroke="bold"
                     state="loop-roll"
                     colors="primary:#242424,secondary:#c71f16"
-                    style="width:110px;height:110px">
+                    style="width:80px;height:80px">
             </lord-icon>
             <h3 id="feature2-title">Chất lượng cao</h3>
             <p id="feature2-desc">Download video TikTok chất lượng HD, giữ nguyên độ phân giải gốc của video.</p>
         </div>
         <div class="feature">
             <div class="security-icon">
-                <svg viewBox="0 0 24 24" width="105" height="105">
+                <svg viewBox="0 0 24 24" width="78" height="78">
                     <path class="shield" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"
                           fill="none" stroke="#424242" stroke-width="2"/>
                     <path class="check" d="M9 12l2 2 4-4" stroke="#c71f16" stroke-width="2"
@@ -239,22 +240,18 @@
             </div>
         </div>
     </section>
-    <section class="how-to-blog">
-        <div class="link-blog">
-
-        </div>
-    </section>
     <section class="section">
         <div class="text-content">
             <h2 id="step4-title">Lưu video TikTok trên điện thoại di động</h2>
-            <p id="step4-desc">Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.</p>
-            <p id="step5-desc">Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.</p>
-            <p id="step6-desc">Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (toksave.online).</p>
-            <p id="step7-desc">Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.</p>
-            <span id="step8-desc">Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.</span>
+            <p id="step4-desc">Mở ứng dụng TikTok và tìm video bạn muốn tải về máy. Khi đang xem video, bạn sẽ thấy biểu
+                tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.</p>
+            <p id="step7-desc">Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (toksave.online). Dán liên kết
+                vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”. Bạn sẽ thấy
+                video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải là video sẽ được lưu về máy.
+            </p>
         </div>
         <div class="image-container">
-            <img src="image/Download-pana.svg" loading="lazy" alt="Ảnh Minh họa tải video TikTok trên điện thoại" width="80%" height="80%">
+            <img src="image/Download-pana.svg" loading="lazy" alt="Ảnh Minh họa tải video TikTok trên điện thoại" width="350" height="350">
         </div>
     </section>
     <!-- Section 2: Ảnh bên trái, Text bên phải -->
@@ -262,28 +259,59 @@
         <div class="text-content">
             <h2 id="step5-title">Lưu video TikTok không có logo trên máy tính</h2>
             <p id="step9-desc">Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >
-                Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.</p>
-            <p id="step10-desc">Chọn đến mục Sao chép liên kết để tiến hành lấy link video.</p>
-            <p id="step11-desc">Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "toksave.online" để tải video.</p>
-            <p id="step12-desc">Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.</p>
-            <p id="step13-desc">Chờ một chút Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.</p>
+                Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn
+                vào đó và chọn “Sao chép liên kết”. Chọn đến mục Sao chép liên kết để tiến hành lấy link video.
+            </p>
+            <p id="step12-desc">Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ
+                "toksave.online" để tải video. Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống. Chờ một chút Bạn
+                sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải là video sẽ được lưu về máy.
+            </p>
         </div>
         <div class="image-container">
-            <img src="image/Safe-cuate.svg" loading="lazy" alt="Ảnh Minh họa lưu video trên máy tính" width="100%" height="100%">
+            <img src="image/Safe-cuate.svg" loading="lazy" alt="Ảnh Minh họa lưu video trên máy tính" width="350" height="350">
         </div>
     </section>
     <section class="section">
         <div class="text-content">
             <h2 id="step6-title">Tải Video TikTok không logo trên iPhone</h2>
-            <p id="step14-desc">Nếu bạn đang dùng iPhone hoặc iPad bạn cũng có thể tải video TikTok miễn phí cho thiết bị Apple, nhưng bạn cần cài thêm ứng dụng Documents by Readdle trên App Store.</p>
-            <p id="step15-desc">Vì chính sách bảo mật của Apple, iOS từ phiên bản 12 trở nên sẽ không lưu được video từ TikTok trên trình duyệt.
-                Hãy chép liên kết của một video bất kỳ trên TikTok, sau đó mở ứng dụng Documents by Readdle.</p>
+            <p id="step14-desc">Nếu bạn đang dùng iPhone hoặc iPad bạn cũng có thể tải video TikTok miễn phí cho thiết bị
+                Apple, nhưng bạn cần cài thêm ứng dụng Documents by Readdle trên App Store. Vì chính sách bảo mật của Apple,
+                iOS từ phiên bản 12 trở nên sẽ không lưu được video từ TikTok trên trình duyệt.
+                Hãy chép liên kết của một video bất kỳ trên TikTok, sau đó mở ứng dụng Documents by Readdle.
+            </p>
             <p id="step16-desc">Ngay góc dưới bên phải của màn hình, bạn sẽ thấy một biểu tượng trình duyệt web. Hãy chạm vào nó.</p>
         </div>
         <div class="image-container">
-            <img src="image/undraw_download_sa8g.svg" loading="lazy" alt="Ảnh Minh họa lưu video trên Iphone" width="80%" height="80%">
+            <img src="image/undraw_download_sa8g.svg" loading="lazy" alt="Ảnh Minh họa lưu video trên Iphone" width="300" height="300">
         </div>
     </section>
+    <div class="container">
+        <h1 class="comment-container">Bình luận</h1>
+        <div class="comment-form">
+            <div class="rating-container">
+                <p>Đánh giá:</p>
+                <div class="stars">
+                    <input type="radio" id="star5" name="rating" value="5">
+                    <label for="star5" title="5 sao"></label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4" title="4 sao"></label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3" title="3 sao"></label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2" title="2 sao"></label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1" title="1 sao"></label>
+                </div>
+            </div>
+            <textarea id="comment-input" placeholder="Nhập bình luận của bạn..."></textarea>
+            <button id="submit-comment">Gửi bình luận</button>
+            <div id="message-container"></div>
+        </div>
+        <div class="comments-section">
+            <div id="comments-container"></div>
+            <button id="load-more-btn" class="load-more hidden">Xem thêm bình luận</button>
+        </div>
+    </div>
     <section class="faq" id="faq">
         <h2 id="faq-title">Câu hỏi thường gặp</h2>
         <div class="faq-item">
@@ -368,8 +396,8 @@
         </div>
     </div>
 </footer>
-<script src="public/js/script.js?v=2.1" defer></script>
-<script src="public/js/language.js?v=1.5" defer></script>
+<script src="public/js/script.js?v=2.2" defer></script>
+<script src="public/js/language.js?v=1.6" defer></script>
 <script src="public/js/cookie.js?v=1.2" defer></script>
 <script src="public/js/faq.js?v=1.2" defer></script>
 <script>

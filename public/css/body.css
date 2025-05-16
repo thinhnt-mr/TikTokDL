@@ -1,7 +1,7 @@
 .container{
     min-height:auto; /* chiều cao phù hợp */
-    position:relative;
-    overflow:hidden;
+    position:relative !important;
+    overflow:hidden !important;
     max-width:1200px;
     margin:0 auto;
     padding:0 18px;
@@ -9,15 +9,15 @@
 .hero{
     color:white;
     text-align:center;
-    padding-top:110px;
+    padding-top:25px;
 }
 .hero h2 {
-    font-size: 3rem;
+    font-size: 1.5rem;
     font-weight: normal;
     margin-bottom: 1rem;
 }
 .hero p{
-    font-size:1.5rem;
+    font-size:1.1rem;
     color:white;
     max-width:800px;
     margin:0 auto 2rem;
@@ -27,17 +27,53 @@
     border-radius:10px;
     padding:0.2rem;
     box-shadow:0 5px 20px rgba(0,0,0,0.1);
-    margin-bottom:3rem;
+    margin-bottom:1.5rem;
 }
-.animated-background{
-    position:relative;
-    overflow:hidden;
-    border-radius:10px;
-    padding:50px 20px 50px 20px;
-    min-height:645px;
-    align-content:center;
-    background:linear-gradient(135deg, #667eea, #764ba2);
-    box-shadow:0 0 30px rgba(0, 0, 0, 0.1);
+.animated-background {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-top: 60px;
+    margin-bottom: 0;
+    padding: 50px 20px 50px 20px;
+    min-height: 300px;
+    align-content: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Create the circular background effect */
+.animated-background::before,
+.animated-background::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+    z-index: 1;
+}
+.animated-background::before {
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.4));
+    width: 500px;
+    height: 500px;
+    top: -150px;
+    right: -150px;
+    animation: rotate 15s linear infinite;
+}
+.animated-background::after {
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.4));
+    width: 400px;
+    height: 400px;
+    bottom: -100px;
+    left: -100px;
+    animation: rotate 20s linear infinite reverse;
+}
+/* Hero content needs to be above the background */
+.hero {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    padding: 20px;
 }
 .input-group{
     position:relative;
@@ -50,21 +86,6 @@
     margin-bottom:1.5rem;
     align-items:center;
     gap:10px;
-}
-.animated-background::after{
-    background:linear-gradient(45deg, #1e90ff, #00bfff);
-    width:150px;
-    height:150px;
-    top:20%;
-    animation-delay:5s;
-}
-@keyframes moveLeft{
-    0%{
-        left:100%;
-    }
-    100%{
-        left:-200px;
-    }
 }
 .input-group input{
     flex:1;
@@ -220,10 +241,23 @@
 .feature{
     background-color:var(--light);
     border-radius:10px;
+    height: auto;
     padding:1.5rem;
     text-align:center;
     box-shadow:0 3px 10px rgba(0,0,0,0.1);
     transition:transform 0.3s;
+}
+.feature:hover{
+    transform:translateY(-5px);
+}
+.feature-icon{
+    font-size:2.5rem;
+    margin-bottom:1rem;
+    color:var(--primary);
+}
+.feature h3{
+    margin-bottom:1rem;
+    font-size:1.2rem;
 }
 .security-icon{
     display:flex;
@@ -248,18 +282,6 @@
     from {stroke-dashoffset: 10;}
     to {stroke-dashoffset: 0;}
 }
-.feature:hover{
-    transform:translateY(-5px);
-}
-.feature-icon{
-    font-size:2.5rem;
-    margin-bottom:1rem;
-    color:var(--primary);
-}
-.feature h3{
-    margin-bottom:1rem;
-    font-size:1.5rem;
-}
 .how-to{
     background-color: var(--light);
     border-radius:10px;
@@ -270,7 +292,7 @@
 .how-to h2{
     text-align:center;
     margin-bottom:2rem;
-    font-size:2rem;
+    font-size:1.5rem;
 }
 .steps{
     display:grid;
@@ -282,6 +304,9 @@
     flex-direction:column;
     align-items:center;
     text-align:center;
+}
+.step p{
+    font-size: 15px;
 }
 .step-number{
     background-color:#667eea;
@@ -299,7 +324,7 @@
 .section{
     display:flex;
     align-items:center;
-    margin-bottom:50px;
+    margin-bottom:15px;
     max-width:1200px;
     margin-left:auto;
     margin-right:auto;
@@ -379,12 +404,12 @@
     text-align:center;
 }
 .text-content h2{
-    font-size:35px;
+    font-size:23px;
     color:#333;
     margin-bottom:20px;
 }
 .text-content p{
-    font-size:17px;
+    font-size:15px;
     line-height:1.6;
     margin-bottom:15px;
 }
@@ -407,8 +432,8 @@
 }
 #faq-title{
     text-align:center;
-    margin-bottom:25px;
-    font-size:28px;
+    margin-bottom:24px;
+    font-size:20px;
     font-weight:700;
     color:#333;
 }
@@ -426,7 +451,7 @@
     background-color:#f8f8f8;
     cursor:pointer;
     font-weight:550;
-    font-size:19px;
+    font-size:16px;
     position:relative;
     display:flex;
     justify-content:space-between;
@@ -459,7 +484,7 @@
     background-color:#fff;
     line-height:1.6;
     color:black;
-    font-size:17px;
+    font-size:15px;
     max-height:0;
     overflow:hidden;
     transition:all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -470,4 +495,190 @@
     max-height:1000px; /* Giá trị đủ lớn để chứa nội dung */
     opacity:1;
     border-top:1px solid #e0e0e0;
+}
+.comment-container {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+.comment-form {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 100px;
+    margin-bottom: 10px;
+    resize: vertical;
+}
+
+.rating-container {
+    margin-bottom: 15px;
+}
+
+.rating-container p {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.stars input {
+    display: none;
+}
+
+.stars label {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ddd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'%3e%3c/polygon%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    transition: all 0.2s ease;
+}
+
+.stars input:checked ~ label,
+.stars label:hover,
+.stars label:hover ~ label {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23FFD700' stroke='%23CCAC00' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'%3e%3c/polygon%3e%3c/svg%3e");
+}
+
+.comment-form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.comment-form button:hover {
+    background-color: #45a049;
+}
+
+.comment-form button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.comments-section {
+    margin-top: 20px;
+}
+
+.comment {
+    display: flex;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.comment-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    overflow: hidden;
+}
+
+.comment-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-user {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.comment-text {
+    color: #555;
+    line-height: 1.5;
+}
+
+.comment-date {
+    color: #999;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.comment-rating {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.comment-rating .star {
+    color: #FFD700;
+    font-size: 16px;
+    margin-right: 2px;
+}
+
+.comment-rating .empty-star {
+    color: #ddd;
+    font-size: 16px;
+    margin-right: 2px;
+}
+
+.load-more {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+    color: #555;
+    font-weight: bold;
+}
+
+.load-more:hover {
+    background-color: #e5e5e5;
+}
+
+.hidden {
+    display: none;
+}
+
+.message {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.message.error {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.message.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.no-comments {
+    text-align: center;
+    color: #999;
+    padding: 20px 0;
 }

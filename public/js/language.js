@@ -47,20 +47,23 @@ const translations = {
         'step3-title': 'Tải xuống',
         'step3-desc': 'Nhấn nút "Tải xuống" và chọn định dạng bạn muốn tải video.',
         'step4-title': 'Lưu video TikTok trên điện thoại di động',
-        'step4-desc': 'Mở ứng dụng TikTok và tìm video bạn muốn tải về máy.',
-        'step5-desc': 'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
-        'step6-desc': 'Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (toksave.online).',
-        'step7-desc': 'Dán liên kết vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”.',
-        'step8-desc': 'Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.',
+        'step4-desc': 'Mở ứng dụng TikTok và tìm video bạn muốn tải về máy. Khi đang xem video, bạn sẽ thấy biểu\n' +
+            'tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
+        'step7-desc': 'Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (toksave.online). Dán liên kết\n' +
+            'vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”. Bạn sẽ thấy\n' +
+            'video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải là video sẽ được lưu về máy.',
         'step5-title': 'Lưu video TikTok không có logo trên máy tính',
-        'step9-desc': 'Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >\n' + 'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
-        'step10-desc': 'Chọn đến mục Sao chép liên kết để tiến hành lấy link video.',
-        'step11-desc': 'Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ "toksave.online" để tải video.',
-        'step12-desc': 'Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống.',
-        'step13-desc': 'Chờ một chút Bạn sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải rồi ấn vào nút 3 chấm và tải xuống.',
+        'step9-desc': 'Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >\n' +
+            'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn\n' +
+            'vào đó và chọn “Sao chép liên kết”. Chọn đến mục Sao chép liên kết để tiến hành lấy link video.',
+        'step12-desc': 'Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ\n' +
+            '"toksave.online" để tải video. Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống. Chờ một chút Bạn\n' +
+            'sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải là video sẽ được lưu về máy.',
         'step6-title': 'Tải Video TikTok không logo trên iPhone',
-        'step14-desc': 'Nếu bạn đang dùng iPhone hoặc iPad bạn cũng có thể tải video TikTok miễn phí cho thiết bị Apple, nhưng bạn cần cài thêm ứng dụng Documents by Readdle trên App Store.',
-        'step15-desc': 'Vì chính sách bảo mật của Apple, iOS từ phiên bản 12 trở nên sẽ không lưu được video từ TikTok trên trình duyệt.\n' + 'Hãy chép liên kết của một video bất kỳ trên TikTok, sau đó mở ứng dụng Documents by Readdle.',
+        'step14-desc': 'Nếu bạn đang dùng iPhone hoặc iPad bạn cũng có thể tải video TikTok miễn phí cho thiết bị\n' +
+            'Apple, nhưng bạn cần cài thêm ứng dụng Documents by Readdle trên App Store. Vì chính sách bảo mật của Apple,\n' +
+            'iOS từ phiên bản 12 trở nên sẽ không lưu được video từ TikTok trên trình duyệt.\n' +
+            'Hãy chép liên kết của một video bất kỳ trên TikTok, sau đó mở ứng dụng Documents by Readdle.',
         'step16-desc': 'Ngay góc dưới bên phải của màn hình, bạn sẽ thấy một biểu tượng trình duyệt web. Hãy chạm vào nó.',
         'faq-title': 'Câu hỏi thường gặp',
         'faq-q1': 'TokSave có hoàn toàn miễn phí không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
@@ -189,22 +192,22 @@ const translations = {
         'step2-desc': 'Paste the video link into the input field on our website.',
         'step3-title': 'Download',
         'step3-desc': 'Click the "Download" button and select the format you want to download the video in.',
-        'step4-title': 'Save TikTok Video on Mobile Device',
-        'step4-desc': 'Open the TikTok app and find the video you want to download.',
-        'step5-desc': 'While watching the video, tap the “Share” icon (a right-pointing arrow) on the right side of the screen. Then select “Copy Link”.',
-        'step6-desc': 'Next, go to a TikTok video downloader website (toksave.online).',
-        'step7-desc': 'Paste the copied link into the input field on the website and tap “Download”.',
-        'step8-desc': 'The video will appear on the screen > Choose a download method, tap the three-dot icon, and save the video.',
-        'step5-title': 'Download TikTok Video Without Watermark on PC',
-        'step9-desc': 'Open TikTok on your computer — you can use either the web platform or the TikTok desktop app. While watching the video, click the “Share” icon (a right-pointing arrow) and select “Copy Link”.',
-        'step10-desc': 'Choose the “Copy Link” option to get the video URL.',
-        'step11-desc': 'Since TikTok does not support no-watermark downloads natively, open a third-party tool like "toksave.online" to proceed.',
-        'step12-desc': 'Paste the copied link into the input field > Click Download.',
-        'step13-desc': 'Wait a moment — the video will be displayed on the screen > Choose a download option, click the three-dot icon, and save the file.',
-        'step6-title': 'Download TikTok Video Without Watermark on iPhone',
-        'step14-desc': 'If you’re using an iPhone or iPad, you can also download TikTok videos for free on your Apple device, but you’ll need to install the “Documents by Readdle” app from the App Store.',
-        'step15-desc': 'Due to Apple’s security policy, iOS 12 and above will not allow video downloads directly through the browser. Copy the link of any TikTok video, then open the Documents by Readdle app.',
-        'step16-desc': 'In the bottom-right corner of the screen, you’ll find a browser icon. Tap on it to open the built-in browser.',
+        'step4-title': 'Save TikTok videos on mobile',
+        'step4-desc': 'Open the TikTok app and find the video you want to download. While watching the video, you will see the "Share" icon (arrow pointing to the right) to the right of the video. Click on it and select "Copy link".',
+        'step7-desc': 'Next, go to the website that supports downloading TikTok videos (toksave.online). Paste the link you just copied into the link input box on the website and click "Download". You will see the video you want to download displayed on the screen > Select the Download method and the video will be saved to your device.',
+        'step5-title': 'Save TikTok videos without logo on computer',
+        'step9-desc': 'Open TikTok on your computer, you can use the web platform or the TikTok application >\n' +
+            'While watching a video, you will see the "Share" icon (arrow pointing to the right) on the right side of the video. Click\n' +
+            'on it and select "Copy link". Select the Copy link item to get the video link.',
+        'step12-desc': 'Because TikTok does not support the feature of uploading videos without a logo, please access the support tool\n' +
+            '"toksave.online" to download the video. Paste the link you copied in step 2 into the link input box > Click Download. Wait a moment You\n' +
+            'you will see the video you want to download displayed on the screen > Select the Download method and the video will be saved to your device.',
+        'step6-title': 'Download TikTok Videos without logo on iPhone',
+        'step14-desc': 'If you are using an iPhone or iPad, you can also download TikTok videos for free to your device\n' +
+            'Apple, but you need to install the Documents by Readdle application on the App Store. Due to Apple\n' +
+            'iOS from version 12 onwards will not be able to save videos from TikTok on the browser.\n' +
+            'Copy the link of any video on TikTok, then open the Documents by Readdle application.',
+        'step16-desc': 'In the lower right corner of the screen, you will see a web browser icon. Tap it.',
         'faq-title': 'Frequently Asked Questions',
         'faq-q1': 'Is TokSave completely free?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
         'faq-a1': 'Yes, TokSave is completely free to use. There are no hidden fees or download limits.',
@@ -351,4 +354,30 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const savedLanguage = localStorage.getItem('selectedLanguage') || 'vi';
     changeLanguage(savedLanguage);
+});
+function toggleLanguageMenu() {
+    const menu = document.getElementById("languageMenu");
+    const icon = document.getElementById("globeIcon");
+
+    if (menu.style.display === "block") {
+        menu.style.display = "none";
+        return;
+    }
+
+    // Get vị trí icon trên màn hình
+    const rect = icon.getBoundingClientRect();
+
+    // Gắn menu ở vị trí icon (bên dưới)
+    menu.style.left = `${rect.right - 180}px`; // hoặc rect.left nếu muốn căn trái
+    menu.style.top = `${rect.bottom + 8}px`;
+    menu.style.display = "block";
+}
+
+// Tự đóng khi click ra ngoài
+window.addEventListener("click", function (e) {
+    const menu = document.getElementById("languageMenu");
+    const globe = document.getElementById("globeIcon");
+    if (!menu.contains(e.target) && !globe.contains(e.target)) {
+        menu.style.display = "none";
+    }
 });

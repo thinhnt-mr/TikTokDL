@@ -150,11 +150,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
     const hamburgerSpin = document.querySelector('.hamburger-spin');
     const mobileMenu = document.querySelector('.mobile-menu');
+    const menuLinks = document.querySelectorAll('.mobile-menu a'); // Select all links inside mobile menu
+
+    // Function to close menu and reset icon
+    function closeMenu() {
+        mobileMenu.classList.remove('active');
+        hamburgerSpin.classList.remove('active');
+    }
 
     // Toggle menu and icon animation
     mobileMenuIcon.addEventListener('click', function() {
         mobileMenu.classList.toggle('active');
         hamburgerSpin.classList.toggle('active');
+    });
+
+    // Add click event listeners to all menu links
+    menuLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            closeMenu(); // Close menu when any link is clicked
+        });
     });
 
     // Close menu and reset icon when clicking outside
@@ -163,8 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const isClickOnIcon = mobileMenuIcon.contains(event.target);
 
         if (!isClickInsideMenu && !isClickOnIcon) {
-            mobileMenu.classList.remove('active');
-            hamburgerSpin.classList.remove('active');
+            closeMenu();
         }
     });
 });
@@ -206,4 +219,201 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
     updateClearButton();
+});
+// Tạo ID người dùng ngẫu nhiên
+function generateRandomUserId() {
+    return "Người dùng " + Math.floor(Math.random() * 900000 + 100000);
+}
+
+// Số lượng bình luận hiển thị ban đầu
+const initialCommentsToShow = 5;
+
+// Khởi tạo mảng bình luận từ localStorage hoặc mảng trống nếu chưa có
+let comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+// Lấy các phần tử DOM
+const commentInput = document.getElementById('comment-input');
+const submitButton = document.getElementById('submit-comment');
+const commentsContainer = document.getElementById('comments-container');
+const loadMoreBtn = document.getElementById('load-more-btn');
+const messageContainer = document.getElementById('message-container');
+const ratingInputs = document.querySelectorAll('input[name="rating"]');
+
+// Hiển thị bình luận
+function displayComments() {
+    commentsContainer.innerHTML = '';
+
+    if (comments.length === 0) {
+        commentsContainer.innerHTML = '<div class="no-comments">Chưa có bình luận nào.</div>';
+        loadMoreBtn.classList.add('hidden');
+        return;
+    }
+
+    // Sắp xếp bình luận theo thời gian mới nhất
+    const sortedComments = [...comments].sort((a, b) => b.timestamp - a.timestamp);
+
+    // Số lượng bình luận hiển thị
+    const commentsToShow = sortedComments.length > initialCommentsToShow
+        ? initialCommentsToShow
+        : sortedComments.length;
+
+    // Hiển thị các bình luận đầu tiên
+    for (let i = 0; i < commentsToShow; i++) {
+        addCommentToDOM(sortedComments[i], false);
+    }
+
+    // Hiển thị các bình luận còn lại (nếu có) nhưng ẩn đi
+    for (let i = initialCommentsToShow; i < sortedComments.length; i++) {
+        addCommentToDOM(sortedComments[i], true);
+    }
+
+    // Hiển thị hoặc ẩn nút "Xem thêm"
+    if (sortedComments.length > initialCommentsToShow) {
+        loadMoreBtn.classList.remove('hidden');
+    } else {
+        loadMoreBtn.classList.add('hidden');
+    }
+}
+
+// Tạo HTML hiển thị sao đánh giá
+function generateStarRating(rating) {
+    let starsHTML = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            starsHTML += '<span class="star">★</span>';
+        } else {
+            starsHTML += '<span class="empty-star">★</span>';
+        }
+    }
+    return starsHTML;
+}
+
+// Thêm bình luận vào DOM
+function addCommentToDOM(comment, hidden) {
+    const commentElement = document.createElement('div');
+    commentElement.className = `comment ${hidden ? 'hidden' : ''}`;
+
+    const date = new Date(comment.timestamp);
+    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+
+    // Tạo HTML cho rating (nếu có)
+    const ratingHTML = comment.rating ?
+        `<div class="comment-rating">${generateStarRating(comment.rating)}</div>` : '';
+
+    commentElement.innerHTML = `
+                <div class="comment-avatar">
+                    <img src="${comment.avatar}" alt="Avatar">
+                </div>
+                <div class="comment-content">
+                    <div class="comment-user">${comment.userName}</div>
+                    ${ratingHTML}
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-date">${formattedDate}</div>
+                </div>
+            `;
+    commentsContainer.appendChild(commentElement);
+}
+// Kiểm tra xem người dùng đã bình luận trong ngày chưa
+function hasCommentedToday() {
+    const lastCommentDate = localStorage.getItem('lastCommentDate');
+    if (!lastCommentDate) return false;
+
+    const today = new Date().toDateString();
+    const lastDate = new Date(parseInt(lastCommentDate)).toDateString();
+
+    return today === lastDate;
+}
+// Hiển thị thông báo
+function showMessage(message, type = 'error') {
+    messageContainer.innerHTML = `<div class="message ${type}">${message}</div>`;
+
+    // Xóa thông báo sau 3 giây
+    setTimeout(() => {
+        messageContainer.innerHTML = '';
+    }, 3000);
+}
+// Lấy giá trị đánh giá đã chọn
+function getSelectedRating() {
+    for (const input of ratingInputs) {
+        if (input.checked) {
+            return parseInt(input.value);
+        }
+    }
+    return 0;
+}
+// Xử lý sự kiện khi nhấn nút "Gửi bình luận"
+submitButton.addEventListener('click', () => {
+    const commentText = commentInput.value.trim();
+    const rating = getSelectedRating();
+
+    if (commentText === '') {
+        showMessage('Vui lòng nhập nội dung bình luận!');
+        return;
+    }
+
+    if (rating === 0) {
+        showMessage('Vui lòng chọn đánh giá sao!');
+        return;
+    }
+
+    if (hasCommentedToday()) {
+        showMessage('Bạn chỉ được bình luận 1 lần trong ngày!');
+        return;
+    }
+
+    // Chọn avatar ngẫu nhiên từ thư mục img (ví dụ img/avatar1.png - avatar7.png)
+    const randomAvatarIndex = Math.floor(Math.random() * 7) + 1; // 1 đến 7
+    const avatarPath = `img/avatar${randomAvatarIndex}.png`;
+
+    // Tạo đối tượng bình luận
+    const newComment = {
+        userName: generateRandomUserId(),
+        text: commentText,
+        rating: rating,
+        timestamp: Date.now(),
+        avatar: avatarPath
+    };
+
+    // Lưu bình luận vào mảng và localStorage
+    comments.push(newComment);
+    localStorage.setItem('comments', JSON.stringify(comments));
+    localStorage.setItem('lastCommentDate', Date.now());
+
+    // Hiển thị bình luận mới
+    displayComments();
+
+    // Xóa nội dung nhập
+    commentInput.value = '';
+    ratingInputs.forEach(input => input.checked = false);
+
+    checkCommentStatus();
+    showMessage('Bình luận của bạn đã được gửi!', 'success');
+});
+// Xử lý sự kiện khi nhấn nút "Xem thêm"
+loadMoreBtn.addEventListener('click', () => {
+    const hiddenComments = document.querySelectorAll('.comment.hidden');
+    hiddenComments.forEach(comment => {
+        comment.classList.remove('hidden');
+    });
+
+    // Ẩn nút "Xem thêm" sau khi đã hiển thị tất cả bình luận
+    loadMoreBtn.classList.add('hidden');
+});
+// Kiểm tra và vô hiệu hóa nút gửi bình luận nếu đã bình luận trong ngày
+function checkCommentStatus() {
+    if (hasCommentedToday()) {
+        submitButton.disabled = true;
+        commentInput.disabled = true;
+        commentInput.placeholder = "Bạn đã bình luận hôm nay, vui lòng quay lại vào ngày mai.";
+        showMessage('Bạn chỉ được bình luận 1 lần trong ngày!');
+    } else {
+        submitButton.disabled = false;
+        commentInput.disabled = false;
+        commentInput.placeholder = "Nhập bình luận của bạn...";
+    }
+}
+// Hiển thị bình luận khi trang được tải
+window.addEventListener('DOMContentLoaded', () => {
+    displayComments();
+    checkCommentStatus();
 });
