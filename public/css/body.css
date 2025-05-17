@@ -37,6 +37,7 @@
     margin-bottom: 0;
     padding: 50px 20px 50px 20px;
     min-height: 300px;
+    width: 100%;
     align-content: center;
     background: linear-gradient(135deg, #667eea, #764ba2);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
