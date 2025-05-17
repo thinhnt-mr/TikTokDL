@@ -30,9 +30,6 @@
     margin-bottom:1.5rem;
 }
 .animated-background {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     position: relative;
     overflow: hidden;
     border-radius: 10px;
