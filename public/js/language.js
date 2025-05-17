@@ -16,15 +16,12 @@ const translations = {
         'download-no-watermark': 'Tải không watermark',
         'download-with-watermark': 'Tải có watermark',
         'download-audio': 'Tải âm thanh MP3',
-        'content-head': 'Sự lan rộng mạnh mẽ của TikTok trên các nền tảng xã hội, đặc biệt trong lĩnh vực giải trí, đã kéo theo\n' +
-            'nhu cầu ngày càng lớn về việc lưu trữ và sử dụng lại nội dung từ nền tảng này. Nhờ sự phổ biến không\n' +
-            'ngừng, nhiều công ty đã phát triển những giải pháp nhằm hỗ trợ người dùng lưu lại các video và âm thanh\n' +
-            'từ TikTok để sử dụng vào những mục đích khác nhau, mọi lúc, mọi nơi, đồng thời vẫn đảm bảo các yếu tố như\n' +
-            'tốc độ tải nhanh, chất lượng tốt và dễ sử dụng.<br><br>Trong bối cảnh cạnh tranh khốc liệt và nhiều công\n' +
-            'cụ hỗ trợ tải TikTok xuất hiện, không ít người dùng vẫn gặp phải các rào cản như vấn đề bản quyền, quyền\n' +
-            'riêng tư hay giới hạn về thiết bị. TokSave ra đời để giải quyết những điều đó — một công cụ đơn giản,\n' +
-            'thân thiện, tương thích với mọi nền tảng và hệ điều hành. TokSave mang lại trải nghiệm tải video TikTok\n' +
-            'dễ dàng, tiện lợi và toàn diện nhất cho người dùng.',
+        'content-head': 'Với sự phổ biến ngày càng tăng của TikTok, đặc biệt trong lĩnh vực giải trí, nhu cầu lưu
+                trữ và sử dụng lại nội dung từ nền tảng này cũng tăng theo. Nhiều công ty đã phát triển giải pháp giúp người
+                dùng tải video và âm thanh từ TikTok để sử dụng cho các mục đích khác, đảm bảo tốc độ nhanh, chất lượng tốt
+                và dễ sử dụng.<br><br>Trong bối cảnh nhiều công cụ hỗ trợ tải TikTok xuất hiện, TokSave nổi bật với giải pháp
+                đơn giản, thân thiện và tương thích với mọi nền tảng. Công cụ này giúp người dùng tải video TikTok dễ dàng,
+                nhanh chóng và an toàn, đồng thời giải quyết các vấn đề về bản quyền, quyền riêng tư và giới hạn về thiết bị.',
         'what-toksave': '• TokSave là gì?',
         'see-more': '• Xem thêm mẹo tải video TikTok nhanh chóng',
         'content-head-body': 'TokSave là công cụ hỗ trợ tải video TikTok mạnh mẽ, được phát triển nhằm mang đến cho người dùng một trải\n' +
@@ -170,8 +167,7 @@ const translations = {
         'download-no-watermark': 'Download without watermark',
         'download-with-watermark': 'Download with watermark',
         'download-audio': 'Download MP3 audio',
-        'content-head': 'The rapid spread of TikTok on social platforms, especially in the entertainment field, has led to an increasing demand for storing and reusing content from this platform. Thanks to its unceasing popularity, many companies have developed solutions to help users save videos and audio from TikTok for use in different purposes, anytime, anywhere, while still ensuring factors such as fast download speed, good quality and ease of use.<br><br>In the context of fierce competition and the emergence of many tools to support downloading TikTok, many users still encounter barriers such as copyright issues, privacy rights or device limitations. TokSave was born to solve those problems — a simple,\n' +
-            'friendly tool, compatible with all platforms and operating systems. TokSave brings the most easy, convenient and comprehensive TikTok video downloading experience to users.',
+        'content-head': 'With the growing popularity of TikTok, especially in the entertainment field, the need to store and reuse content from this platform has also increased. Many companies have developed solutions to help users download videos and audio from TikTok for other purposes, ensuring fast speed, good quality and ease of use.<br><br>In the context of many TikTok download support tools appearing, TokSave stands out with its simple, user-friendly solution that is compatible with all platforms. This tool helps users download TikTok videos easily, fastly and safely, while solving issues of copyright, privacy and device limitations.',
         'what-toksave': '• What is TokSave?',
         'see-more': '• See more tips for downloading TikTok videos quickly',
         'content-head-body': 'TokSave is a powerful TikTok video downloading support tool, developed to bring users a simple but effective\n' +
