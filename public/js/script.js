@@ -1,411 +1,771 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const videoUrlInput = document.getElementById('video-url');
-    const downloadBtn = document.getElementById('download-btn');
-    const result = document.getElementById('result');
-    const loading = document.querySelector('.loading');
-    const errorMessage = document.getElementById('error-message');
-    const videoThumbnail = document.getElementById('video-thumbnail');
-    const downloadNoWatermark = document.getElementById('download-no-watermark');
-    const downloadWithWatermark = document.getElementById('download-with-watermark');
-    const downloadAudio = document.getElementById('download-audio');
-    const downloadCover = document.getElementById('downloadCover');
-    // Xử lý tải video
-    downloadBtn.addEventListener('click', async function () {
-        const url = videoUrlInput.value.trim();
-        if (!url || !url.startsWith('http') || !url.includes('tiktok.com')) {
-            alert('Vui lòng nhập URL hợp lệ của TikTok');
-            return;
-        }
+// Define translations for all text elements
+let translations = {
+    'vi': {
+        'page-title': 'Tải Video TikTok Không Logo Miễn Phí | Tải Video TikTok Không Watermark nhanh chóng',
+        'logo-text': 'TokSave',
+        'cookie-h3': 'Chúng tôi sử dụng cookie!',
+        'cookie-title': 'Trang này sử dụng cookie để đảm bảo bạn có trải nghiệm tốt nhất trên trang web của chúng tôi.\n' + 'Bằng cách tiếp tục duyệt trang, bạn đồng ý với việc sử dụng cookie của chúng tôi. <a href="privacy.html">Tìm hiểu thêm',
+        'accept-cookies': 'Chấp nhận',
+        'reject-cookies': 'Từ chối',
+        'hero-title': 'Tải video TikTok không logo',
+        'hero-desc': 'Tải video TikTok miễn phí, không giới hạn, nhanh chóng và an toàn.',
+        'video-url': 'Dán link video tại đây để tải...',
+        'download-btn': 'Tải xuống',
+        'loading-text': 'Đang phân tích video...',
+        'error-message': 'Xin lỗi, không thể xử lý đường link này. Vui lòng kiểm tra và thử lại.',
+        'download-no-watermark': 'Tải không watermark',
+        'download-with-watermark': 'Tải có watermark',
+        'download-audio': 'Tải âm thanh MP3',
+        'content-head': 'Sự lan rộng mạnh mẽ của TikTok trên các nền tảng xã hội, đặc biệt trong lĩnh vực giải trí, đã kéo theo\n' +
+            'nhu cầu ngày càng lớn về việc lưu trữ và sử dụng lại nội dung từ nền tảng này. Nhờ sự phổ biến không\n' +
+            'ngừng, nhiều công ty đã phát triển những giải pháp nhằm hỗ trợ người dùng lưu lại các video và âm thanh\n' +
+            'từ TikTok để sử dụng vào những mục đích khác nhau, mọi lúc, mọi nơi, đồng thời vẫn đảm bảo các yếu tố như\n' +
+            'tốc độ tải nhanh, chất lượng tốt và dễ sử dụng.<br><br>Trong bối cảnh cạnh tranh khốc liệt và nhiều công\n' +
+            'cụ hỗ trợ tải TikTok xuất hiện, không ít người dùng vẫn gặp phải các rào cản như vấn đề bản quyền, quyền\n' +
+            'riêng tư hay giới hạn về thiết bị. TokSave ra đời để giải quyết những điều đó — một công cụ đơn giản,\n' +
+            'thân thiện, tương thích với mọi nền tảng và hệ điều hành. TokSave mang lại trải nghiệm tải video TikTok\n' +
+            'dễ dàng, tiện lợi và toàn diện nhất cho người dùng.',
+        'what-toksave': '• TokSave là gì?',
+        'see-more': '• Xem thêm mẹo tải video TikTok nhanh chóng',
+        'content-head-body': 'TokSave là công cụ hỗ trợ tải video TikTok mạnh mẽ, được phát triển nhằm mang đến cho người dùng một trải\n' +
+            'nghiệm đơn giản nhưng hiệu quả. Điểm nổi bật của TokSave chính là khả năng tải xuống các video TikTok với\n' +
+            'chất lượng cao, không logo và đầy đủ âm thanh – điều mà nhiều công cụ khác trên thị trường vẫn còn thiếu sót.<br><br>\n' +
+            'Không chỉ dừng lại ở việc lưu video, TokSave còn cho phép bạn trích xuất âm thanh từ video TikTok và chuyển\n' +
+            'đổi sang định dạng MP3 chất lượng cao. Nhờ đó, bạn có thể lưu lại những bản nhạc, đoạn âm thanh yêu thích\n' +
+            'để nghe lại bất cứ lúc nào mà không cần truy cập TikTok.',
+        'feature1-title': 'Tải xuống nhanh chóng',
+        'feature1-desc': 'Tải video TikTok chỉ trong vài giây với tốc độ cao và không có giới hạn.',
+        'feature2-title': 'Chất lượng cao',
+        'feature2-desc': 'Download video TikTok chất lượng HD, giữ nguyên độ phân giải gốc của video.',
+        'feature3-title': 'An toàn & Bảo mật',
+        'feature3-desc': 'Không cần đăng ký, không lưu trữ video của bạn, bảo mật thông tin người dùng.',
+        'how-to-title': 'Cách sử dụng',
+        'step1-title': 'Sao chép link',
+        'step1-desc': 'Mở ứng dụng TikTok, tìm video bạn muốn tải và nhấn vào nút "Chia sẻ". Sau đó chọn "Sao chép liên kết".',
+        'step2-title': 'Dán link',
+        'step2-desc': 'Dán liên kết video vào ô nhập liệu trên trang web của chúng tôi.',
+        'step3-title': 'Tải xuống',
+        'step3-desc': 'Nhấn nút "Tải xuống" và chọn định dạng bạn muốn tải video.',
+        'step4-title': 'Lưu video TikTok trên điện thoại di động',
+        'step4-desc': 'Mở ứng dụng TikTok và tìm video bạn muốn tải về máy. Khi đang xem video, bạn sẽ thấy biểu\n' +
+            'tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn vào đó và chọn “Sao chép liên kết”.',
+        'step7-desc': 'Tiếp theo, truy cập vào trang web hỗ trợ tải video TikTok (toksave.online). Dán liên kết\n' +
+            'vừa sao chép vào ô nhập link trên trang web và bấm “Tải xuống”. Bạn sẽ thấy\n' +
+            'video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải là video sẽ được lưu về máy.',
+        'step5-title': 'Lưu video TikTok không có logo trên máy tính',
+        'step9-desc': 'Mở TikTok trên máy tính của bạn lên, bạn có thể sự dụng nền tảng web hay ứng dụng TikTok >\n' +
+            'Khi đang xem video, bạn sẽ thấy biểu tượng “Chia sẻ” (hình mũi tên hướng sang phải) ở bên phải video. Nhấn\n' +
+            'vào đó và chọn “Sao chép liên kết”. Chọn đến mục Sao chép liên kết để tiến hành lấy link video.',
+        'step12-desc': 'Vì TikTok chưa hỗ trợ tính tăng tải video không logo nên bạn hãy truy cập công cụ hỗ trợ\n' +
+            '"toksave.online" để tải video. Dán liên kết mà bạn sao chép ở bước 2 vào ô nhập link > Nhấn Tải Xuống. Chờ một chút Bạn\n' +
+            'sẽ thấy video cần tải hiển thị ngay trên màn hình > Chọn vào phương thức Tải là video sẽ được lưu về máy.',
+        'step6-title': 'Tải Video TikTok không logo trên iPhone',
+        'step14-desc': 'Nếu bạn đang dùng iPhone hoặc iPad bạn cũng có thể tải video TikTok miễn phí cho thiết bị\n' +
+            'Apple, nhưng bạn cần cài thêm ứng dụng Documents by Readdle trên App Store. Vì chính sách bảo mật của Apple,\n' +
+            'iOS từ phiên bản 12 trở nên sẽ không lưu được video từ TikTok trên trình duyệt.\n' +
+            'Hãy chép liên kết của một video bất kỳ trên TikTok, sau đó mở ứng dụng Documents by Readdle.',
+        'step16-desc': 'Ngay góc dưới bên phải của màn hình, bạn sẽ thấy một biểu tượng trình duyệt web. Hãy chạm vào nó.',
+        'faq-title': 'Câu hỏi thường gặp',
+        'faq-q1': 'TokSave có hoàn toàn miễn phí không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a1': 'Có, TokSave hoàn toàn miễn phí để sử dụng. Không có phí ẩn hoặc giới hạn tải xuống.',
+        'faq-q2': 'Tôi có thể tải video từ TikTok Trung Quốc (Douyin) không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a2': 'Hiện tại TokSave chỉ hỗ trợ video từ TikTok phiên bản quốc tế, không hỗ trợ Douyin.',
+        'faq-q3': 'Có thể dùng TokSave trên máy tính bảng không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a3': 'Có, TokSave tương thích với cả máy tính bảng và các thiết bị di động có trình duyệt web.',
+        'faq-q4': 'Có thể tải video riêng tư không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a4': 'Không, TokSave chỉ có thể tải các video công khai trên TikTok. Không thể tải video riêng tư.',
+        'faq-q5': 'Video đã tải về được lưu ở đâu?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a5': 'Sau khi tải xong, video sẽ được lưu trong thư mục "Tải xuống" (Downloads) mặc định trên thiết bị của bạn.',
+        'faq-q6': 'Tôi có thể tải hàng loạt nhiều video cùng lúc không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a6': 'Hiện tại, TokSave chỉ hỗ trợ tải từng video một. Tính năng tải hàng loạt sẽ được xem xét trong tương lai.',
+        'faq-q7': 'Tôi có thể tải video TikTok trên điện thoại di động không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a7': 'Có, TokSave hoạt động trên tất cả các thiết bị, bao gồm điện thoại di động, máy tính bảng và máy tính để bàn.',
+        'faq-q8': 'TokSave có hoạt động trên iPhone/iOS không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a8': 'Có, bạn có thể sử dụng TokSave trên trình duyệt Safari hoặc Chrome trên iPhone mà không cần cài thêm ứng dụng.',
+        'faq-q9': 'Có thể tải video TikTok ở chế độ HD không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a9': 'Tùy vào chất lượng gốc của video trên TikTok, TokSave sẽ cố gắng giữ nguyên độ phân giải cao nhất có thể (bao gồm HD nếu có).',
+        'faq-q10': 'Website có chứa quảng cáo không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a10': 'Một số quảng cáo có thể được hiển thị để duy trì hoạt động của website, nhưng sẽ không ảnh hưởng đến trải nghiệm tải video của bạn.',
+        'faq-q11': 'Tôi có thể chia sẻ video đã tải không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a11': 'Bạn có thể chia sẻ video đã tải cho mục đích cá nhân. Tuy nhiên, không nên chia sẻ công khai nếu video thuộc sở hữu của người khác và chưa được cho phép.',
+        'faq-q12': 'Tải video không có watermark có hợp pháp không?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a12': 'Có, tải video TikTok để sử dụng cá nhân là hợp pháp. Tuy nhiên, hãy tôn trọng quyền sở hữu trí tuệ và không sử dụng video cho mục đích thương mại mà không có sự cho phép từ chủ sở hữu nội dung.',
+        'footer-tech': 'Tải video TikTok không có watermark nhanh chóng, đơn giản và hoàn toàn miễn phí.',
+        'footer-copyright': '© 2025 TokSave. Bảo lưu mọi quyền.',
+        'footer-disclaimer': 'Lưu ý: Đây không phải là sản phẩm chính thức của TikTok, vui lòng tải video với mục đích cá nhân.',
 
-        loading.style.display = 'block';
-        errorMessage.style.display = 'none';
-        result.style.display = 'none';
+        'page-title-privacy': 'Chính Sách Bảo Mật Riêng Tư | Cam kết bảo vệ thông tin cá nhân',
+        'title-Privacy': 'Cập Nhật Lần Cuối: Ngày 21 Tháng 4 Năm 2025',
+        'title-Privacy1': '1. GIỚI THIỆU',
+        'cte-Privacy': 'Chào mừng bạn đến với TokSave của chúng tôi. Tại TokSave, chúng tôi tôn trọng quyền riêng tư của bạn và cam kết bảo vệ thông tin cá nhân của bạn. Chính sách Bảo mật này giải thích cách chúng tôi thu thập, sử dụng, tiết lộ và bảo vệ thông tin của bạn khi bạn truy cập và sử dụng dịch vụ của chúng tôi.',
+        'title-Privacy2': '2. THÔNG TIN CHÚNG TÔI THU THẬP',
+        'title-Privacy3': '2.1 Thông tin Bạn Cung Cấp',
+        'cte-Privacy1': 'Khi sử dụng dịch vụ của chúng tôi để tải video TikTok, bạn có thể nhập URL video. Chúng tôi không yêu cầu bạn đăng ký hoặc cung cấp thông tin cá nhân nào khác như tên, email, v.v.',
+        'title-Privacy4': '2.2 Thông tin Thu Thập Tự Động',
+        'cte-Privacy1-1': 'Khi bạn truy cập trang web của chúng tôi, chúng tôi có thể tự động thu thập một số thông tin nhất định, bao gồm:',
+        'li-Privacy1': 'Thông tin Thiết bị: Loại thiết bị, hệ điều hành, phiên bản trình duyệt.',
+        'li-Privacy2': 'Thông tin Đăng nhập: Địa chỉ IP, múi giờ, thời gian truy cập.',
+        'li-Privacy3': 'Thông tin Sử dụng: Các trang bạn xem, thời gian ở lại, hoạt động khi sử dụng trang.',
+        'li-Privacy4': 'Cookies và Công nghệ Theo dõi: Chúng tôi sử dụng cookies để thu thập thông tin trình duyệt và theo dõi lượt sử dụng.',
+        'title-Privacy5': '3. CÁCH CHÚNG TÔI SỬ DỤNG THÔNG TIN CỦA BẠN',
+        'cte-Privacy2': 'Chúng tôi sử dụng thông tin thu thập được để:',
+        'li-Privacy5': 'Cung cấp dịch vụ tải video TikTok không watermark.',
+        'li-Privacy6': 'Duy trì, cải thiện và phát triển trang web và dịch vụ.',
+        'li-Privacy7': 'Hiểu cách người dùng sử dụng trang web để tối ưu hóa trải nghiệm.',
+        'li-Privacy8': 'Phát hiện, ngăn chặn và giải quyết các vấn đề kỹ thuật hoặc bảo mật.',
+        'li-Privacy9': 'Phân tích xu hướng sử dụng và hiệu suất.',
+        'li-Privacy10': 'Tuân thủ các nghĩa vụ pháp lý.',
+        'title-Privacy6': '4. CHIA SẺ THÔNG TIN CỦA BẠN',
+        'cte-Privacy3': 'Chúng tôi không bán, cho thuê hoặc trao đổi thông tin cá nhân của bạn. Chúng tôi có thể chia sẻ thông tin trong các trường hợp sau:',
+        'li-Privacy11': 'Nhà cung cấp dịch vụ: Với các bên giúp vận hành trang web.',
+        'li-Privacy12': 'Tuân thủ pháp luật: Khi được yêu cầu bởi cơ quan pháp lý.',
+        'li-Privacy13': 'Bảo vệ quyền lợi: Khi cần để bảo vệ quyền và tài sản của chúng tôi.',
+        'li-Privacy14': 'Chuyển giao kinh doanh: Khi có sáp nhập, mua lại hoặc phá sản.',
+        'title-Privacy7': '5. COOKIES VÀ CÔNG NGHỆ TƯƠNG TỰ',
+        'cte-Privacy4': 'Trang web của chúng tôi sử dụng cookies và các công nghệ tương tự để tăng trải nghiệm người dùng.',
+        'cte-Privacy5': 'Chúng tôi sử dụng cả cookies phiên và cookies lâu dài:',
+        'li-Privacy15': 'Cookies phiên chỉ tồn tại trong một phiên duyệt web và bị xóa khi bạn đóng trình duyệt.',
+        'li-Privacy16': 'Cookies lâu dài vẫn còn trên thiết bị của bạn cho đến khi bị xóa hoặc hết hạn.',
+        'cte-Privacy6': 'Bạn có thể kiểm soát cookies thông qua cài đặt trình duyệt.',
+        'title-Privacy8': '6. BẢO MẬT DỮ LIỆU',
+        'cte-Privacy7': 'Chúng tôi đã triển khai các biện pháp bảo mật hợp lý để bảo vệ thông tin khỏi truy cập trái phép, thay đổi hoặc tiết lộ.',
+        'cte-Privacy8': 'Chúng tôi hạn chế quyền truy cập vào thông tin chỉ với những người cần để vận hành dịch vụ.',
+        'title-Privacy9': '7. LƯU TRỮ DỮ LIỆU',
+        'cte-Privacy9': 'Chúng tôi chỉ giữ thông tin của bạn trong thời gian cần thiết để cung cấp dịch vụ.',
+        'cte-Privacy10': 'Đối với các URL video TikTok bạn nhập, chúng tôi không lưu trữ vĩnh viễn và sẽ xóa ngay sau khi xử lý xong.',
+        'title-Privacy10': '8. QUYỀN CỦA BẠN',
+        'cte-Privacy11': 'Tùy vào khu vực bạn sống, bạn có thể có các quyền sau:',
+        'li-Privacy17': 'Quyền truy cập thông tin cá nhân.',
+        'li-Privacy18': 'Quyền chỉnh sửa thông tin sai.',
+        'li-Privacy19': 'Quyền yêu cầu xóa thông tin cá nhân.',
+        'li-Privacy20': 'Quyền hạn chế hoặc phản đối xử lý dữ liệu.',
+        'li-Privacy21': 'Quyền chuyển dữ liệu.',
+        'li-Privacy22': 'Quyền rút lại sự đồng ý đã cho.',
+        'cte-Privacy12': 'Để thực hiện quyền, vui lòng liên hệ với chúng tôi.',
+        'title-Privacy11': '9. THAY ĐỔI CHÍNH SÁCH BẢO MẬT',
+        'cte-Privacy13': 'Chúng tôi có thể cập nhật Chính sách Bảo mật này theo thời gian. Ngày cập nhật sẽ luôn được hiển thị ở đầu.',
+        'title-Privacy12': '10. LIÊN HỆ VỚI CHÚNG TÔI',
+        'cte-Privacy14': 'Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào, hãy kéo xuống phần Liên hệ.',
+        'cte-Privacy15': 'Lưu ý: TokSave chỉ là công cụ tải video cá nhân và không liên quan đến TikTok.',
 
-        const existingProfile = document.getElementById('user-profile');
-        if (existingProfile) {
-            existingProfile.style.display = 'none';
-        }
+        'page-title-contact': 'Liên Hệ Với Chúng Tôi | Hỗ trợ giải đáp thắc mắc',
+        'contact-description': 'Liên Hệ',
+        'user-name': 'Họ và tên:*',
+        'label-email': 'Địa chỉ email:*',
+        'label-content': 'Nội dung:*',
+        'submit': 'Gửi yêu cầu',
+    },
+    'en': {
+        'page-title': 'Download TikTok Videos Without Logo for Free | Download TikTok Videos Without Watermark Quickly',
+        'logo-text': 'TokSave',
+        'cookie-h3': 'We use cookies!',
+        'cookie-title': 'This page uses cookies to ensure you have the best experience on our website.n' + 'By continuing to browse the page, you consent to our use of cookies. <a href="privacy.html">Learn More',
+        'accept-cookies': 'Accept',
+        'reject-cookies': 'reject',
+        'hero-title': 'Download TikTok videos without watermark',
+        'hero-desc': 'Download TikTok videos for free, unlimited, fast and safe.',
+        'video-url': 'Paste the video link here to download...',
+        'download-btn': 'Download',
+        'loading-text': 'Analyzing video...',
+        'error-message': 'Sorry, we cannot process this link. Please check and try again.',
+        'download-no-watermark': 'Download without watermark',
+        'download-with-watermark': 'Download with watermark',
+        'download-audio': 'Download MP3 audio',
+        'content-head': 'The rapid spread of TikTok on social platforms, especially in the entertainment field, has led to an increasing demand for storing and reusing content from this platform. Thanks to its unceasing popularity, many companies have developed solutions to help users save videos and audio from TikTok for use in different purposes, anytime, anywhere, while still ensuring factors such as fast download speed, good quality and ease of use.<br><br>In the context of fierce competition and the emergence of many tools to support downloading TikTok, many users still encounter barriers such as copyright issues, privacy rights or device limitations. TokSave was born to solve those problems — a simple,\n' +
+            'friendly tool, compatible with all platforms and operating systems. TokSave brings the most easy, convenient and comprehensive TikTok video downloading experience to users.',
+        'what-toksave': '• What is TokSave?',
+        'see-more': '• See more tips for downloading TikTok videos quickly',
+        'content-head-body': 'TokSave is a powerful TikTok video downloading support tool, developed to bring users a simple but effective\n' +
+            'experience. The highlight of TokSave is the ability to download TikTok videos in high quality, no watermark and full sound - something that many other tools on the market still lack.<br><br>\n' +
+            'Not only does it save videos, TokSave also allows you to extract audio from TikTok videos and convert\n' +
+            'to high quality MP3 format. Thanks to that, you can save your favorite music and audio tracks\n' +
+            'to listen to them anytime without having to access TikTok.',
+        'feature1-title': 'Fast Download',
+        'feature1-desc': 'Download TikTok videos in seconds with high speed and no limits.',
+        'feature2-title': 'High Quality',
+        'feature2-desc': 'Download TikTok videos in HD quality, keeping the original resolution of the video.',
+        'feature3-title': 'Safe & Secure',
+        'feature3-desc': 'No registration required, no storage of your videos, user information security.',
+        'how-to-title': 'How to Use',
+        'step1-title': 'Copy the link',
+        'step1-desc': 'Open the TikTok app, find the video you want to download and tap the "Share" button. Then select "Copy link".',
+        'step2-title': 'Paste the link',
+        'step2-desc': 'Paste the video link into the input field on our website.',
+        'step3-title': 'Download',
+        'step3-desc': 'Click the "Download" button and select the format you want to download the video in.',
+        'step4-title': 'Save TikTok videos on mobile',
+        'step4-desc': 'Open the TikTok app and find the video you want to download. While watching the video, you will see the "Share" icon (arrow pointing to the right) to the right of the video. Click on it and select "Copy link".',
+        'step7-desc': 'Next, go to the website that supports downloading TikTok videos (toksave.online). Paste the link you just copied into the link input box on the website and click "Download". You will see the video you want to download displayed on the screen > Select the Download method and the video will be saved to your device.',
+        'step5-title': 'Save TikTok videos without logo on computer',
+        'step9-desc': 'Open TikTok on your computer, you can use the web platform or the TikTok application >\n' +
+            'While watching a video, you will see the "Share" icon (arrow pointing to the right) on the right side of the video. Click\n' +
+            'on it and select "Copy link". Select the Copy link item to get the video link.',
+        'step12-desc': 'Because TikTok does not support the feature of uploading videos without a logo, please access the support tool\n' +
+            '"toksave.online" to download the video. Paste the link you copied in step 2 into the link input box > Click Download. Wait a moment You\n' +
+            'you will see the video you want to download displayed on the screen > Select the Download method and the video will be saved to your device.',
+        'step6-title': 'Download TikTok Videos without logo on iPhone',
+        'step14-desc': 'If you are using an iPhone or iPad, you can also download TikTok videos for free to your device\n' +
+            'Apple, but you need to install the Documents by Readdle application on the App Store. Due to Apple\n' +
+            'iOS from version 12 onwards will not be able to save videos from TikTok on the browser.\n' +
+            'Copy the link of any video on TikTok, then open the Documents by Readdle application.',
+        'step16-desc': 'In the lower right corner of the screen, you will see a web browser icon. Tap it.',
+        'faq-title': 'Frequently Asked Questions',
+        'faq-q1': 'Is TokSave completely free?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a1': 'Yes, TokSave is completely free to use. There are no hidden fees or download limits.',
+        'faq-q2': 'Can I download videos from Chinese TikTok (Douyin)?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a2': 'Currently, TokSave only supports videos from the international version of TikTok, not Douyin.',
+        'faq-q3': 'Can I use TokSave on a tablet?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a3': 'Yes, TokSave is compatible with both tablets and mobile devices with web browsers.',
+        'faq-q4': 'Can I download private videos?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a4': 'No, TokSave can only download public videos on TikTok. Private videos cannot be downloaded.',
+        'faq-q5': 'Where are downloaded videos saved?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a5': 'After downloading, the video will be saved in the default "Downloads" folder on your device.',
+        'faq-q6': 'Can I download multiple videos at once?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a6': 'Currently, TokSave only supports downloading one video at a time. Batch download feature will be considered in the future.',
+        'faq-q7': 'Can I download TikTok videos on my mobile phone?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a7': 'Yes, TokSave works on all devices, including mobile phones, tablets, and desktop computers.',
+        'faq-q8': 'Does TokSave work on iPhone/iOS?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a8': 'Yes, you can use TokSave on Safari or Chrome browser on iPhone without the need to install additional applications.',
+        'faq-q9': 'Can I download TikTok videos in HD mode?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a9': 'Depending on the original quality of the video on TikTok, TokSave will try to maintain the highest possible resolution (including HD if available).',
+        'faq-q10': 'Does the website contain advertisements?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a10': 'Some advertisements may be displayed to maintain the operation of the website, but they will not affect your video downloading experience.',
+        'faq-q11': 'Can I share downloaded videos?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a11': 'You can share downloaded videos for personal purposes. However, you should not share publicly if the video belongs to someone else and has not been permitted.',
+        'faq-q12': 'Is downloading videos without watermark legal?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a12': 'Yes, downloading TikTok videos for personal use is legal. However, respect intellectual property rights and do not use videos for commercial purposes without permission from the content owner.',
+        'footer-tech': 'Quick, simple, and completely free TikTok video downloads without watermark.',
+        'footer-copyright': '© 2025 TokSave. All rights reserved.',
+        'footer-disclaimer': 'Disclaimer: This is not an official TikTok product. Please download videos for personal use only.',
 
-        try {
-            const videoData = await downloadTikTokVideo(url);
-            loading.style.display = 'none';
-            if (videoData && videoData.data) {
-                displayUserProfile(videoData.data);
+        'page-title-privacy': 'Privacy Policy | Commitment to protect personal information',
+        'title-Privacy': 'Last Updated: April 21, 2025',
+        'title-Privacy1': '1. INTRODUCTION',
+        'cte-Privacy': 'Welcome to TokSave. At TokSave, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.',
+        'title-Privacy2': '2. INFORMATION WE COLLECT',
+        'title-Privacy3': '2.1 Information You Provide',
+        'cte-Privacy1': 'When using our service to download TikTok videos, you may enter a video URL. We do not ask for other personal information like name or email.',
+        'title-Privacy4': '2.2 Automatically Collected Information',
+        'cte-Privacy1-1': 'When you visit our website, we may automatically collect certain information, including:',
+        'li-Privacy1': 'Device Information: Device type, OS, browser version.',
+        'li-Privacy2': 'Log Data: IP address, timezone, access time.',
+        'li-Privacy3': 'Usage Info: Pages visited, time spent, activity.',
+        'li-Privacy4': 'Cookies & Tracking: We use cookies to gather browser and usage data.',
+        'title-Privacy5': '3. HOW WE USE YOUR INFORMATION',
+        'cte-Privacy2': 'We use the collected information to:',
+        'li-Privacy5': 'Provide watermark-free TikTok video download service.',
+        'li-Privacy6': 'Maintain, improve and develop our site and services.',
+        'li-Privacy7': 'Understand user behavior and optimize UX.',
+        'li-Privacy8': 'Detect, prevent and resolve technical/security issues.',
+        'li-Privacy9': 'Analyze usage trends and performance.',
+        'li-Privacy10': 'Comply with legal requirements.',
+        'title-Privacy6': '4. SHARING YOUR INFORMATION',
+        'cte-Privacy3': 'We do not sell, rent or trade your personal info. We may share data in the following situations:',
+        'li-Privacy11': 'Service Providers: To help operate our website.',
+        'li-Privacy12': 'Legal Compliance: To comply with law enforcement.',
+        'li-Privacy13': 'Protection: To protect our rights and safety.',
+        'li-Privacy14': 'Business Transfers: In mergers or acquisitions.',
+        'title-Privacy7': '5. COOKIES AND SIMILAR TECHNOLOGIES',
+        'cte-Privacy4': 'We use cookies and similar technologies to enhance your experience.',
+        'cte-Privacy5': 'We use both session and persistent cookies:',
+        'li-Privacy15': 'Session cookies last only during your session and are deleted on browser close.',
+        'li-Privacy16': 'Persistent cookies remain until deleted or expired.',
+        'cte-Privacy6': 'You can control cookies via browser settings.',
+        'title-Privacy8': '6. DATA SECURITY',
+        'cte-Privacy7': 'We use reasonable safeguards to protect information from unauthorized access or misuse.',
+        'cte-Privacy8': 'Access is limited to those who need it to operate the service.',
+        'title-Privacy9': '7. DATA RETENTION',
+        'cte-Privacy9': 'We retain your information only as long as needed for services.',
+        'cte-Privacy10': 'Video URLs you enter are not permanently stored and are deleted after processing.',
+        'title-Privacy10': '8. YOUR RIGHTS',
+        'cte-Privacy11': 'Depending on your region, you may have the right to:',
+        'li-Privacy17': 'Access your personal data.',
+        'li-Privacy18': 'Correct inaccurate data.',
+        'li-Privacy19': 'Request deletion of data.',
+        'li-Privacy20': 'Restrict or object to processing.',
+        'li-Privacy21': 'Data portability.',
+        'li-Privacy22': 'Withdraw consent.',
+        'cte-Privacy12': 'To exercise your rights, contact us.',
+        'title-Privacy11': '9. CHANGES TO THIS PRIVACY POLICY',
+        'cte-Privacy13': 'We may update this Privacy Policy from time to time. The latest update date will be shown at the top.',
+        'title-Privacy12': '10. CONTACT US',
+        'cte-Privacy14': 'If you have any questions or concerns, scroll down to the Contact section.',
+        'cte-Privacy15': 'Note: TokSave is a personal video tool and is not affiliated with TikTok.',
 
-                videoThumbnail.src = videoData.data.cover || '/api/placeholder/350/500';
-                videoThumbnail.alt = 'Video Thumbnail';
+        'page-title-contact': 'Contact Us | Support for answering questions',
+        'contact-description': 'Contact',
+        'user-name': 'Full name:*',
+        'label-email': 'Email Address:*',
+        'label-content': 'Content:*',
+        'submit': 'Submit request',
+    },
+    'zh': {
+        'page-title': '免费下载无水印TikTok视频 | 快速下载无水印TikTok视频',
+        'logo-text': 'TokSave',
+        'cookie-h3': '我们使用Cookie！',
+        'cookie-title': '本网站使用Cookie以确保您在我们网站上获得最佳体验。\n' + '继续浏览网站即表示您同意我们使用Cookie。<a href="privacy.html">了解更多',
+        'accept-cookies': '接受',
+        'reject-cookies': '拒绝',
+        'hero-title': '下载无水印的TikTok视频',
+        'hero-desc': '免费下载，无限制，快速安全的TikTok视频。',
+        'video-url': '在此粘贴视频链接以下载...',
+        'download-btn': '下载',
+        'loading-text': '正在分析视频...',
+        'error-message': '抱歉，无法处理此链接。请检查并重试。',
+        'download-no-watermark': '下载无水印',
+        'download-with-watermark': '下载带水印',
+        'download-audio': '下载MP3音频',
+        'content-head': 'TikTok在社交平台上的强劲扩张，特别是在娱乐领域，带来了对存储和重复使用该平台内容的日益增长的需求。由于其不断的普及，许多公司开发了解决方案，以支持用户随时随地保存TikTok上的视频和音频，以用于不同的目的，同时确保快速下载、良好质量和易于使用等因素。<br><br>在竞争激烈的背景下，许多支持下载TikTok的工具相继出现，仍然有不少用户面临版权、隐私或设备限制等障碍。TokSave应运而生，以解决这些问题——一个简单、友好、兼容所有平台和操作系统的工具。TokSave为用户提供了最便捷、全面的TikTok视频下载体验。',
+        'what-toksave': '• TokSave是什么？',
+        'see-more': '• 查看更多快速下载TikTok视频的技巧',
+        'content-head-body': 'TokSave 是一个强大的 TikTok 视频下载工具，旨在为用户提供简单但有效的体验。TokSave 的亮点在于能够以高质量、无水印和完整音频下载 TikTok 视频——这是市场上许多其他工具所缺乏的。<br><br>不仅仅是保存视频，TokSave 还允许您从 TikTok 视频中提取音频并转换为高质量的 MP3 格式。因此，您可以随时保存您喜欢的音乐和音频片段，而无需访问 TikTok。',
+        'feature1-title': '快速下载',
+        'feature1-desc': '在几秒钟内以高速下载 TikTok 视频，没有限制。',
+        'feature2-title': '高质量',
+        'feature2-desc': '下载高清质量的 TikTok 视频，保持视频的原始分辨率。',
+        'feature3-title': '安全与隐私',
+        'feature3-desc': '无需注册，不会存储您的视频，保护用户信息的安全。',
+        'how-to-title': '使用方法',
+        'step1-title': '复制链接',
+        'step1-desc': '打开 TikTok 应用，找到您想下载的视频，点击“分享”按钮。然后选择“复制链接”。',
+        'step2-title': '粘贴链接',
+        'step2-desc': '将视频链接粘贴到我们网站的输入框中。',
+        'step3-title': '下载',
+        'step3-desc': '点击“下载”按钮，选择您想要下载视频的格式。',
+        'step4-title': '在手机上保存TikTok视频',
+        'step4-desc': '打开TikTok应用，找到您想下载的视频。当您观看视频时，您会看到视频右侧的“分享”图标（向右的箭头）。点击它并选择“复制链接”。',
+        'step7-desc': '接下来，访问支持下载TikTok视频的网站（toksave.online）。将刚复制的链接粘贴到网站的链接输入框中，然后点击“下载”。您将看到需要下载的视频在屏幕上显示 > 选择下载方式，视频将被保存到您的设备上。',
+        'step5-title': '在电脑上保存无水印的TikTok视频',
+        'step9-desc': '在您的电脑上打开TikTok，您可以使用网页版或TikTok应用 > 当您观看视频时，您会看到视频右侧的“分享”图标（向右的箭头）。点击它并选择“复制链接”。选择复制链接以获取视频链接。',
+        'step12-desc': '由于TikTok尚不支持无水印视频下载，请访问支持工具\n' +
+            '"toksave.online"进行视频下载。将您在步骤2中复制的链接粘贴到输入框中 > 点击下载。稍等片刻，您\n' +
+            '将看到需要下载的视频在屏幕上显示 > 选择下载方式，视频将被保存到您的设备。',
+        'step6-title': '在iPhone上下载无水印TikTok视频',
+        'step14-desc': '如果您使用的是iPhone或iPad，您也可以免费为Apple设备下载TikTok视频，\n' +
+            '但您需要在App Store中额外安装Documents by Readdle应用。由于Apple的隐私政策，\n' +
+            'iOS从12版本开始将无法在浏览器中保存TikTok的视频。\n' +
+            '请复制TikTok上任意视频的链接，然后打开Documents by Readdle应用。',
+        'step16-desc': '在屏幕右下角，您会看到一个网页浏览器图标。请点击它。',
+        'faq-title': '常见问题',
+        'faq-q1': 'TokSave完全免费使用吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a1': '是的，TokSave完全免费使用。没有隐藏费用或下载限制。',
+        'faq-q2': '我可以从中国的TikTok（抖音）下载视频吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a2': '目前TokSave仅支持国际版TikTok的视频，不支持抖音。',
+        'faq-q3': '可以在平板电脑上使用TokSave吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a3': '可以，TokSave与平板电脑和所有支持网页浏览的移动设备兼容。',
+        'faq-q4': '可以下载私密视频吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a4': '不可以，TokSave只能下载TikTok上的公开视频，无法下载私密视频。',
+        'faq-q5': '下载的视频保存在哪里？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a5': '下载完成后，视频将保存在您设备的默认“下载”（Downloads）文件夹中。',
+        'faq-q6': '我可以一次下载多个视频吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a6': '目前，TokSave仅支持逐个下载视频。批量下载功能将在未来考虑。',
+        'faq-q7': '我可以在手机上下载TikTok视频吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a7': '可以，TokSave在所有设备上均可使用，包括手机、平板电脑和台式电脑。',
+        'faq-q8': 'TokSave在iPhone/iOS上可以使用吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a8': '是的，您可以在iPhone上的Safari或Chrome浏览器中使用TokSave，无需额外安装应用程序。',
+        'faq-q9': '可以以HD模式下载TikTok视频吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a9': '根据TikTok上视频的原始质量，TokSave会尽量保持最高的分辨率（包括HD，如果有的话）。',
+        'faq-q10': '网站上有广告吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a10': '可能会显示一些广告以维持网站的运行，但不会影响您下载视频的体验。',
+        'faq-q11': '我可以分享已下载的视频吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a11': '您可以出于个人目的分享已下载的视频。然而，如果视频属于他人且未获得许可，则不应公开分享。',
+        'faq-q12': '下载没有水印的视频合法吗？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a12': '是的，下载TikTok视频用于个人使用是合法的。然而，请尊重知识产权，未经内容所有者的许可，不得将视频用于商业目的。',
+        'footer-tech': '快速、简单且完全免费的下载无水印的TikTok视频。',
+        'footer-copyright': '© 2025 TokSave. 保留所有权利。',
+        'footer-disclaimer': '注意：这不是 TikTok 的正式产品，请仅出于个人目的下载视频。',
 
-                // Setup download buttons
-                setupDownloadButton(downloadNoWatermark, videoData.data.play, 'tiktok-no-watermark.mp4');
-                setupDownloadButton(downloadWithWatermark, videoData.data.wmplay, 'tiktok-with-watermark.mp4');
-                setupDownloadButton(downloadAudio, videoData.data.music, 'tiktok-audio.mp3');
+        'page-title-privacy': '隐私政策 | 保护个人信息的承诺',
+        'title-Privacy': '最后更新：2025年4月21日',
+        'title-Privacy1': '1. 介绍',
+        'cte-Privacy': '欢迎来到我们的 TokSave。在 TokSave，我们尊重您的隐私并承诺保护您的个人信息。本隐私政策解释了我们在您访问和使用我们的服务时如何收集、使用、披露和保护您的信息。',
+        'title-Privacy2': '2. 我们收集的信息',
+        'title-Privacy3': '2.1 您提供的信息',
+        'cte-Privacy1': '当您使用我们的服务下载 TikTok 视频时，您可以输入视频的 URL。我们不要求您注册或提供其他个人信息，如姓名、电子邮件等。',
+        'title-Privacy4': '2.2 自动收集的信息',
+        'cte-Privacy1-1': '当您访问我们的网站时，我们可能会自动收集某些信息，包括：',
+        'li-Privacy1': '设备信息：设备类型、操作系统、浏览器版本。',
+        'li-Privacy2': '登录信息：IP 地址、时区、访问时间。',
+        'li-Privacy3': '使用信息：您查看的页面、停留时间、使用页面时的活动。',
+        'li-Privacy4': 'Cookies和跟踪技术：我们使用cookies来收集浏览器信息和跟踪使用情况。',
+        'title-Privacy5': '3. 我们如何使用您的信息',
+        'cte-Privacy2': '我们使用收集到的信息来：',
+        'li-Privacy5': '提供无水印的TikTok视频下载服务。',
+        'li-Privacy6': '维护、改进和开发网站和服务。',
+        'li-Privacy7': '了解用户如何使用网站，以优化体验。',
+        'li-Privacy8': '检测、预防和解决技术或安全问题。',
+        'li-Privacy9': '分析使用趋势和性能。',
+        'li-Privacy10': '遵守法律义务。',
+        'title-Privacy6': '4. 共享您的信息',
+        'cte-Privacy3': '我们不会出售、出租或交换您的个人信息。我们可能在以下情况下共享信息：',
+        'li-Privacy11': '服务提供商：与帮助运营网站的各方。',
+        'li-Privacy12': '遵守法律：在法律机构要求时。',
+        'li-Privacy13': '保护权益：在需要保护我们的权利和财产时。',
+        'li-Privacy14': '业务转让：在合并、收购或破产时。',
+        'title-Privacy7': '5. Cookies和类似技术',
+        'cte-Privacy4': '我们的网站使用 cookies 和类似技术来提升用户体验。',
+        'cte-Privacy5': '我们使用会话 cookies 和持久 cookies：',
+        'li-Privacy15': '会话 cookies 仅在一个浏览会话中存在，并在您关闭浏览器时被删除。',
+        'li-Privacy16': '持久 cookies 会保留在您的设备上，直到被删除或过期。',
+        'cte-Privacy6': '您可以通过浏览器设置来控制 cookies。',
+        'title-Privacy8': '6. 数据安全',
+        'cte-Privacy7': '我们已采取合理的安全措施来保护信息免受未经授权的访问、修改或披露。',
+        'cte-Privacy8': '我们限制信息的访问权限，仅限于需要运营服务的人。',
+        'title-Privacy9': '7. 数据存储',
+        'cte-Privacy9': '我们仅在提供服务所需的时间内保留您的信息。',
+        'cte-Privacy10': '对于您输入的 TikTok 视频 URL，我们不会永久存储，并将在处理完成后立即删除。',
+        'title-Privacy10': '8. 您的权利',
+        'cte-Privacy11': '根据您居住的地区，您可能享有以下权利：',
+        'li-Privacy17': '访问个人信息的权利。',
+        'li-Privacy18': '更正错误信息的权利。',
+        'li-Privacy19': '要求删除个人信息的权利。',
+        'li-Privacy20': '限制或反对处理数据的权利。',
+        'li-Privacy21': '数据转移权。',
+        'li-Privacy22': '撤回已给予同意的权利。',
+        'cte-Privacy12': '要行使权利，请与我们联系。',
+        'title-Privacy11': '9. 隐私政策变更',
+        'cte-Privacy13': '我们可能会不时更新此隐私政策。更新日期将始终显示在顶部。',
+        'title-Privacy12': '10. 联系我们',
+        'cte-Privacy14': '如果您有任何问题或疑虑，请向下滚动到联系部分。',
+        'cte-Privacy15': '注意：TokSave仅是个人视频下载工具，与TikTok无关。',
 
-                if (downloadCover) {
-                    setupDownloadButton(downloadCover, videoData.data.cover, 'tiktok-cover.jpg');
-                }
+        'page-title-contact': '联系我们 | 支持解答疑问',
+        'contact-description': '联系',
+        'user-name': '姓名:*',
+        'label-email': '电子邮件地址:*',
+        'label-content': '内容:*',
+        'submit': '提交请求',
+    },
+    'ja': {
+        'page-title': 'ロゴなしのTikTok動画を無料でダウンロード | ロゴなしのTikTok動画を迅速にダウンロード',
+        'logo-text': 'TokSave',
+        'cookie-h3': 'クッキーを使用しています！',
+        'cookie-title': 'このページでは、私たちのウェブサイトで最高の体験を提供するためにクッキーを使用しています。\n' + 'ページを引き続き閲覧することで、クッキーの使用に同意したことになります。<a href="privacy.html">詳細はこちら',
+        'accept-cookies': '受け入れる',
+        'reject-cookies': '拒否する',
+        'hero-title': 'ロゴなしのTikTok動画をダウンロード',
+        'hero-desc': '制限なしで、迅速かつ安全に無料でTikTok動画をダウンロードします。',
+        'video-url': 'ここに動画のリンクを貼り付けてダウンロード...',
+        'download-btn': 'ダウンロード',
+        'loading-text': '動画を分析中...',
+        'error-message': '申し訳ありませんが、このリンクを処理できませんでした。確認して再試行してください。',
+        'download-no-watermark': 'ウォーターマークなしでダウンロード',
+        'download-with-watermark': 'ウォーターマークありでダウンロード',
+        'download-audio': 'MP3音声をダウンロード',
+        'content-head': 'TikTokのソーシャルプラットフォームでの強力な普及は、特にエンターテインメント分野で、\n' +
+            'このプラットフォームからのコンテンツを保存し再利用する需要の高まりを引き起こしました。絶え間ない人気のおかげで、\n' +
+            '多くの企業が、ユーザーがTikTokから動画や音声を保存し、さまざまな目的で、いつでもどこでも使用できるようにするための\n' +
+            'ソリューションを開発しました。また、迅速なダウンロード速度、良好な品質、使いやすさなどの要素も確保されています。<br><br>激しい競争の中で、TikTokのダウンロードをサポートするツールが数多く登場していますが、\n' +
+            '多くのユーザーは著作権、プライバシー、デバイスの制限などの障壁に直面しています。TokSaveはこれらの問題を解決するために誕生しました — シンプルで、\n' +
+            'ユーザーフレンドリーで、すべてのプラットフォームとオペレーティングシステムに対応しています。TokSaveは、ユーザーにとって最も簡単で便利、かつ包括的なTikTok動画のダウンロード体験を提供します。',
+        'what-toksave': '• TokSaveとは？',
+        'see-more': '• TikTok動画を迅速にダウンロードするためのヒントをさらに見る',
+        'content-head-body': 'TokSaveは、ユーザーにシンプルで効果的な体験を提供するために開発された、強力なTikTok動画ダウンロードツールです。\n' +
+            'TokSaveの特長は、高品質のTikTok動画をロゴなしで、音声も完全にダウンロードできることです。これは、他の多くのツールがまだ欠けている機能です。<br><br>\n' +
+            '動画を保存するだけでなく、TokSaveはTikTok動画から音声を抽出し、高品質のMP3形式に変換することもできます。\n' +
+            'これにより、TikTokにアクセスすることなく、好きな音楽や音声をいつでも保存して再生できます。',
+        'feature1-title': '迅速なダウンロード',
+        'feature1-desc': 'TikTok動画を数秒で高速かつ制限なしでダウンロードします。',
+        'feature2-title': '高品質',
+        'feature2-desc': '元の解像度を保持し、HD品質のTikTok動画をダウンロードします。',
+        'feature3-title': '安全＆セキュリティ',
+        'feature3-desc': '登録不要、あなたの動画を保存せず、ユーザー情報を保護します。',
+        'how-to-title': '使い方',
+        'step1-title': 'リンクをコピー',
+        'step1-desc': 'TikTokアプリを開き、ダウンロードしたい動画を見つけて「共有」ボタンを押します。その後、「リンクをコピー」を選択します。',
+        'step2-title': 'リンクを貼り付け',
+        'step2-desc': '私たちのウェブサイトの入力ボックスに動画のリンクを貼り付けてください。',
+        'step3-title': 'ダウンロード',
+        'step3-desc': '「ダウンロード」ボタンを押して、ダウンロードしたい動画の形式を選択してください。',
+        'step4-title': 'モバイルでTikTok動画を保存',
+        'step4-desc': 'TikTokアプリを開き、ダウンロードしたい動画を探します。動画を見ていると、動画の右側に「共有」アイコン（右向きの矢印の形）があります。それを押して「リンクをコピー」を選択します。',
+        'step7-desc': '次に、TikTok動画ダウンロードをサポートするウェブサイト（toksave.online）にアクセスします。コピーしたリンクをウェブサイトのリンク入力ボックスに貼り付け、「ダウンロード」を押します。ダウンロードする動画が画面に表示されます > ダウンロード方法を選択すると、動画が保存されます。',
+        'step5-title': 'ロゴなしでTikTok動画をコンピュータに保存',
+        'step9-desc': 'コンピュータでTikTokを開きます。ウェブプラットフォームまたはTikTokアプリを使用できます > 動画を見ていると、動画の右側に「共有」アイコン（右向きの矢印の形）があります。それを押して「リンクをコピー」を選択します。リンクをコピーする項目を選択して、動画のリンクを取得します。',
+        'step12-desc': 'TikTokはロゴなしの動画のダウンロード機能をサポートしていないため、サポートツール「toksave.online」にアクセスして動画をダウンロードしてください。ステップ2でコピーしたリンクを入力ボックスに貼り付けて、ダウンロードを押します。少し待つと、ダウンロードする必要がある動画が画面に表示されます。ダウンロード方法を選択すると、動画がデバイスに保存されます。',
+        'step6-title': 'iPhoneでロゴなしのTikTok動画をダウンロード',
+        'step14-desc': 'iPhoneまたはiPadを使用している場合、Appleデバイス用にTikTok動画を無料でダウンロードできますが、App StoreからReaddleのDocumentsアプリをインストールする必要があります。Appleのセキュリティポリシーにより、iOSバージョン12以降はブラウザからTikTokの動画を保存できません。TikTokの任意の動画のリンクをコピーし、Documents by Readdleアプリを開いてください。',
+        'step16-desc': '画面の右下隅にウェブブラウザのアイコンが表示されます。それをタップしてください。',
+        'faq-title': 'よくある質問',
+        'faq-q1': 'TokSaveは完全に無料ですか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a1': 'はい、TokSaveは完全に無料で使用できます。隠れた料金やダウンロード制限はありません。',
+        'faq-q2': '中国のTikTok（Douyin）から動画をダウンロードできますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q3': 'TokSaveはタブレットで使用できますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a3': 'はい、TokSaveはタブレットやモバイルデバイスのウェブブラウザと互換性があります。',
+        'faq-q4': 'プライベート動画をダウンロードできますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a4': 'いいえ、TokSaveはTikTokの公開動画のみをダウンロードできます。プライベート動画をダウンロードすることはできません。',
+        'faq-q5': 'ダウンロードした動画はどこに保存されますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a5': 'ダウンロードが完了すると、動画はデバイスのデフォルトの「ダウンロード」フォルダーに保存されます。',
+        'faq-q6': '複数の動画を同時にダウンロードできますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a6': '現在、TokSaveは1つずつの動画のダウンロードのみをサポートしています。バッチダウンロード機能は将来的に検討される予定です。',
+        'faq-q7': 'モバイル電話でTikTokの動画をダウンロードできますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a7': 'はい、TokSaveはすべてのデバイスで動作し、モバイル電話、タブレット、デスクトップを含みます。',
+        'faq-q8': 'TokSaveはiPhone/iOSで動作しますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a8': 'はい、iPhoneのSafariまたはChromeブラウザで追加のアプリをインストールせずにTokSaveを使用できます。',
+        'faq-q9': 'TikTokの動画をHDモードでダウンロードできますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a9': 'TikTok上の動画の元の品質に応じて、TokSaveは可能な限り高い解像度を維持しようとします（HDがある場合は含まれます）。',
+        'faq-q10': 'ウェブサイトに広告はありますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a10': 'ウェブサイトの運営を維持するためにいくつかの広告が表示される場合がありますが、動画ダウンロードの体験には影響しません。',
+        'faq-q11': 'ダウンロードした動画を共有できますか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a11': '個人的な目的でダウンロードした動画を共有することはできます。ただし、他の人が所有する動画で許可を得ていない場合は、公に共有しない方が良いです。',
+        'faq-q12': 'ウォーターマークなしの動画をダウンロードすることは合法ですか？<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a12': 'はい、個人使用のためにTikTokの動画をダウンロードすることは合法です。ただし、知的財産権を尊重し、コンテンツの所有者からの許可なしに商業目的で動画を使用しないでください。',
+        'footer-tech': 'ウォーターマークなしのTikTok動画を迅速、簡単、完全に無料でダウンロードできます。',
+        'footer-copyright': '© 2025 TokSave. すべての権利を保留します。',
+        'footer-disclaimer': '注意：これはTikTokの公式製品ではありません。個人的な目的で動画をダウンロードしてください。',
 
-                result.style.display = 'block';
+        'page-title-privacy': 'プライバシーポリシー | 個人情報保護の約束',
+        'title-Privacy': '最終更新日：2025年4月21日',
+        'title-Privacy1': '1. はじめに',
+        'cte-Privacy': '私たちのTokSaveへようこそ。TokSaveでは、あなたのプライバシーを尊重し、個人情報の保護を約束します。このプライバシーポリシーは、あなたが私たちのサービスにアクセスし使用する際に、私たちがどのようにあなたの情報を収集、使用、開示、保護するかを説明します。',
+        'title-Privacy2': '2. 私たちが収集する情報',
+        'title-Privacy3': '2.1 あなたが提供する情報',
+        'cte-Privacy1': '私たちのサービスを使用してTikTokの動画をダウンロードする際に、動画のURLを入力することがあります。私たちは、あなたに登録や名前、メールアドレスなどの個人情報を提供することを求めません。',
+        'title-Privacy4': '2.2 自動的に収集される情報',
+        'cte-Privacy1-1': '私たちのウェブサイトにアクセスすると、特定の情報を自動的に収集する場合があります。包括して:',
+        'li-Privacy1': 'デバイス情報：デバイスタイプ、オペレーティングシステム、ブラウザのバージョン。',
+        'li-Privacy2': 'ログイン情報：IPアドレス、タイムゾーン、アクセス時間。',
+        'li-Privacy3': '使用情報：閲覧したページ、滞在時間、ページ使用時の活動。',
+        'li-Privacy4': 'クッキーおよびトラッキング技術：私たちはクッキーを使用してブラウジング情報を収集し、使用状況を追跡します。',
+        'title-Privacy5': '3. 私たちがあなたの情報を使用する方法',
+        'cte-Privacy2': '収集した情報を使用して、',
+        'li-Privacy5': 'ウォーターマークのないTikTok動画ダウンロードサービスを提供します。',
+        'li-Privacy6': 'ウェブサイトとサービスを維持、改善、発展させます。',
+        'li-Privacy7': 'ユーザーがウェブサイトをどのように使用しているかを理解し、体験を最適化します。',
+        'li-Privacy8': '技術的またはセキュリティの問題を検出、阻止、解決します。',
+        'li-Privacy9': '使用傾向とパフォーマンスを分析します。',
+        'li-Privacy10': '法的義務を遵守します。',
+        'title-Privacy6': '4. あなたの情報の共有',
+        'cte-Privacy3': '私たちはあなたの個人情報を販売、貸与、または交換することはありません。以下の状況で情報を共有することがあります。',
+        'li-Privacy11': 'サービスプロバイダー：ウェブサイトの運営を支援する第三者と。',
+        'li-Privacy12': '法令遵守：法的機関から要求された場合。',
+        'li-Privacy13': '権利の保護：私たちの権利や財産を保護するために必要な場合。',
+        'li-Privacy14': '事業譲渡：合併、買収、または破産がある場合。',
+        'title-Privacy7': '5. クッキーと同様の技術',
+        'cte-Privacy4': '私たちのウェブサイトは、ユーザー体験を向上させるためにクッキーおよび同様の技術を使用しています。',
+        'cte-Privacy5': '私たちはセッションクッキーと永続的クッキーの両方を使用しています：',
+        'li-Privacy15': 'クッキーはブラウジングセッション中のみ存在し、ブラウザを閉じると削除されます。',
+        'li-Privacy16': '永続的なクッキーは、削除されるか期限が切れるまでデバイスに残ります。',
+        'cte-Privacy6': 'ブラウザの設定を通じてクッキーを管理できます。',
+        'title-Privacy8': '6. データのセキュリティ',
+        'cte-Privacy7': '私たちは、不正アクセス、変更、または開示から情報を保護するために合理的なセキュリティ対策を講じています。',
+        'cte-Privacy8': '私たちは、サービスを運営するために必要な人だけに情報へのアクセスを制限しています。',
+        'title-Privacy9': '7. データの保存',
+        'cte-Privacy9': '私たちは、サービスを提供するために必要な期間のみあなたの情報を保持します。',
+        'cte-Privacy10': '入力したTikTokの動画URLについては、永続的に保存せず、処理が完了次第すぐに削除します。',
+        'title-Privacy10': '8. あなたの権利',
+        'cte-Privacy11': '居住地域に応じて、以下の権利を有する場合があります。',
+        'li-Privacy17': '個人情報へのアクセス権。',
+        'li-Privacy18': '誤った情報を修正する権利。',
+        'li-Privacy19': '個人情報の削除を要求する権利。',
+        'li-Privacy20': 'データ処理を制限または反対する権利。',
+        'li-Privacy21': 'データの移転権。',
+        'li-Privacy22': '与えた同意を撤回する権利。',
+        'cte-Privacy12': '権利を行使するには、私たちにご連絡ください。',
+        'title-Privacy11': '9. プライバシーポリシーの変更',
+        'cte-Privacy13': '私たちは、随時このプライバシーポリシーを更新することがあります。更新日付は常に最上部に表示されます。',
+        'title-Privacy12': '10. お問い合わせ',
+        'cte-Privacy14': 'ご質問や疑問がある場合は、お問い合わせセクションまでスクロールしてください。',
+        'cte-Privacy15': '注意: TokSaveは個人用のビデオダウンロードツールであり、TikTokとは関係ありません。',
+
+        'page-title-contact': 'お問い合わせ | サポートと質問の回答',
+        'contact-description': 'お問い合わせ',
+        'user-name': '氏名:*',
+        'label-email': 'メールアドレス:*',
+        'label-content': '内容:*',
+        'submit': 'リクエストを送信',
+    },
+    'ko': {
+        'page-title': '로고 없는 TikTok 비디오 무료 다운로드 | 빠르고 쉽게 로고 없는 TikTok 비디오 다운로드',
+        'logo-text': 'TokSave',
+        'cookie-h3': '쿠키를 사용합니다!',
+        'cookie-title': '이 사이트는 최고의 웹사이트 경험을 보장하기 위해 쿠키를 사용합니다.\n' + '페이지를 계속 탐색함으로써, 귀하는 우리의 쿠키 사용에 동의하는 것입니다. <a href="privacy.html">자세히 알아보기',
+        'accept-cookies': '수락',
+        'reject-cookies': '거부',
+        'hero-title': '로고 없는 TikTok 비디오 다운로드',
+        'hero-desc': '무료로, 무제한, 빠르고 안전하게 TikTok 비디오를 다운로드하세요.',
+        'video-url': '여기에 비디오 링크를 붙여넣어 다운로드...',
+        'download-btn': '다운로드',
+        'loading-text': '비디오 분석 중...',
+        'error-message': '죄송합니다, 이 링크를 처리할 수 없습니다. 확인 후 다시 시도해 주세요.',
+        'download-no-watermark': '워터마크 없이 다운로드',
+        'download-with-watermark': '워터마크가 있는 다운로드',
+        'download-audio': 'MP3 오디오 다운로드',
+        'content-head': 'TikTok의 강력한 확산은 특히 엔터테인먼트 분야에서 소셜 미디어 플랫폼에서 이루어졌으며, 이로 인해\n' +
+            '이 플랫폼에서 콘텐츠를 저장하고 재사용하려는 수요가 점점 더 커지고 있습니다. 끊임없는 인기로 인해\n' +
+            '많은 회사들이 사용자들이 TikTok에서 비디오와 음성을 저장하여 다양한 목적에 사용할 수 있도록 지원하는\n' +
+            '솔루션을 개발했습니다. 언제 어디서나 빠른 다운로드 속도, 좋은 품질, 사용의 용이성을 보장합니다.<br><br>치열한 경쟁 속에서 TikTok 다운로드를 지원하는 여러 도구가 등장했지만, 여전히 많은 사용자들이\n' +
+            '저작권, 개인 정보 보호 또는 장치 제한과 같은 장벽에 직면하고 있습니다. TokSave는 이러한 문제를 해결하기 위해 탄생했습니다 — 모든 플랫폼과 운영 체제와 호환되는 간단하고 친근한 도구입니다. TokSave는 사용자에게\n' +
+            '가장 쉽고 편리하며 포괄적인 TikTok 비디오 다운로드 경험을 제공합니다.',
+        'what-toksave': '• TokSave란 무엇인가요?',
+        'see-more': '• TikTok 비디오를 빠르게 다운로드하는 팁 보기',
+        'content-head-body': 'TokSave는 TikTok 비디오 다운로드를 지원하는 강력한 도구로, 사용자에게 간단하지만 효과적인 경험을 제공합니다.\n' +
+            'TokSave의 주요 특징은 높은 품질의 TikTok 비디오를 로고 없이 완전한 음향으로 다운로드할 수 있는 기능입니다. 이는 시장의 많은 다른 도구들이 여전히 부족한 부분입니다.<br><br>\n' +
+            '비디오 저장에 그치지 않고, TokSave는 TikTok 비디오에서 음향을 추출하여 고품질 MP3 형식으로 변환할 수 있게 해줍니다. 이를 통해 언제든지 TikTok에 접근하지 않고도 좋아하는 음악과 음향 클립을 저장할 수 있습니다.',
+        'feature1-title': '빠른 다운로드',
+        'feature1-desc': '몇 초 만에 TikTok 비디오를 고속으로 다운로드하며 제한이 없습니다.',
+        'feature2-title': '고품질',
+        'feature2-desc': 'HD 품질의 TikTok 비디오를 다운로드하며, 원본 해상도를 유지합니다.',
+        'feature3-title': '안전 & 보안',
+        'feature3-desc': '가입이 필요 없으며, 사용자의 비디오를 저장하지 않고, 정보 보안을 보장합니다.',
+        'how-to-title': '사용 방법',
+        'step1-title': '링크 복사',
+        'step1-desc': 'TikTok 앱을 열고 다운로드하려는 비디오를 찾아 "공유" 버튼을 누릅니다. 그런 다음 "링크 복사"를 선택합니다.',
+        'step2-title': '링크 붙여넣기',
+        'step2-desc': '우리 웹사이트의 입력란에 비디오 링크를 붙여넣으세요.',
+        'step3-title': '다운로드',
+        'step3-desc': '"다운로드" 버튼을 클릭하고 원하는 비디오 형식을 선택하세요.',
+        'step4-title': '모바일에서 TikTok 비디오 저장하기',
+        'step4-desc': 'TikTok 앱을 열고 다운로드할 비디오를 찾으세요. 비디오를 시청하는 동안 비디오 오른쪽에 있는 "공유" 아이콘(오른쪽으로 향하는 화살표 모양)을 볼 수 있습니다. 그것을 클릭하고 "링크 복사"를 선택하세요.',
+        'step7-desc': '다음으로 TikTok 비디오 다운로드 지원 웹사이트(toksave.online)에 접속하세요. 방금 복사한 링크를 웹사이트의 링크 입력란에 붙여넣고 "다운로드"를 클릭하세요. 다운로드할 비디오가 화면에 바로 표시됩니다 > 다운로드 방법을 선택하면 비디오가 기기에 저장됩니다.',
+        'step5-title': '로고 없이 컴퓨터에 TikTok 비디오 저장하기',
+        'step9-desc': '컴퓨터에서 TikTok을 열면 웹 플랫폼이나 TikTok 앱을 사용할 수 있습니다 > 비디오를 시청하는 동안 비디오 오른쪽에 있는 "공유" 아이콘(오른쪽으로 향하는 화살표 모양)을 볼 수 있습니다. 그것을 클릭하고 "링크 복사"를 선택하세요. 링크 복사 항목을 선택하여 비디오 링크를 가져오세요.',
+        'step12-desc': 'TikTok은 로고 없는 비디오 다운로드 기능을 지원하지 않으므로 지원 도구 "toksave.online"에 접속하여 비디오를 다운로드하세요. 2단계에서 복사한 링크를 입력란에 붙여넣고 > 다운로드 버튼을 누르세요. 잠시 기다리면 다운로드할 비디오가 화면에 표시됩니다 > 다운로드 방법을 선택하면 비디오가 기기에 저장됩니다.',
+        'step6-title': '아이폰에서 로고 없는 TikTok 비디오 다운로드',
+        'step14-desc': '아이폰이나 아이패드를 사용하는 경우 Apple 기기에서 TikTok 비디오를 무료로 다운로드할 수 있지만, App Store에서 Readdle의 Documents 앱을 추가로 설치해야 합니다. Apple의 보안 정책 때문에 iOS 12 버전부터는 브라우저에서 TikTok의 비디오를 저장할 수 없습니다. TikTok에서 임의의 비디오 링크를 복사한 후 Documents by Readdle 앱을 엽니다.',
+        'step16-desc': '화면의 오른쪽 하단 모서리에서 웹 브라우저 아이콘을 볼 수 있습니다. 그것을 터치하세요.',
+        'faq-title': '자주 묻는 질문',
+        'faq-q1': 'TokSave는 완전히 무료인가요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a1': '네, TokSave는 사용하기에 완전히 무료입니다. 숨겨진 요금이나 다운로드 제한이 없습니다.',
+        'faq-q2': '중국 TikTok(Douyin)에서 비디오를 다운로드할 수 있나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-q3': 'TokSave를 태블릿에서 사용할 수 있나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a3': '네, TokSave는 태블릿과 웹 브라우저가 있는 모바일 기기 모두와 호환됩니다.',
+        'faq-q4': '비공식 비디오를 다운로드할 수 있나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a4': '아니요, TokSave는 TikTok에서 공개 비디오만 다운로드할 수 있습니다. 비공식 비디오는 다운로드할 수 없습니다.',
+        'faq-q5': '다운로드한 비디오는 어디에 저장되나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a5': '다운로드가 완료되면 비디오는 귀하의 장치에 기본적으로 "다운로드" 폴더에 저장됩니다.',
+        'faq-q6': '여러 비디오를 동시에 다운로드할 수 있나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a6': '현재 TokSave는 비디오를 하나씩 다운로드하는 것만 지원합니다. 대량 다운로드 기능은 향후 고려될 것입니다.',
+        'faq-q7': '모바일에서 TikTok 비디오를 다운로드할 수 있나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a7': '네, TokSave는 모바일, 태블릿 및 데스크탑을 포함한 모든 장치에서 작동합니다.',
+        'faq-q8': 'TokSave는 iPhone/iOS에서 작동하나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a8': '네, iPhone에서 Safari 또는 Chrome 브라우저를 사용하여 추가 애플리케이션을 설치하지 않고 TokSave를 사용할 수 있습니다.',
+        'faq-q9': 'HD 모드에서 TikTok 비디오를 다운로드할 수 있나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a9': 'TikTok의 원본 비디오 품질에 따라 TokSave는 가능한 한 높은 해상도를 유지하려고 합니다(HD 포함).',
+        'faq-q10': '웹사이트에 광고가 포함되어 있나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a10': '웹사이트 운영을 위해 일부 광고가 표시될 수 있지만, 비디오 다운로드 경험에는 영향을 미치지 않습니다.',
+        'faq-q11': '다운로드한 비디오를 공유할 수 있나요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a11': '개인적인 목적으로 다운로드한 비디오를 공유할 수 있습니다. 그러나 다른 사람의 소유인 비디오는 허가 없이 공개적으로 공유하지 않는 것이 좋습니다.',
+        'faq-q12': '워터마크 없는 비디오 다운로드는 합법인가요?<span class="arrow"><i class="fas fa-chevron-down"></i></span>',
+        'faq-a12': '네, 개인적으로 사용하기 위해 TikTok 비디오를 다운로드하는 것은 합법입니다. 그러나 지적 재산권을 존중하고 콘텐츠 소유자의 허가 없이 상업적 목적으로 비디오를 사용하지 마십시오.',
+        'footer-tech': '워터마크 없는 TikTok 비디오를 빠르고 간단하게, 그리고 완전히 무료로 다운로드하세요.',
+        'footer-copyright': '© 2025 TokSave. 모든 권리를 보유합니다.',
+        'footer-disclaimer': '주의: 이는 TikTok의 공식 제품이 아니며, 개인적인 목적으로 비디오를 다운로드하시기 바랍니다.',
+
+        'page-title-privacy': '개인정보 보호정책 | 개인 정보 보호 약속',
+        'title-Privacy': '최종 업데이트: 2025년 4월 21일',
+        'title-Privacy1': '1. 소개',
+        'cte-Privacy': 'TokSave에 오신 것을 환영합니다. TokSave에서는 귀하의 개인 정보를 존중하며 귀하의 개인 정보를 보호하기 위해 최선을 다하고 있습니다. 이 개인정보 보호정책은 귀하가 당사의 서비스에 접근하고 사용할 때 귀하의 정보를 어떻게 수집, 사용, 공개 및 보호하는지를 설명합니다.',
+        'title-Privacy2': '2. 우리가 수집하는 정보',
+        'title-Privacy3': '2.1 귀하가 제공하는 정보',
+        'cte-Privacy1': 'TikTok 비디오를 다운로드하기 위해 당사의 서비스를 사용할 때, 귀하는 비디오 URL을 입력할 수 있습니다. 우리는 귀하에게 등록을 요구하거나 이름, 이메일 등과 같은 다른 개인 정보를 제공하도록 요구하지 않습니다.',
+        'title-Privacy4': '2.2 자동으로 수집되는 정보',
+        'cte-Privacy1-1': '당신이 우리 웹사이트에 접근할 때, 우리는 특정 정보를 자동으로 수집할 수 있습니다. 여기에는 다음이 포함됩니다:',
+        'li-Privacy1': '장치 정보: 장치 유형, 운영 체제, 브라우저 버전.',
+        'li-Privacy2': '로그인 정보: IP 주소, 시간대, 접근 시간.',
+        'li-Privacy3': '사용 정보: 방문한 페이지, 체류 시간, 페이지 사용 시 활동.',
+        'li-Privacy4': '쿠키 및 추적: 우리는 브라우저 및 사용 데이터를 수집하기 위해 쿠키를 사용합니다.',
+        'title-Privacy5': '3. 귀하의 정보를 사용하는 방법',
+        'cte-Privacy2': '우리는 수집한 정보를 다음과 같이 사용합니다:',
+        'li-Privacy5': '워터마크 없는 TikTok 비디오 다운로드 서비스를 제공합니다.',
+        'li-Privacy6': '우리 사이트와 서비스를 유지, 개선 및 개발합니다.',
+        'li-Privacy7': '사용자 행동을 이해하고 UX를 최적화합니다.',
+        'li-Privacy8': '기술/보안 문제를 감지, 예방 및 해결합니다.',
+        'li-Privacy9': '사용 추세와 성과를 분석합니다.',
+        'li-Privacy10': '법적 요구 사항을 준수합니다.',
+        'title-Privacy6': '4. 귀하의 정보 공유',
+        'cte-Privacy3': '우리는 귀하의 개인 정보를 판매, 임대 또는 거래하지 않습니다. 우리는 다음과 같은 상황에서 데이터를 공유할 수 있습니다:',
+        'li-Privacy11': '서비스 제공자: 우리 웹사이트 운영을 돕기 위해.',
+        'li-Privacy12': '법적 준수: 법 집행을 준수하기 위해.',
+        'li-Privacy13': '보호: 우리의 권리와 안전을 보호하기 위해.',
+        'li-Privacy14': '사업 양도: 합병 또는 인수 시.',
+        'title-Privacy7': '5. 쿠키 및 유사 기술',
+        'cte-Privacy4': '우리는 귀하의 경험을 향상시키기 위해 쿠키 및 유사 기술을 사용합니다.',
+        'cte-Privacy5': '우리는 세션 쿠키와 영구 쿠키를 모두 사용합니다:',
+        'li-Privacy15': '세션 쿠키는 세션 동안만 지속되며 브라우저를 닫으면 삭제됩니다.',
+        'li-Privacy16': '영구 쿠키는 삭제되거나 만료될 때까지 귀하의 장치에 남아 있습니다.',
+        'cte-Privacy6': '브라우저 설정을 통해 쿠키를 제어할 수 있습니다.',
+        'title-Privacy8': '6. 데이터 보안',
+        'cte-Privacy7': '우리는 무단 접근, 변경 또는 공개로부터 정보를 보호하기 위해 합리적인 보안 조치를 시행했습니다.',
+        'cte-Privacy8': '우리는 서비스 운영에 필요한 사람들에게만 정보 접근 권한을 제한합니다.',
+        'title-Privacy9': '7. 데이터 저장',
+        'cte-Privacy9': '우리는 서비스를 제공하는 데 필요한 기간 동안만 귀하의 정보를 보유합니다.',
+        'cte-Privacy10': '입력한 TikTok 비디오 URL에 대해서는 영구적으로 저장하지 않으며, 처리 후 즉시 삭제합니다.',
+        'title-Privacy10': '8. 귀하의 권리',
+        'cte-Privacy11': '거주하는 지역에 따라 다음과 같은 권리가 있을 수 있습니다:',
+        'li-Privacy17': '개인 정보 접근 권리.',
+        'li-Privacy18': '잘못된 정보 수정 권리.',
+        'li-Privacy19': '개인 정보 삭제 요청 권리.',
+        'li-Privacy20': '데이터 처리 제한 또는 반대 권리.',
+        'li-Privacy21': '데이터 이동 권리.',
+        'li-Privacy22': '주어진 동의를 철회할 권리.',
+        'cte-Privacy12': '권리를 행사하려면 저희에게 연락해 주십시오.',
+        'title-Privacy11': '9. 개인정보 보호 정책 변경',
+        'cte-Privacy13': '우리는 시간이 지남에 따라 이 개인정보 보호정책을 업데이트할 수 있습니다. 업데이트 날짜는 항상 맨 위에 표시됩니다.',
+        'title-Privacy12': '10. 저희에게 연락하기',
+        'cte-Privacy14': '질문이나 궁금한 점이 있으시면 연락처 섹션으로 스크롤하세요.',
+        'cte-Privacy15': '참고: TokSave는 개인 비디오 다운로드 도구일 뿐이며 TikTok과는 관련이 없습니다.',
+
+        'page-title-contact': '저희에게 연락하기 | 문의 사항 지원',
+        'contact-description': '연락하기',
+        'user-name': '성명:*',
+        'label-email': '이메일 주소:*',
+        'label-content': '내용:*',
+        'submit': '요청 보내기',
+    },
+};
+// Function to change language
+function changeLanguage(lang) {
+    // Save the selected language in localStorage
+    localStorage.setItem('selectedLanguage', lang);
+    // Update button active states
+    document.querySelectorAll('.language-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`.language-btn[onclick="changeLanguage('${lang}')"]`).classList.add('active');
+    // Update all text elements
+    Object.keys(translations[lang]).forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            // Special handling for input placeholder
+            if (id === 'video-url') {
+                element.placeholder = translations[lang][id];
+            } else if (id === "page-title") {
+                document.title = translations[lang][id];
             } else {
-                errorMessage.textContent = videoData.message || 'Không thể tải video. Vui lòng kiểm tra URL và thử lại.';
-                errorMessage.style.display = 'block';
+                element.innerHTML = translations[lang][id];
             }
-        } catch (error) {
-            console.error('Lỗi:', error);
-            loading.style.display = 'none';
-            errorMessage.textContent = 'Đã xảy ra lỗi khi kết nối với API. Vui lòng thử lại sau.';
-            errorMessage.style.display = 'block';
         }
     });
-    // Thiết lập button tải hoặc xem ảnh
-    function setupDownloadButton(button, url, filename) {
-        if (!button) return;
-        if (url) {
-            const isImage = /\.(jpg|jpeg|png)$/i.test(filename);
-            button.onclick = e => {
-                e.preventDefault();
-                if (isImage) {
-                    window.open(url, '_blank'); // Mở ảnh ở tab mới để xem trước
-                } else {
-                    // Gọi endpoint proxy tải file để ép tải về
-                    const proxyUrl = `https://toksave-server.onrender.com/api/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename)}`;
-                    const a = document.createElement('a');
-                    a.href = proxyUrl;
-                    a.download = filename;
-                    a.style.display = 'none';
-                    document.body.appendChild(a);
-                    a.click();
-                    setTimeout(() => document.body.removeChild(a), 100);
-                }
-            };
-            button.style.opacity = '1';
-            button.style.pointerEvents = 'auto';
-        } else {
-            button.style.opacity = '0.5';
-            button.style.pointerEvents = 'none';
-        }
-    }
-    // Escape HTML để chống XSS
-    function escapeHTML(str) {
-        if (!str) return '';
-        return str.replace(/[&<>"']/g, (char) => ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;',
-        }[char]));
-    }
-    // Hiển thị profile người dùng
-    function displayUserProfile(data) {
-        let profileContainer = document.getElementById('user-profile');
-        if (!profileContainer) {
-            profileContainer = document.createElement('div');
-            profileContainer.id = 'user-profile';
-            result.parentNode.insertBefore(profileContainer, result);
-        }
-        const authorName = escapeHTML(data.author?.nickname || 'Unknown');
-        const authorAvatar = data.author?.avatar || '/api/placeholder/80/80';
-        const videoTitle = escapeHTML(data.title || '');
-        profileContainer.innerHTML = `
-        <div class="profile-container">
-            <div class="profile-info">
-                <img src="${authorAvatar}" alt="${authorName}" class="profile-avatar">
-                <div>
-                    <h3 class="profile-name">${authorName}</h3>
-                    <p class="profile-description">${videoTitle}</p>
-                </div>
-            </div>
-        </div>
-        `;
-        profileContainer.style.display = 'block';
-    }
-    // Gọi API backend
-    async function downloadTikTokVideo(url) {
-        try {
-            const response = await fetch(`https://toksave-server.onrender.com/api/tiktok?url=${encodeURIComponent(url)}`);
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('API response:', errorText);
-                throw new Error(`API trả về lỗi: ${response.status}`);
+}
+
+// Chạy khi trang tải xong
+document.addEventListener("DOMContentLoaded", function () {
+    const savedLanguage = localStorage.getItem("selectedLanguage") || "vi";
+    changeLanguage(savedLanguage);
+
+    const icon = document.getElementById("globeIcon");
+    const menu = document.getElementById("languageMenu");
+
+    if (icon && menu) {
+        // Click icon hiện menu
+        icon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+                return;
             }
-            return await response.json();
-        } catch (err) {
-            console.error('Lỗi khi gọi API:', err);
-            return {error: true, message: `Lỗi server: ${err.message}`};
-        }
-    }
-    // Tải file
-    function downloadVideo(url, filename) {
-        const proxyUrl = `https://toksave-server.onrender.com/api/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename)}`;
-        const a = document.createElement('a');
-        a.href = proxyUrl;
-        a.download = filename;
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => document.body.removeChild(a), 100);
-    }
-});
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
-    const hamburgerSpin = document.querySelector('.hamburger-spin');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const menuLinks = document.querySelectorAll('.mobile-menu a'); // Select all links inside mobile menu
-
-    // Function to close menu and reset icon
-    function closeMenu() {
-        mobileMenu.classList.remove('active');
-        hamburgerSpin.classList.remove('active');
-    }
-
-    // Toggle menu and icon animation
-    mobileMenuIcon.addEventListener('click', function() {
-        mobileMenu.classList.toggle('active');
-        hamburgerSpin.classList.toggle('active');
-    });
-
-    // Add click event listeners to all menu links
-    menuLinks.forEach(function(link) {
-        link.addEventListener('click', function() {
-            closeMenu(); // Close menu when any link is clicked
-        });
-    });
-
-    // Close menu and reset icon when clicking outside
-    document.addEventListener('click', function(event) {
-        const isClickInsideMenu = mobileMenu.contains(event.target);
-        const isClickOnIcon = mobileMenuIcon.contains(event.target);
-
-        if (!isClickInsideMenu && !isClickOnIcon) {
-            closeMenu();
-        }
-    });
-});
-document.addEventListener('DOMContentLoaded', function() {
-    const inputField = document.getElementById('video-url');
-    const clearButton = document.getElementById('clear-input');
-    // Hiển thị/ẩn nút X dựa vào nội dung input
-    function updateClearButton() {
-        if (inputField.value.length > 0) {
-            clearButton.style.display = 'block';
-        } else {
-            clearButton.style.display = 'none';
-        }
-    }
-    // Gọi hàm khi có thay đổi nội dung
-    inputField.addEventListener('input', updateClearButton);
-    // Xóa input khi nhấn nút X
-    clearButton.addEventListener('click', function() {
-        inputField.value = '';
-        updateClearButton();
-        inputField.focus();
-    });
-    // Khi người dùng nhấp vào ô input
-    inputField.addEventListener('click', function() {
-        // Chỉ paste khi ô input trống
-        if (inputField.value === '') {
-            navigator.clipboard.readText()
-                .then(text => {
-                    if (text) {
-                        inputField.value = text;
-                        // Quan trọng: Cập nhật trạng thái nút xóa sau khi dán
-                        updateClearButton();
-                    }
-                })
-                .catch(err => {
-                    console.log('Không thể truy cập clipboard');
-                });
-        }
-    });
-    // Kiểm tra trạng thái ban đầu (nếu có giá trị khi trang tải)
-    updateClearButton();
-});
-// Tạo ID người dùng ngẫu nhiên
-function generateRandomUserId() {
-    return "Users" + Math.floor(Math.random() * 900000 + 100000);
-}
-
-// Số lượng bình luận hiển thị ban đầu
-const initialCommentsToShow = 5;
-let comments = [];
-
-const commentInput = document.getElementById('comment-input');
-const submitButton = document.getElementById('submit-comment');
-const commentsContainer = document.getElementById('comments-container');
-const loadMoreBtn = document.getElementById('load-more-btn');
-const messageContainer = document.getElementById('message-container');
-const ratingInputs = document.querySelectorAll('input[name="rating"]');
-
-function displayComments() {
-    commentsContainer.innerHTML = '';
-
-    if (comments.length === 0) {
-        commentsContainer.innerHTML = '<div class="no-comments">Chưa có bình luận nào.</div>';
-        loadMoreBtn.classList.add('hidden');
-        return;
-    }
-
-    const sortedComments = [...comments].sort((a, b) => b.timestamp - a.timestamp);
-    const commentsToShow = sortedComments.length > initialCommentsToShow ? initialCommentsToShow : sortedComments.length;
-
-    for (let i = 0; i < commentsToShow; i++) {
-        addCommentToDOM(sortedComments[i], false);
-    }
-
-    for (let i = initialCommentsToShow; i < sortedComments.length; i++) {
-        addCommentToDOM(sortedComments[i], true);
-    }
-
-    if (sortedComments.length > initialCommentsToShow) {
-        loadMoreBtn.classList.remove('hidden');
-    } else {
-        loadMoreBtn.classList.add('hidden');
-    }
-}
-
-function generateStarRating(rating) {
-    let starsHTML = '';
-    for (let i = 1; i <= 5; i++) {
-        starsHTML += `<span class="${i <= rating ? 'star' : 'empty-star'}">★</span>`;
-    }
-    return starsHTML;
-}
-
-function addCommentToDOM(comment, hidden) {
-    const commentElement = document.createElement('div');
-    commentElement.className = `comment ${hidden ? 'hidden' : ''}`;
-    const date = new Date(comment.timestamp);
-    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
-    const ratingHTML = comment.rating ? `<div class="comment-rating">${generateStarRating(comment.rating)}</div>` : '';
-
-    // Định danh bình luận (dựa trên timestamp)
-    const commentId = `comment-${comment.timestamp}`;
-
-    commentElement.innerHTML = `
-        <div class="comment-avatar">
-            <img src="${comment.avatar}" alt="Avatar">
-        </div>
-        <div class="comment-content">
-            <div class="comment-user">${comment.userName}</div>
-            ${ratingHTML}
-            <div class="comment-text">${comment.text}</div>
-            <div class="comment-date">${formattedDate}</div>
-            <div class="comment-actions">
-                <button class="like-btn" data-id="${commentId}">👍 <span>${comment.likes || 0}</span></button>
-                <button class="dislike-btn" data-id="${commentId}">👎 <span>${comment.dislikes || 0}</span></button>
-            </div>
-        </div>
-    `;
-
-    // Xử lý nút like/dislike
-    const likeBtn = commentElement.querySelector('.like-btn');
-    const dislikeBtn = commentElement.querySelector('.dislike-btn');
-
-    likeBtn.addEventListener('click', () => handleReaction(comment.timestamp, 'like', likeBtn));
-    dislikeBtn.addEventListener('click', () => handleReaction(comment.timestamp, 'dislike', dislikeBtn));
-
-    commentsContainer.appendChild(commentElement);
-}
-async function handleReaction(commentTimestamp, type, button) {
-    const storageKey = `reaction-${commentTimestamp}`;
-    const reacted = localStorage.getItem(storageKey);
-    if (reacted) {
-        showMessage('Bạn đã phản hồi bình luận này rồi!', 'error');
-        return;
-    }
-
-    try {
-        const res = await fetch('https://toksave-server.onrender.com/api/comments/reaction', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ timestamp: commentTimestamp, type })
+            const rect = icon.getBoundingClientRect();
+            menu.style.left = `${rect.right - 180}px`;
+            menu.style.top = `${rect.bottom + 8}px`;
+            menu.style.display = "block";
         });
 
-        if (!res.ok) throw new Error('Gửi phản hồi thất bại');
-        const data = await res.json();
-
-        const countSpan = button.querySelector('span');
-        countSpan.textContent = type === 'like' ? data.likes : data.dislikes;
-
-        button.classList.add('reacted');
-
-        localStorage.setItem(storageKey, type);
-    } catch (err) {
-        console.error('Lỗi phản hồi:', err);
-        showMessage('Không thể gửi phản hồi!', 'error');
-    }
-}
-
-function showMessage(message, type = 'error') {
-    messageContainer.innerHTML = `<div class="message ${type}">${message}</div>`;
-    setTimeout(() => messageContainer.innerHTML = '', 3000);
-}
-
-function getSelectedRating() {
-    for (const input of ratingInputs) {
-        if (input.checked) return parseInt(input.value);
-    }
-    return 0;
-}
-
-async function fetchCommentsFromServer() {
-    try {
-        const res = await fetch('https://toksave-server.onrender.com/api/comments');
-        comments = await res.json();
-        displayComments();
-    } catch (err) {
-        console.error('Lỗi lấy bình luận:', err);
-        showMessage('Không thể tải bình luận!', 'error');
-    }
-}
-
-submitButton.addEventListener('click', async () => {
-    const today = new Date().toISOString().slice(0, 10); // 'yyyy-mm-dd'
-    const lastCommentDate = localStorage.getItem('lastCommentDate');
-
-    if (lastCommentDate === today) {
-        return showMessage('Bạn đã bình luận hôm nay rồi. Vui lòng quay lại vào ngày mai!', 'error');
-    }
-
-    const commentText = commentInput.value.trim();
-    const rating = getSelectedRating();
-
-    if (commentText === '') return showMessage('Vui lòng nhập nội dung bình luận!');
-    if (rating === 0) return showMessage('Vui lòng chọn đánh giá sao!');
-
-    const randomAvatarIndex = Math.floor(Math.random() * 7) + 1;
-    const avatarPath = `img/avatar${randomAvatarIndex}.png`;
-
-    const newComment = {
-        userName: generateRandomUserId(),
-        text: commentText,
-        rating: rating,
-        timestamp: Date.now(),
-        avatar: avatarPath
-    };
-
-    try {
-        const res = await fetch('https://toksave-server.onrender.com/api/comments', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newComment)
+        // Click ngoài menu thì ẩn
+        window.addEventListener("click", (e) => {
+            if (!menu.contains(e.target) && e.target !== icon) {
+                menu.style.display = "none";
+            }
         });
-        if (!res.ok) throw new Error('Lỗi khi gửi bình luận');
-        showMessage('Bình luận của bạn đã được gửi!', 'success');
-        commentInput.value = '';
-        ratingInputs.forEach(input => input.checked = false);
-        localStorage.setItem('lastCommentDate', today); // ✅ Ghi lại thời điểm bình luận
-        await fetchCommentsFromServer();
-    } catch (err) {
-        console.error('Gửi bình luận lỗi:', err);
-        showMessage('Không thể gửi bình luận!', 'error');
     }
 });
-
-loadMoreBtn.addEventListener('click', () => {
-    const hiddenComments = document.querySelectorAll('.comment.hidden');
-    hiddenComments.forEach(comment => comment.classList.remove('hidden'));
-    loadMoreBtn.classList.add('hidden');
-});
-
-window.addEventListener('DOMContentLoaded', fetchCommentsFromServer);

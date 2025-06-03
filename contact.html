@@ -98,10 +98,13 @@
                     </div>
                 </div>
             </div>
-            <button class="globe-icon" id="globeIcon" onclick="toggleLanguageMenu()">🌐</button>
+            <button class="globe-icon" id="globeIcon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe-icon lucide-globe"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></button>
             <div class="language-menu" id="languageMenu">
                 <p class="language-btn active" onclick="changeLanguage('vi')">🇻🇳 Vietnamese</p>
                 <p class="language-btn" onclick="changeLanguage('en')">🇺🇸 English</p>
+                <p class="language-btn" onclick="changeLanguage('zh')">zh Chinese</p>
+                <p class="language-btn" onclick="changeLanguage('ja')">ja Japan</p>
+                <p class="language-btn" onclick="changeLanguage('ko')">ko Korean</p>
             </div>
         </div>
     </div>
@@ -146,9 +149,9 @@
         </div>
     </div>
 </footer>
-<script src="public/js/script.js?v=2.8" defer></script>
-<script src="public/js/language.js?v=1.7" defer></script>
-<script src="public/js/cookie.js?v=1.2" defer></script>
-<script src="public/js/faq.js?v=1.2" defer></script>
+<script src="/public/js/script.js" defer></script>
+<script src="/public/js/language.js" defer></script>
+<script src="/public/js/cookie.js" defer></script>
+<script src="/public/js/faq.js" defer></script>
 </body>
 </html>

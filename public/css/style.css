@@ -238,7 +238,7 @@ header{
 }
 
 .globe-icon {
-    font-size: 24px;
+    font-size: 30px;
     cursor: pointer;
     background: none;
     border: none;
@@ -270,7 +270,7 @@ header{
 
 .language-btn.active {
     font-weight: bold;
-    background-color: #007bff;
+    background-color: #999999;
     color: white;
 }
 /* CSS nâng cao cho thông báo cookie */
@@ -527,22 +527,4 @@ iframe{
     margin: 15px 0;
     display: flex;
     justify-content: center;
-}
-.like-btn.reacted,
-.dislike-btn.reacted {
-    background-color: #e0f2f1; /* màu nhạt để đánh dấu */
-    color: #00796b;
-    font-weight: bold;
-    pointer-events: none; /* không cho bấm nữa */
-    opacity: 0.7;
-}
-.comment-actions {
-    margin-top: 8px;
-}
-
-.comment-actions button {
-    margin-right: 10px;
-    padding: 3px 8px;
-    font-size: 14px;
-    cursor: pointer;
 }
